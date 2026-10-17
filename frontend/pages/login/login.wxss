@@ -1,0 +1,236 @@
+@import '/styles/iconfont.wxss';
+.custom-navbar {
+  padding: 20rpx 0;
+  width: 100%;
+  height: 120rpx;
+  background: #ED1C24;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+}
+
+.navbar-left {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-icon {
+  font-size: 50rpx;
+  color: #ffffff;
+  transform: rotate(180deg);
+}
+
+.navbar-title {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 48rpx;
+  color: #ffffff;
+  font-weight: bold;
+  flex: 1;
+  text-align: center;
+}
+
+.navbar-right {
+  width: 80rpx;
+}
+
+.login-container {
+  min-height: 100vh;
+  background: #ED1C24;
+  padding: 180rpx 40rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.danghui-bg {
+   position: absolute;
+   font-family: "iconfont";
+   font-size: 60rpx;
+   background: linear-gradient(180deg, #FFD700 0%, #ED1C24 100%);
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   background-clip: text;
+   opacity: 0.15;
+ }
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-circle {
+  width: 140rpx;
+  height: 140rpx;
+  background: linear-gradient(180deg, #FFD700 0%, #ED1C24 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30rpx;
+  box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+.logo-icon {
+  font-size: 70rpx;
+  color: #ffffff;
+}
+
+.app-title {
+  color: #ffffff;
+  font-size: 44rpx;
+  font-weight: bold;
+  margin-bottom: 15rpx;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+
+.app-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 26rpx;
+}
+
+.login-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 30rpx;
+  padding: 60rpx 40rpx;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.role-tabs {
+  display: flex;
+  background: #f5f5f5;
+  border-radius: 50rpx;
+  padding: 8rpx;
+  margin-bottom: 50rpx;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  color: #666;
+  transition: all 0.3s;
+}
+
+.tab-item.active {
+  background: #ffffff;
+  color: #ED1C24;
+  font-weight: bold;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.08);
+}
+
+.tab-icon {
+  margin-right: 10rpx;
+  font-size: 32rpx;
+  color: #ED1C24;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  height: 100rpx;
+  border-radius: 50rpx;
+  padding: 0 40rpx;
+  margin-bottom: 30rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s;
+}
+
+.input-wrapper:focus-within {
+  background: #fff;
+  border-color: #ED1C24;
+  box-shadow: 0 0 0 4rpx rgba(237, 28, 36, 0.1);
+}
+
+.input-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  color: #ED1C24;
+}
+
+.input {
+  flex: 1;
+  font-size: 30rpx;
+  height: 100%;
+}
+
+.eye-icon {
+  font-size: 36rpx;
+  color: #999;
+  padding: 10rpx;
+  margin-left: 10rpx;
+}
+
+.login-btn {
+  background: #ED1C24;
+  color: #ffffff;
+  font-size: 34rpx;
+  font-weight: bold;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-radius: 50rpx;
+  margin-top: 20rpx;
+  box-shadow: 0 10rpx 20rpx rgba(237, 28, 36, 0.3);
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40rpx;
+  font-size: 26rpx;
+  color: #999;
+}
+
+.link-item {
+  padding: 10rpx 20rpx;
+  color: #666;
+}
+
+.divider {
+  color: #ddd;
+}
+
+.logo-circle{width:600rpx;height:188rpx;background:transparent;border-radius:0;box-shadow:none;}
+.brand-auth-logo{width:600rpx;height:188rpx;}

@@ -1,0 +1,357 @@
+@import '/styles/iconfont.wxss';
+.custom-navbar {
+  padding: 20rpx 0;
+  width: 100%;
+  height: 120rpx;
+  background: #ED1C24;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+}
+
+.navbar-left {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-icon {
+  font-size: 50rpx;
+  color: #ffffff;
+  transform: rotate(180deg);
+}
+
+.navbar-title {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 48rpx;
+  color: #ffffff;
+  font-weight: bold;
+  flex: 1;
+  text-align: center;
+}
+
+.navbar-right {
+  width: 80rpx;
+}
+.register-container {
+    min-height: 100vh;
+    background: #ED1C24;
+    padding: 180rpx 40rpx 80rpx;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.danghui-bg {
+   position: absolute;
+   font-family: "iconfont";
+   font-size: 60rpx;
+   background: linear-gradient(180deg, #FFD700 0%, #ED1C24 100%);
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   background-clip: text;
+   opacity: 0.15;
+ }
+
+/* 顶部 Header */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;
+  position: relative;
+  z-index: 1;
+}
+
+
+.logo-circle {
+  width: 140rpx;
+  height: 140rpx;
+  background: linear-gradient(180deg, #FFD700 0%, #ED1C24 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30rpx;
+  box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+.logo-icon {
+  font-size: 70rpx;
+  color: #ffffff;
+}
+
+.app-title {
+    color: #ffffff;
+    font-size: 40rpx;
+    font-weight: bold;
+    margin-bottom: 10rpx;
+    text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+
+.app-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 24rpx;
+}
+
+/* 白色卡片 */
+.register-card {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 30rpx;
+    padding: 50rpx 30rpx;
+    box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1;
+}
+
+/* 输入框样式 */
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    height: 90rpx;
+    border-radius: 45rpx;
+    padding: 0 30rpx;
+    margin-bottom: 25rpx;
+    border: 2rpx solid transparent;
+    transition: all 0.3s;
+}
+
+.input-wrapper:focus-within {
+    background: #fff;
+    border-color: #ee5a6f;
+    box-shadow: 0 0 0 4rpx rgba(238, 90, 111, 0.1);
+}
+
+.input-icon {
+    font-size: 32rpx;
+    margin-right: 15rpx;
+    color: #ED1C24;
+}
+
+.input {
+    flex: 1;
+    font-size: 28rpx;
+    height: 100%;
+}
+
+.eye-icon {
+    font-size: 34rpx;
+    color: #999;
+    padding: 10rpx;
+    margin-left: 10rpx;
+}
+
+/* 学校选择器 */
+.picker-display {
+    flex: 1;
+    font-size: 28rpx;
+    color: #333;
+}
+
+.picker-display.placeholder {
+    color: #999;
+}
+
+/* 学校/单位 输入+下拉 */
+.school-row {
+    display: flex;
+    gap: 12rpx;
+    align-items: center;
+    margin-bottom: 25rpx;
+}
+
+.school-input-wrapper {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.school-picker-btn {
+    width: 80rpx;
+    height: 90rpx;
+    background: #f5f5f5;
+    border-radius: 45rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2rpx solid transparent;
+    transition: all 0.3s;
+}
+
+.school-picker-btn:active {
+    background: #fff;
+    border-color: #ee5a6f;
+}
+
+.picker-arrow-icon {
+    font-size: 32rpx;
+    color: #ED1C24;
+}
+
+/* 身份选择区域 */
+.identity-section {
+    margin-bottom: 30rpx;
+}
+
+.section-label {
+    font-size: 26rpx;
+    color: #999;
+    margin-bottom: 16rpx;
+    display: block;
+    padding-left: 10rpx;
+}
+
+.identity-chips {
+    display: flex;
+    gap: 16rpx;
+}
+
+.identity-chip {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80rpx;
+    background: #f5f5f5;
+    border-radius: 16rpx;
+    font-size: 26rpx;
+    color: #666;
+    position: relative;
+    border: 2rpx solid transparent;
+    transition: all 0.3s;
+    flex-direction: column;
+    gap: 4rpx;
+}
+
+.identity-chip.active {
+    background: #fff5f5;
+    border-color: #ED1C24;
+    color: #ED1C24;
+    font-weight: bold;
+    box-shadow: 0 4rpx 12rpx rgba(237, 28, 36, 0.15);
+}
+
+.chip-icon {
+    font-size: 28rpx;
+    color: #ED1C24;
+}
+
+.chip-text {
+    font-size: 22rpx;
+}
+
+.chip-check {
+    position: absolute;
+    top: -8rpx;
+    right: -8rpx;
+    width: 32rpx;
+    height: 32rpx;
+    background: #ED1C24;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18rpx;
+    font-weight: bold;
+    box-shadow: 0 2rpx 6rpx rgba(237, 28, 36, 0.3);
+}
+
+/* 邮箱验证行 */
+.verify-row {
+    display: flex;
+    gap: 16rpx;
+    align-items: center;
+}
+
+.verify-input-wrapper {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.verify-code-btn {
+    width: 200rpx;
+    height: 90rpx;
+    line-height: 90rpx;
+    background: #ED1C24;
+    color: #ffffff;
+    font-size: 24rpx;
+    border-radius: 45rpx;
+    text-align: center;
+    padding: 0;
+    border: none;
+    flex-shrink: 0;
+    box-shadow: 0 4rpx 12rpx rgba(237, 28, 36, 0.2);
+}
+
+.verify-code-btn.counting {
+    background: #ccc;
+    color: #999;
+    box-shadow: none;
+}
+
+.verify-code-btn:active {
+    transform: scale(0.96);
+    opacity: 0.9;
+}
+
+/* 注册按钮 */
+.register-btn {
+    background: #ED1C24;
+    color: #ffffff;
+    font-size: 34rpx;
+    font-weight: bold;
+    height: 90rpx;
+    line-height: 90rpx;
+    border-radius: 45rpx;
+    margin-top: 20rpx;
+    box-shadow: 0 10rpx 20rpx rgba(238, 90, 111, 0.3);
+}
+
+.register-btn:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+
+/* 底部链接 */
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30rpx;
+    font-size: 26rpx;
+    color: #666;
+}
+
+.link-item {
+    padding: 10rpx;
+    color: #666;
+}
+/* pages/register/register.wxss */
+
+.logo-circle{width:600rpx;height:188rpx;background:transparent;border-radius:0;box-shadow:none;}
+.brand-auth-logo{width:600rpx;height:188rpx;}

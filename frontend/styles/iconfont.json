@@ -1,0 +1,562 @@
+{
+  "id": "5167985",
+  "name": "law-study-system",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5388069",
+      "name": "眼睛_显示_o",
+      "font_class": "yanjing_xianshi_o",
+      "unicode": "ebcc",
+      "unicode_decimal": 60364
+    },
+    {
+      "icon_id": "5388071",
+      "name": "眼睛_隐藏_o",
+      "font_class": "yanjing_yincang_o",
+      "unicode": "ebcd",
+      "unicode_decimal": 60365
+    },
+    {
+      "icon_id": "201559",
+      "name": "火热",
+      "font_class": "huore",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "21243081",
+      "name": "实验",
+      "font_class": "shiyan",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "1985038",
+      "name": "数学",
+      "font_class": "shuxue",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "2076302",
+      "name": " 其他订单",
+      "font_class": "qitadingdan",
+      "unicode": "e89d",
+      "unicode_decimal": 59549
+    },
+    {
+      "icon_id": "6239035",
+      "name": "英语",
+      "font_class": "yingyu",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "10359989",
+      "name": "社会实践",
+      "font_class": "shehuishijian",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "45708701",
+      "name": "191_编程",
+      "font_class": "a-191_biancheng",
+      "unicode": "e952",
+      "unicode_decimal": 59730
+    },
+    {
+      "icon_id": "3590935",
+      "name": "管理员",
+      "font_class": "guanliyuan",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "21865000",
+      "name": "党员",
+      "font_class": "dangyuan",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "36050465",
+      "name": "007_法律法务",
+      "font_class": "a-007_falvfawu",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "4410448",
+      "name": "左右箭头",
+      "font_class": "zuoyoujiantou",
+      "unicode": "e730",
+      "unicode_decimal": 59184
+    },
+    {
+      "icon_id": "6087260",
+      "name": "左右箭头",
+      "font_class": "left",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "11808715",
+      "name": "横屏放大",
+      "font_class": "scale_big",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "1418216",
+      "name": "密码",
+      "font_class": "mima",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "9874530",
+      "name": "KHCFDC_题库",
+      "font_class": "tiku",
+      "unicode": "e6dd",
+      "unicode_decimal": 59101
+    },
+    {
+      "icon_id": "16396697",
+      "name": "教师app",
+      "font_class": "jiaoshiapp",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    },
+    {
+      "icon_id": "26847676",
+      "name": "账号",
+      "font_class": "zhanghao",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "35959043",
+      "name": "ai",
+      "font_class": "ai1",
+      "unicode": "e7b4",
+      "unicode_decimal": 59316
+    },
+    {
+      "icon_id": "1412",
+      "name": "树",
+      "font_class": "shu",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "1190024",
+      "name": "快速开店",
+      "font_class": "kuaisukaidian",
+      "unicode": "e6ea",
+      "unicode_decimal": 59114
+    },
+    {
+      "icon_id": "6488976",
+      "name": "匹配",
+      "font_class": "pipei",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "14227080",
+      "name": "快速",
+      "font_class": "kuaisu",
+      "unicode": "e6ae",
+      "unicode_decimal": 59054
+    },
+    {
+      "icon_id": "23627647",
+      "name": "情景模拟",
+      "font_class": "qingjingmoni",
+      "unicode": "e6df",
+      "unicode_decimal": 59103
+    },
+    {
+      "icon_id": "1108",
+      "name": "错误",
+      "font_class": "cuowu",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "1922732",
+      "name": "恭喜发财",
+      "font_class": "gongxifacai",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "11487429",
+      "name": "恭喜达成",
+      "font_class": "gongxidacheng",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "28208834",
+      "name": "恭喜",
+      "font_class": "gongxi",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "3103172",
+      "name": "排行榜",
+      "font_class": "paihangbang",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "3948016",
+      "name": "锦鲤鱼-1",
+      "font_class": "jinliyu-",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "9645790",
+      "name": "聊天",
+      "font_class": "liaotian",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "9984685",
+      "name": "勋章-阳光勋章",
+      "font_class": "yangguangxunzhang",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    },
+    {
+      "icon_id": "11239042",
+      "name": "积分",
+      "font_class": "jifen1",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "12307753",
+      "name": "法条",
+      "font_class": "fatiao1",
+      "unicode": "e788",
+      "unicode_decimal": 59272
+    },
+    {
+      "icon_id": "13873073",
+      "name": "初出茅庐2",
+      "font_class": "chuchumaolu",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "13977514",
+      "name": "闪电侠",
+      "font_class": "shandianxia",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "25447649",
+      "name": "合_37答题分类",
+      "font_class": "he_37datifenlei",
+      "unicode": "e710",
+      "unicode_decimal": 59152
+    },
+    {
+      "icon_id": "42310271",
+      "name": "face_smile",
+      "font_class": "face_smile",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "42310275",
+      "name": "face_meh",
+      "font_class": "face_meh",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "42310276",
+      "name": "face_frown",
+      "font_class": "face_frown",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "42310277",
+      "name": "face_happy",
+      "font_class": "face_happy",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "43961431",
+      "name": "heart_filled",
+      "font_class": "heart_filled",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "43961432",
+      "name": "good_filled",
+      "font_class": "good_filled",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "44161499",
+      "name": "达人认证",
+      "font_class": "darenrenzheng",
+      "unicode": "e6fb",
+      "unicode_decimal": 59131
+    },
+    {
+      "icon_id": "45007943",
+      "name": "情景模拟",
+      "font_class": "a-zu6323",
+      "unicode": "e9c1",
+      "unicode_decimal": 59841
+    },
+    {
+      "icon_id": "47390708",
+      "name": "right",
+      "font_class": "right",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "47390722",
+      "name": "star-ai",
+      "font_class": "star-ai",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "38854397",
+      "name": "040_权威",
+      "font_class": "a-040_quanwei",
+      "unicode": "e6d7",
+      "unicode_decimal": 59095
+    },
+    {
+      "icon_id": "316072",
+      "name": "water",
+      "font_class": "5",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "848832",
+      "name": "小树苗",
+      "font_class": "xiaoshumiao",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    },
+    {
+      "icon_id": "1282974",
+      "name": "成长",
+      "font_class": "shumiao",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "2113126",
+      "name": "教师登录",
+      "font_class": "jiaoshidenglu",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "12601019",
+      "name": "ai",
+      "font_class": "ai",
+      "unicode": "e68b",
+      "unicode_decimal": 59019
+    },
+    {
+      "icon_id": "36845297",
+      "name": "党徽",
+      "font_class": "danghui",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "43570412",
+      "name": "Gc_37_face-SuperAccount",
+      "font_class": "Gc_37_face-SuperAccount",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "47105157",
+      "name": "学生登录",
+      "font_class": "xueshengdenglu",
+      "unicode": "e739",
+      "unicode_decimal": 59193
+    },
+    {
+      "icon_id": "9335004",
+      "name": "解读",
+      "font_class": "jiedu",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "11756469",
+      "name": "问答",
+      "font_class": "V",
+      "unicode": "e72d",
+      "unicode_decimal": 59181
+    },
+    {
+      "icon_id": "41290744",
+      "name": "AI机器人",
+      "font_class": "AIjiqiren",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "5294485",
+      "name": "专项训练",
+      "font_class": "zhuanxiangxunlian",
+      "unicode": "e68a",
+      "unicode_decimal": 59018
+    },
+    {
+      "icon_id": "24656996",
+      "name": "错题本",
+      "font_class": "cuotiben1",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "37778186",
+      "name": "综合模拟",
+      "font_class": "zonghemoni",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "20266199",
+      "name": "积分",
+      "font_class": "jifen",
+      "unicode": "e6dc",
+      "unicode_decimal": 59100
+    },
+    {
+      "icon_id": "6486527",
+      "name": "学习",
+      "font_class": "xuexi1",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "24185835",
+      "name": "首页",
+      "font_class": "icon_857",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "43158898",
+      "name": "我的",
+      "font_class": "wode",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "1831569",
+      "name": "我的笔记",
+      "font_class": "wodebiji",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "4093366",
+      "name": "开始测试",
+      "font_class": "kaishiceshi",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "7791028",
+      "name": "学习",
+      "font_class": "xuexi",
+      "unicode": "e7f1",
+      "unicode_decimal": 59377
+    },
+    {
+      "icon_id": "11032205",
+      "name": "公告",
+      "font_class": "gonggao",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "21586207",
+      "name": "错题本",
+      "font_class": "cuotiben",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "22049423",
+      "name": "错题",
+      "font_class": "cuoti",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "24589334",
+      "name": "学习记录、历史记录、时间",
+      "font_class": "a-xuexijilulishijilushijian",
+      "unicode": "e6a1",
+      "unicode_decimal": 59041
+    },
+    {
+      "icon_id": "24919984",
+      "name": "题库笔记",
+      "font_class": "tikubiji",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "25354500",
+      "name": "模拟测试管理",
+      "font_class": "moniceshiguanli",
+      "unicode": "e675",
+      "unicode_decimal": 58997
+    },
+    {
+      "icon_id": "37913495",
+      "name": "icon-趣味练习",
+      "font_class": "icon-quweilianxi",
+      "unicode": "e6ce",
+      "unicode_decimal": 59086
+    },
+    {
+      "icon_id": "42004693",
+      "name": "继续学习",
+      "font_class": "jixuxuexi",
+      "unicode": "e750",
+      "unicode_decimal": 59216
+    },
+    {
+      "icon_id": "44431588",
+      "name": "icon-AI助教",
+      "font_class": "icon-AIzhujiao",
+      "unicode": "e698",
+      "unicode_decimal": 59032
+    }
+  ]
+}

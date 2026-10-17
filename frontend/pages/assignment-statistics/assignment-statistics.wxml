@@ -1,0 +1,159 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/user-bg.jpg" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">成绩</text>
+      <text class="title-sub">统计</text>
+    </view>
+    <view class="nav-right">
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="container">
+    <!-- 测验选择 -->
+    <view class="form-section">
+      <view class="form-item">
+        <text class="label">选择测验</text>
+        <picker bindchange="onAssignmentChange" value="{{selectedIndex}}" range="{{assignments}}" range-key="title">
+          <view class="form-picker">
+            <text>{{assignments[selectedIndex] ? assignments[selectedIndex].title : '暂无已发布测验'}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <block wx:if="{{statistics && statistics.totalCount > 0}}">
+      <!-- 概览统计卡片 -->
+      <view class="stats-grid">
+        <view class="stat-mini blue">
+          <text class="mini-num">{{statistics.totalCount}}人</text>
+          <text class="mini-label">参与人数</text>
+        </view>
+        <view class="stat-mini green">
+          <text class="mini-num">{{statistics.avgScore}}</text>
+          <text class="mini-label">平均分</text>
+        </view>
+        <view class="stat-mini orange">
+          <text class="mini-num">{{statistics.passRate}}%</text>
+          <text class="mini-label">及格率</text>
+        </view>
+        <view class="stat-mini red">
+          <text class="mini-num">{{statistics.maxScore}}</text>
+          <text class="mini-label">最高分</text>
+        </view>
+        <view class="stat-mini green">
+          <text class="mini-num">{{statistics.submittedCount || 0}}人</text>
+          <text class="mini-label">已提交</text>
+        </view>
+        <view class="stat-mini gray">
+          <text class="mini-num" style="color: #999;">{{statistics.unsubmittedCount || 0}}人</text>
+          <text class="mini-label">未做</text>
+        </view>
+      </view>
+
+      <!-- 图表切换 -->
+      <view class="chart-section">
+        <view class="chart-header">
+          <text class="chart-title">📊 成绩分布图</text>
+          <view class="toggle-wrap">
+            <text class="toggle-btn {{chartType === 'bar' ? 'active' : ''}}" bindtap="switchChartType" data-type="bar">柱状图</text>
+            <text class="toggle-btn {{chartType === 'pie' ? 'active' : ''}}" bindtap="switchChartType" data-type="pie">饼图</text>
+            <text class="toggle-btn {{chartType === 'line' ? 'active' : ''}}" bindtap="switchChartType" data-type="line">折线图</text>
+          </view>
+        </view>
+
+        <!-- CSS 柱状图 -->
+        <view class="bar-chart-wrap" wx:if="{{chartType === 'bar'}}">
+          <view class="bars-container">
+            <view class="bar-col" wx:for="{{statistics.scoreDistribution}}" wx:key="range">
+              <view class="bar-val">{{item.count}}人</view>
+              <view class="bar-column" style="height: {{statistics.totalCount > 0 ? (item.count / statistics.totalCount * 320) : 0}}rpx; background: {{item.levelColor}};"></view>
+              <view class="bar-tag" style="color: {{item.levelColor}};">{{item.level}}</view>
+              <view class="bar-pct">{{item.percentage}}%</view>
+            </view>
+          </view>
+        </view>
+
+        <!-- CSS 饼图 (conic-gradient 直接绑定预计算好的字符串，无复杂运算) -->
+        <view class="pie-chart-wrap" wx:if="{{chartType === 'pie'}}">
+          <view class="pie-circle" style="background: conic-gradient({{pieGrad}});">
+            <view class="pie-center">共{{statistics.totalCount}}人</view>
+          </view>
+          <view class="pie-legend">
+            <view class="legend-row" wx:for="{{statistics.scoreDistribution}}" wx:key="range">
+              <view class="legend-dot" style="background: {{item.levelColor}}"></view>
+              <text class="legend-label">{{item.level}} ({{item.range}}分)</text>
+              <text class="legend-val">{{item.count}}人 {{item.percentage}}%</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 折线图 -->
+        <view class="line-chart-wrap" wx:if="{{chartType === 'line'}}">
+          <view class="line-chart-svg">
+            <view class="line-chart-area">
+              <view class="line-points" wx:for="{{statistics.scoreDistribution}}" wx:key="range">
+                <view class="line-dot" style="background:{{item.levelColor}}; left:{{(index / (statistics.scoreDistribution.length - 1 || 1)) * 100}}%; bottom:{{((item.count / (statistics.scoreDistribution[0] ? statistics.maxCount || 1 : item.count || 1)) * 100) || 0}}%;"></view>
+                <view class="line-tag" style="left:{{(index / (statistics.scoreDistribution.length - 1 || 1)) * 100}}%">{{item.level}}</view>
+              </view>
+            </view>
+          </view>
+          <view class="line-legend">
+            <view class="legend-row" wx:for="{{statistics.scoreDistribution}}" wx:key="range">
+              <view class="legend-dot" style="background: {{item.levelColor}}"></view>
+              <text class="legend-label">{{item.level}} ({{item.range}}分)</text>
+              <text class="legend-val">{{item.count}}人</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 详细统计 -->
+      <view class="detail-section">
+        <text class="detail-title">📋 详细数据</text>
+        <view class="detail-grid">
+          <view class="detail-item">
+            <text class="d-label">中位数</text>
+            <text class="d-value">{{statistics.median}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="d-label">众数</text>
+            <text class="d-value">{{statistics.mode}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="d-label">标准差</text>
+            <text class="d-value">{{statistics.stdDev}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="d-label">待改进</text>
+            <text class="d-value warn">{{statistics.needImprovementCount}}人</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 无数据 -->
+    <view class="empty-state" wx:if="{{!statistics || statistics.totalCount === 0}}">
+      <text class="empty-icon">{{assignments.length > 0 ? '📊' : '📋'}}</text>
+      <text class="empty-text">{{assignments.length > 0 ? '暂无党员提交此测验' : '暂无已发布的测验'}}</text>
+    </view>
+  </view>
+</view>

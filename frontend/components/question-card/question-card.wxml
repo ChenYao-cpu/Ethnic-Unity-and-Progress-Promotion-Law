@@ -1,0 +1,24 @@
+<!-- D:\idea_code\law-study-system\frontend\components\question-card\question-card.wxml -->
+<view class="question-card">
+  <view class="question-header">
+    <text class="question-number">第{{index + 1}}题</text>
+    <text class="question-type">{{question.type === 'single' ? '单选题' : '多选题'}}</text>
+  </view>
+
+  <view class="question-content">
+    <text class="question-text">{{question.content}}</text>
+  </view>
+
+  <view class="options-list">
+    <view
+      class="option-item {{selectedAnswer === item.key ? 'selected' : ''}}"
+      wx:for="{{options}}"
+      wx:key="key"
+      data-answer="{{item.key}}"
+      bindtap="handleSelect"
+    >
+      <view class="option-label">{{item.key}}</view>
+      <text class="option-text">{{item.value}}</text>
+    </view>
+  </view>
+</view>

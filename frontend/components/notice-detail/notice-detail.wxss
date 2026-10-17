@@ -1,0 +1,40 @@
+.detail-container {
+  padding: 40rpx;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.detail-header {
+  padding-bottom: 30rpx;
+  border-bottom: 1rpx solid #eee;
+  margin-bottom: 30rpx;
+}
+
+.detail-title {
+  display: block;
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.detail-tag {
+  font-size: 22rpx;
+  color: #fff;
+  background: #ff6b6b;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  margin-right: 10rpx;
+}
+
+.detail-time {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.detail-content {
+  font-size: 30rpx;
+  line-height: 1.8;
+  color: #666;
+}

@@ -1,0 +1,392 @@
+@import '../../styles/iconfont.wxss';
+
+page {
+  background: #F5F5F5;
+  min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.nav-header {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 50%, #D8171E 100%);
+  width: 100%;
+  height: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50rpx 30rpx 0 30rpx;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  z-index: 101;
+}
+
+.nav-back {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.back-hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.back-icon {
+  font-size: 48rpx;
+  color: #FFF;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.nav-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.title-main {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 60rpx;
+  color: #FFF;
+  font-weight: bold;
+  letter-spacing: 0rpx;
+  white-space: nowrap;
+}
+
+.title-sub {
+  font-size: 30rpx;
+  color: #FFF;
+  font-weight: bold;
+  letter-spacing: 4rpx;
+  white-space: nowrap;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  flex-shrink: 0;
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.score-label-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rpx;
+}
+
+.score-label-vertical text {
+  font-size: 22rpx;
+  color: #FFD700;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.score-value {
+  font-size: 40rpx;
+  color: #FFD700;
+  font-weight: bold;
+  font-family: "Arial", sans-serif;
+}
+
+.divider {
+  width: 2rpx;
+  height: 36rpx;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 1rpx;
+}
+
+.logo-flip-container {
+  width: 80rpx;
+  height: 80rpx;
+  perspective: 1000rpx;
+}
+
+.logo-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.flip-animation {
+  animation: logoFlip 4s ease-in-out infinite;
+}
+
+@keyframes logoFlip {
+  0%, 40% { transform: rotateY(0deg); }
+  50%, 90% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+.logo-front,
+.logo-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-front {
+  background: #FFF;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.logo-image {
+  width: 90%;
+  height: 90%;
+}
+
+.logo-back {
+  background: linear-gradient(135deg, #F03038, #ED1C24);
+  transform: rotateY(180deg);
+  flex-direction: column;
+  border: 2rpx solid #FFF;
+  justify-content: center;
+  align-items: center;
+}
+
+.school-name {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 18rpx;
+  color: #FFF;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.school-name-university {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 18rpx;
+  color: #FFF;
+  font-weight: bold;
+  margin-top: 2rpx;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  padding-top: 160rpx;
+  padding-bottom: 30rpx;
+}
+
+.tab-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.92);
+    margin: 0 20rpx 20rpx;
+    border-radius: 16rpx;
+    overflow: hidden;
+    padding: 8rpx;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+.tab-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10rpx;
+    padding: 20rpx 24rpx;
+    font-size: 28rpx;
+    color: #666;
+    background: rgba(255, 255, 255, 0.92);
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: 12rpx;
+    margin: 0 4rpx;
+}
+
+.tab-item.active {
+    color: #FFF;
+    background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+    font-weight: 500;
+    box-shadow: 0 4rpx 12rpx rgba(237, 28, 36, 0.3);
+}
+/* 你要的图标样式 👇 就这么加 */
+.tab-bar .tab-item .iconfont {
+  font-size: 32rpx;
+  color: inherit;
+}
+
+.tab-badge {
+  background: #FF5722;
+  color: #FFF;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  min-width: 32rpx;
+  text-align: center;
+}
+
+.tab-badge.done {
+  background: #4CAF50;
+}
+
+.list-wrap {
+  padding: 0 20rpx;
+}
+
+.assignment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+.card-left {
+  display: flex;
+  align-items: center;
+  gap: 30rpx;
+  flex: 1;
+}
+.card-icon {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 20rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 120rpx;  /* 改为和宽高一样大 */
+    line-height: 1;      /* 添加行高 */
+    flex-shrink: 0;
+    overflow: hidden;    /* 防止溢出 */
+}
+
+/* 如果图标还是小，可以单独设置图标字体大小 */
+.card-icon .iconfont {
+    font-size: 70rpx;
+    line-height: 1;
+}
+.pending-icon {
+    background: rgba(237, 28, 36, 0.1);
+    color: #ED1C24;
+}
+
+.completed-icon {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.title {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.card-meta {
+  display: flex;
+  gap: 20rpx;
+}
+
+.meta-item {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.meta-item.deadline {
+  color: #ED1C24;
+}
+
+.meta-item.score-text {
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+.card-action {
+  flex-shrink: 0;
+}
+
+.action-btn {
+  padding: 12rpx 24rpx;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.pending-btn {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  color: #FFF;
+}
+
+.completed-btn {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #999;
+}

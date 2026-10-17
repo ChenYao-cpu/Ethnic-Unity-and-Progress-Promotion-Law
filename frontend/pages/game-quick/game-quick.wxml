@@ -1,0 +1,272 @@
+<view class="page">
+    <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+    <view class="nav-header">
+        <view class="nav-left">
+            <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+                <text class="back-icon">‹</text>
+            </view>
+        </view>
+        <view class="nav-title">
+            <text class="title-main">法条</text>
+            <text class="title-sub">对战</text>
+        </view>
+        <view class="nav-right">
+            <view class="score-badge">
+                <text class="score-icon"></text>
+                <text class="score-value">{{score}}</text>
+            </view>
+        </view>
+    </view>
+
+    <view class="content-wrapper">
+        <!-- 匹配大厅 -->
+        <view class="match-hall" wx:if="{{!isMatching && !matchSuccess && !showResult}}">
+            <!-- 游戏标题卡片 -->
+            <view class="game-title-banner">
+                <text class="game-title">法条对战</text>
+            </view>
+
+            <!-- 玩家卡片 -->
+            <view class="player-card">
+                <image class="player-avatar" src="/images/default_avatar.jpg" mode="aspectFill"></image>
+                <text class="player-name">我</text>
+            </view>
+
+            <!-- 对战按钮 -->
+            <view class="battle-buttons">
+                <button class="battle-btn primary" bindtap="startMatching" data-type="random">
+                    <text class="btn-text">随机匹配</text>
+                </button>
+            </view>
+        </view>
+
+        <!-- 匹配中 -->
+        <view class="matching-screen" wx:if="{{isMatching && !matchSuccess}}">
+            <!-- 游戏标题 -->
+            <view class="game-title-banner">
+                <text class="game-title">法条对战</text>
+            </view>
+
+            <!-- 倒计时 -->
+            <view class="match-timer">
+                <text class="timer-text">00:0{{matchTime}}</text>
+            </view>
+
+            <!-- 玩家卡片 -->
+            <view class="player-card left">
+                <image class="player-avatar" src="/images/default_avatar.jpg" mode="aspectFill"></image>
+                <text class="player-name">我</text>
+            </view>
+
+            <!-- 匹配中文字 -->
+            <view class="matching-text">
+                <text class="match-label">VS</text>
+            </view>
+
+            <!-- 对手卡片（正在寻找） -->
+            <view class="opponent-card right searching">
+                <image class="player-avatar" src="/images/default_avatar.jpg" mode="aspectFill"></image>
+                <text class="player-name">正在寻找...</text>
+            </view>
+
+            <!-- 取消匹配按钮 -->
+            <button class="cancel-btn" bindtap="cancelMatching">
+                <text class="cancel-text">取消匹配</text>
+            </button>
+        </view>
+
+        <!-- 匹配成功倒计时 -->
+        <view class="match-success" wx:if="{{matchSuccess && !isBattleStarted}}">
+            <!-- 游戏标题 -->
+            <view class="game-title-banner">
+                <text class="game-title">法条对战</text>
+            </view>
+
+            <!-- 倒计时 -->
+            <view class="match-timer">
+                <text class="timer-text">00:0{{countdown}}</text>
+            </view>
+
+            <!-- 玩家卡片 -->
+            <view class="player-card left">
+                <image class="player-avatar" src="/images/default_avatar.jpg" mode="aspectFill"></image>
+                <text class="player-name">我</text>
+            </view>
+
+            <!-- VS文字 -->
+            <view class="vs-display">
+                <text class="vs-text">VS</text>
+            </view>
+
+            <!-- 对手卡片 -->
+            <view class="opponent-card right">
+                <image class="player-avatar" src="{{opponentInfo.avatar}}" mode="aspectFill"></image>
+                <text class="player-name">{{opponentInfo.nickname}}</text>
+                <text class="player-level">Lv.{{opponentInfo.level}}</text>
+            </view>
+            <!-- 取消匹配按钮 -->
+            <button class="cancel-btn" bindtap="cancelMatching">
+                <text class="cancel-text">取消匹配</text>
+            </button>
+        </view>
+
+        <!-- 答题对战页 -->
+        <view class="battle-area" wx:if="{{isBattleStarted && !showResult}}">
+            <!-- 顶部对战信息 -->
+            <view class="battle-info-bar">
+                <!-- 我方信息 -->
+                <view class="battle-player">
+                    <image class="battle-avatar" src="/images/default_avatar.jpg" mode="aspectFill"></image>
+                    <view class="battle-info">
+                        <text class="battle-name">我</text>
+                        <view class="battle-progress">
+                            <view class="battle-progress-bar">
+                                <view class="battle-progress-fill" style="width: {{(currentIndex + 1) / totalQuestions * 100}}%"></view>
+                            </view>
+                            <text class="battle-progress-text">{{currentIndex + 1}}/{{totalQuestions}}</text>
+                        </view>
+                    </view>
+                </view>
+
+                <!-- 计时器 / 超时警告 -->
+                <view class="battle-center">
+                    <view class="battle-timer {{opponentDone || userDone ? 'overtime-warning' : ''}}">
+                        <text class="timer-value" wx:if="{{!opponentDone && !userDone}}">{{battleTime}}s</text>
+                        <text class="timer-value overtime-text" wx:elif="{{opponentDone}}">对手已完成 {{overtimeCountdown}}s</text>
+                        <text class="timer-value overtime-text" wx:else>等待对手 {{overtimeCountdown}}s</text>
+                    </view>
+                </view>
+
+                <!-- 对手信息 -->
+                <view class="battle-player opponent">
+                    <view class="battle-info">
+                        <text class="battle-name">{{opponentInfo ? opponentInfo.nickname : '对手'}}</text>
+                        <view class="battle-progress">
+                            <view class="battle-progress-bar">
+                                <view class="battle-progress-fill opponent" style="width: {{currentOpponentAnswerCount / totalQuestions * 100}}%"></view>
+                            </view>
+                            <text class="battle-progress-text">{{currentOpponentAnswerCount}}/{{totalQuestions}}</text>
+                        </view>
+                    </view>
+                    <image class="battle-avatar" src="{{opponentInfo ? opponentInfo.avatar : '/images/default_avatar.jpg'}}" mode="aspectFill"></image>
+                </view>
+            </view>
+
+            <!-- 题目卡片 -->
+            <view class="question-card">
+                <view class="question-text">{{questions[currentIndex].content}}</view>
+
+                <view class="options">
+                    <view
+                            class="option {{answered && index === selectedAnswer ? 'selected' : ''}}"
+                            wx:for="{{questions[currentIndex].options}}"
+                            wx:for-index="index"
+                            wx:key="*this"
+                            data-index="{{index}}"
+                            bindtap="selectAnswer">
+                        <text class="option-label">{{optionLabels[index]}}</text>
+                        <text class="option-text">{{item}}</text>
+                    </view>
+                </view>
+
+                <view class="question-navigation">
+                    <button class="nav-btn prev" bindtap="prevQuestion" disabled="{{currentIndex === 0}}">
+                        <text class="nav-btn-icon">‹</text>
+                        <text class="nav-btn-text">上一题</text>
+                    </button>
+
+                    <button class="nav-btn next" bindtap="nextQuestion" disabled="{{currentIndex === totalQuestions - 1}}">
+                        <text class="nav-btn-text">下一题</text>
+                        <text class="nav-btn-icon">›</text>
+                    </button>
+                </view>
+            </view>
+        </view>
+
+        <!-- 结果结算页 -->
+        <view class="result-mask" wx:if="{{showResult}}">
+            <scroll-view class="result-dialog-scroll" scroll-y="true">
+                <view class="result-dialog">
+                    <view class="victory-banner" wx:if="{{isWin}}">
+                        <text class="banner-text">胜利！</text>
+                    </view>
+                    <view class="defeat-banner" wx:if="{{!isWin && !isDraw}}">
+                        <text class="banner-text">再接再厉</text>
+                    </view>
+                    <view class="draw-banner" wx:if="{{isDraw}}">
+                        <text class="banner-text">平局</text>
+                    </view>
+
+                    <view class="score-board">
+                        <view class="board-row">
+                            <text class="board-label">我的得分</text>
+                            <text class="board-value user">{{userScore}}</text>
+                        </view>
+                        <view class="board-divider">VS</view>
+                        <view class="board-row">
+                            <text class="board-label">对手得分</text>
+                            <text class="board-value opponent">{{opponentScore}}</text>
+                        </view>
+                        <view class="board-row board-time">
+                            <text class="board-label">用时</text>
+                            <text class="board-value time">{{battleTime}}秒</text>
+                        </view>
+                    </view>
+
+                    <view class="points-detail">
+                        <view class="detail-title">积分明细</view>
+                        <view class="detail-row">
+                            <text class="detail-label">胜利积分</text>
+                            <text class="detail-value">+{{victoryPoints}}</text>
+                        </view>
+                        <view class="detail-row">
+                            <text class="detail-label">速度奖励</text>
+                            <text class="detail-value">+{{speedBonus}}</text>
+                        </view>
+                        <view class="detail-row">
+                            <text class="detail-label">连胜奖励</text>
+                            <text class="detail-value">+{{streakBonus}}</text>
+                        </view>
+                        <view class="detail-total">
+                            <text class="total-label">总计</text>
+                            <text class="total-value">+{{victoryPoints + speedBonus + streakBonus}}</text>
+                        </view>
+                    </view>
+
+                    <view class="medal-reward" wx:if="{{newMedals.length > 0}}">
+                        <view class="reward-title">获得勋章</view>
+                        <view class="medal-list">
+                            <view class="medal-item" wx:for="{{newMedals}}" wx:key="name">
+                                <text class="iconfont {{item.iconClass}} medal-icon"></text>
+                                <text class="medal-name">{{item.name}}</text>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="answer-review">
+                        <view class="review-title">答题详情</view>
+                        <view class="review-list">
+                            <view class="review-item" wx:for="{{userAnswers}}" wx:key="questionIndex">
+                                <view class="review-header">
+                                    <text class="review-number">第{{item.questionIndex + 1}}题</text>
+                                    <text class="review-status {{item.isCorrect ? 'correct' : 'wrong'}}">{{item.isCorrect ? '✓' : ''}}</text>
+                                </view>
+                                <view class="review-content">
+                                    <text class="review-answer">你的答案：{{item.userAnswerText}}</text>
+                                    <text class="review-correct">正确答案：{{item.correctAnswerText}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="result-buttons">
+                        <button class="result-btn primary" bindtap="restartBattle">再来一局</button>
+                        <button class="result-btn secondary" bindtap="backToHall">返回大厅</button>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+    </view>
+</view>
+

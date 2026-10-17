@@ -1,0 +1,61 @@
+<view class="page">
+  <view class="nav-header">
+    <view class="nav-left">
+       <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+          <text class="back-icon">‹</text>
+       </view>
+    </view>
+    <view class="nav-title">
+       <text class="title-main">排行</text>
+       <text class="title-sub">榜</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{userInfo.totalScore || 0}}</text>
+      </view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="content"><data-state loading="{{_listStates.leaderboard.loading}}" error="{{_listStates.leaderboard.error}}" empty="{{leaderboard.length === 0}}" title="暂时没有排行记录" hint="完成学习或练习后，再来看看大家的学习进展。"  bind:retry="loadLeaderboard">
+    <view class="loading-box" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+
+    <view class="list" wx:elif="{{leaderboard.length > 0}}">
+      <view class="item {{index === 0 ? 'first' : ''}} {{item.userId === userInfo.id ? 'me' : ''}}"
+        wx:for="{{leaderboard}}" wx:key="userId">
+        <text class="rank">{{index + 1}}</text>
+        <image class="avatar" src="{{item.avatar || '/images/default_avatar.jpg'}}" mode="aspectFill"></image>
+        <view class="info">
+          <text class="name">{{item.nickname || '匿名用户'}}</text>
+          <text class="school" wx:if="{{item.school}}">{{item.school}}</text>
+        </view>
+        <text class="pts">{{item.totalScore || 0}}分</text>
+      </view>
+    </view>
+
+    <view class="empty" wx:else>
+      <text class="empty-icon">🏆</text>
+      <text class="empty-text">暂无排行数据</text>
+      <text class="empty-desc">参与答题闯关获取积分，登上排行榜吧！</text>
+      <view class="btn" bindtap="loadLeaderboard">
+        <text class="btn-text">点击刷新</text>
+      </view>
+    </view>
+  </data-state></view>
+</view>

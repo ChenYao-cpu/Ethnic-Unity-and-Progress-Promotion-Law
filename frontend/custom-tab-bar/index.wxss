@@ -1,0 +1,29 @@
+@import '../styles/yunjiang/icons.wxss';
+@import '../styles/iconfont.wxss';
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120rpx;
+  background: white;
+  display: flex;
+  border-top: 1rpx solid #eee;
+}
+.tab-bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.tab-bar-item .iconfont {
+  font-size: 48rpx;
+  color: #796762;
+  margin-bottom: 8rpx;
+}
+.tab-bar-item .iconfont.active { color: #791817; }
+.tab-text { font-size: 24rpx; color: #796762; }
+.tab-bar-item.active .tab-text { color: #791817; }
+
+.tab-icon{width:52rpx;height:52rpx;display:block;margin-bottom:6rpx;}

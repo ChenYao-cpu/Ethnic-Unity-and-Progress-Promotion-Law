@@ -1,0 +1,114 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">课程</text>
+      <text class="title-sub">学习</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+    <!-- 横向筛选器 -->
+    <view class="category-filter">
+      <scroll-view class="filter-scroll" scroll-x="true">
+        <view
+                class="filter-item {{currentCategory === item.id ? 'active' : ''}}"
+                wx:for="{{categories}}"
+                wx:key="id"
+                bindtap="selectCategory"
+                data-id="{{item.id}}"
+        >
+          {{item.name}}
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 竖向视频卡片列表 -->
+    <view class="course-list"><data-state loading="{{_listStates.courses.loading}}" error="{{_listStates.courses.error}}" empty="{{filteredCourses.length === 0}}" title="还没有可学习的课程" hint="试试切换分类，或稍后查看新发布的课程。"  bind:retry="loadCourses">
+      <!-- 空状态：最新视频无内容 -->
+      <view class="empty-state" wx:if="{{currentCategory === -2 && latestEmpty}}">
+        <text class="empty-icon">📹</text>
+        <text class="empty-text">暂未更新出新内容...</text>
+      </view>
+
+      <view class="course-card" wx:for="{{filteredCourses}}" wx:key="id" bindtap="playCourse" data-course="{{item}}">
+        <view class="course-cover">
+          <view class="course-cover-skeleton" wx:if="{{item.cover && !item._coverReady && !item._coverError}}" aria-label="封面加载中"></view><image wx:if="{{item.cover && !item._coverError}}" class="cover-image" src="{{item.cover}}" mode="aspectFill" bindload="onCourseCoverLoad" binderror="onCourseCoverError" data-id="{{item.id}}"></image><view class="course-cover-fallback" wx:if="{{!item.cover || item._coverError}}"><text class="yj-icon yj-course"></text><text>{{item.title}}</text></view>
+          <view class="play-icon"></view>
+        </view>
+
+      </view>
+    </data-state></view>
+  </view>
+
+  <!-- 视频播放页面 -->
+  <view wx:if="{{currentCourse}}" class="video-container">
+    <!-- 视频播放器 -->
+    <video
+            id="courseVideo"
+            class="video-player"
+            src="{{currentCourse.videoUrl}}"
+            show-fullscreen-btn="{{true}}"
+            show-center-play-btn="{{true}}"
+            show-play-btn="{{true}}"
+            enable-progress-gesture="{{canDrag}}"
+            object-fit="contain"
+            bindfullscreenchange="onFullScreenChange"
+            bindplay="videoPlay"
+            bindpause="videoPause"
+            bindtimeupdate="videoTimeUpdate"
+            bindended="videoEndFinish"
+            binderror="videoError"
+    ></video>
+
+    <!-- 导航栏 - 竖屏时显示 -->
+    <view class="video-nav-header" wx:if="{{!isFullScreen}}">
+      <view class="nav-left" bindtap="goBack">
+        <text class="back-icon1">‹</text>
+      </view>
+      <view class="nav-title">
+        <text class="title-main">{{currentCourse.title}}</text>
+      </view>
+      <view class="nav-right"></view>
+    </view>
+
+
+    <!-- 首次观看提示 -->
+    <view wx:if="{{isFirstWatch && !currentCourse.watched}}" class="first-watch-tip">
+      <text>学习进度会同步保存到学习记录。</text>
+    </view>
+
+    <!-- 播放进度提示 -->
+    <view class="play-progress-tip">
+      <text>{{currentTimeText}} / {{currentCourse.duration}}</text>
+      <text class="progress-percent">{{currentProgress}}%</text>
+    </view>
+
+</view>

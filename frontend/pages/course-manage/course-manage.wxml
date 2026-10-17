@@ -1,0 +1,73 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">课程</text>
+      <text class="title-sub">管理</text>
+    </view>
+    <view class="nav-right">
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="content-wrapper">
+    <!-- 顶部操作栏 -->
+    <view class="header-bar">
+      <text class="header-title">我的课程（{{courses.length}}个）</text>
+      <button class="btn-create" bindtap="goCreate">+ 新建课程</button>
+    </view>
+
+    <!-- 课程卡片列表 -->
+    <view class="course-list">
+      <view class="empty-state" wx:if="{{courses.length === 0 && !loading}}">
+        <text class="empty-icon">📹</text>
+        <text class="empty-text">暂无课程，点击上方按钮创建</text>
+      </view>
+
+      <view class="course-card" wx:for="{{courses}}" wx:key="id">
+        <!-- 封面图 -->
+        <view class="course-cover">
+          <image class="cover-image" src="{{item.cover}}" mode="aspectFill" wx:if="{{item.cover}}" binderror="onCoverError" data-index="{{index}}"></image>
+          <view class="cover-placeholder" wx:if="{{!item.cover || item._coverFailed}}">
+            <text class="cover-placeholder-icon">🎬</text>
+            <text class="cover-placeholder-title">{{item.title}}</text>
+          </view>
+          <!-- 状态标签 -->
+          <view class="status-tag status-{{item.reviewStatus}}">
+            {{statusMap[item.reviewStatus] || '草稿'}}
+          </view>
+        </view>
+
+        <!-- 课程信息 -->
+        <view class="card-info">
+          <text class="card-title">{{item.title}}</text>
+          <text class="card-meta">{{item.category || '必修'}} · {{item.duration || 30}}分钟 · {{item.points || 10}}积分</text>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="card-actions">
+          <button class="action-btn btn-edit" bindtap="goEdit" data-id="{{item.id}}">修改</button>
+          <button class="action-btn btn-review" wx:if="{{item.reviewStatus === 'draft' || item.reviewStatus === 'rejected'}}" bindtap="submitForReview" data-id="{{item.id}}">提交审核</button>
+          <button class="action-btn btn-unpublish" wx:if="{{item.reviewStatus === 'published'}}" bindtap="unpublishCourse" data-id="{{item.id}}">下架视频</button>
+          <button class="action-btn btn-delete" bindtap="deleteCourse" data-id="{{item.id}}">删除</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

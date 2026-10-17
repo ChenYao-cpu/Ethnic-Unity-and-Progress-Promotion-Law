@@ -1,0 +1,10 @@
+<view class="detail-container">
+  <view class="detail-header">
+    <text class="detail-title">{{notice.title}}</text>
+    <text class="detail-tag" wx:if="{{notice.isTop}}">置顶</text>
+    <text class="detail-time">{{notice.publishTime}}</text>
+  </view>
+  <view class="detail-content">
+    <text>{{notice.content}}</text>
+  </view>
+</view>

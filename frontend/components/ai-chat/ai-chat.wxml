@@ -1,0 +1,13 @@
+<scroll-view class="chat-scroll" scroll-y scroll-into-view="msg-last" bindscrolltolower="onScrollToLower">
+  <view class="message-item" wx:for="{{messages}}" wx:key="index" id="msg-{{index === messages.length - 1 ? 'last' : index}}">
+    <view class="message-bubble {{item.role === 'user' ? 'user' : 'ai'}}">
+      <text class="bubble-text">{{item.content}}</text>
+    </view>
+  </view>
+
+  <view class="typing-indicator" wx:if="{{loading}}">
+    <view class="dot"></view>
+    <view class="dot"></view>
+    <view class="dot"></view>
+  </view>
+</scroll-view>

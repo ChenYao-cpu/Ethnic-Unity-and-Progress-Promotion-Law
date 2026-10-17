@@ -1,0 +1,104 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+  # 暂时禁用 Redis 自动配置（本地未安装 Redis）
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
+
+  # 数据库连接配置
+  # 本地开发用默认值，Docker 部署时通过环境变量覆盖
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/law_study_system?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Redis 配置
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+
+  # JSON 格式化配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null # 字段为 null 时不返回给前端
+
+  # ================== QQ邮箱 SMTP 配置（免费） ==================
+  # 开启步骤：QQ邮箱网页版 → 设置 → 账户 → POP3/SMTP服务 → 开启 → 获取授权码
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: ${mail.qq}
+    password: ${mail.auth-code}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+# ========== 邮箱凭据（优先用环境变量，保护隐私）==========
+mail:
+  qq: ${MAIL_QQ:}
+  auth-code: ${MAIL_AUTH_CODE:}
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  # 这里的路径一定要对应你项目的实际包结构
+  type-aliases-package: com.backend.com.minzu.entity
+  # 如果你有 XML 文件，请取消下面这行的注释
+  # mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    # 开启驼峰命名转换（例如：user_id -> userId）
+    map-underscore-to-camel-case: true
+    # 打印 SQL 日志，开发阶段非常建议开启，能看到执行的具体 SQL
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      # 主键自增策略
+      id-type: auto
+      # 逻辑删除配置（如果需要）
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# ==================== AI配置（DeepSeek API） ====================
+ai:
+  deepseek:
+    api-key: ${DEEPSEEK_API_KEY:}
+    url: ${DEEPSEEK_API_URL:https://api.deepseek.com/v1/chat/completions}
+    model: ${DEEPSEEK_MODEL:deepseek-chat}
+
+# 日志级别配置
+logging:
+  level:
+    root: info
+    # 将你自己的包设为 debug 级别，可以看到更详细的启动和执行信息
+    com.backend.com.minzu: debug

@@ -1,0 +1,31 @@
+'use strict';
+const agentUI={taskId:null,timer:null,topic:''};
+const agentStates={queued:'排队中',retrieving:'检索知识库',writing:'出题智能体执行中',reviewing:'独立审题中',revising:'依据反馈修订中',completed:'自动审核通过',partial:'部分题目通过',failed:'执行失败'};
+const actorNames={retrieval:'法条检索工具',writer:'出题智能体',reviewer:'审题智能体',revision:'出题智能体修订',validation:'程序核验'};
+function stopAgentPolling(){clearTimeout(agentUI.timer);agentUI.timer=null;}
+function qhtml(q,index,review=false,records=[]){return baseQhtml(q,index,review,records)+(q.evidence?`<div class="agent-evidence"><strong>引用依据 · ${e(q.evidence.articleNumber)}</strong><blockquote>${e(q.quote)}</blockquote><small>项目知识库原文 · 自动核验引用，仍需法务审核适用性</small><p>${e(q.reviewReason)}</p></div>`:'');}
+function taskSteps(task){return (task.steps||[]).map(step=>`<details class="agent-step"><summary>${e(actorNames[step.actor]||step.actor)} · ${step.round_no?'第'+e(step.round_no)+'轮':'检索'} <span class="badge">${e(step.status==='completed'?'已完成':step.status==='running'?'执行中':'失败')}</span></summary><p class="muted">模型：${e(step.model_name)} · ${e(step.start_time)}${step.end_time?' → '+e(step.end_time):''}</p>${step.error_message?`<p class="error">${e(step.error_message)}</p>`:''}<h4>输入记录</h4><pre>${e(prettyJSON(step.input_json))}</pre><h4>输出记录</h4><pre>${e(prettyJSON(step.output_json))}</pre></details>`).join('');}
+function prettyJSON(text){if(!text)return '尚无输出';try{return JSON.stringify(JSON.parse(text),null,2)}catch{return text}}
+function renderTask(task,container){container.innerHTML=`<div class="toolbar"><h2>任务 #${e(task.id)} · ${e(agentStates[task.status]||task.status)}</h2><span class="badge">${e(task.topic)}</span></div><p class="muted">展示实际执行状态，不使用模拟进度百分比。最多执行三轮出题与审题。</p>${task.error_message?`<p class="error">${e(task.error_message)}</p>`:''}<div class="agent-steps">${taskSteps(task)||'<p>任务已入队，等待执行。</p>'}</div>`;}
+async function pollAgentTask(id){
+ if(!document.querySelector('#agent-process') || agentUI.taskId!==id)return;
+ try{const task=await request('/api/console/agents/tasks/'+id);if(agentUI.taskId!==id)return;renderTask(task,document.querySelector('#agent-process'));
+  if(['completed','partial','failed'].includes(task.status)){stopAgentPolling();generated=(task.result||[]).map((q,i)=>({...q,taskIndex:i,selected:true}));generatedView();toast(task.status==='failed'?'协同任务失败，请查看实际错误':'实际通过 '+generated.length+' 道题，保存后提交法务审核');return;}
+  agentUI.timer=setTimeout(()=>pollAgentTask(id),2000);
+ }catch(err){const node=document.querySelector('#agent-process');if(node)node.innerHTML=`<p class="error">${e(err.message)}</p><button type="button" data-agent-action="retry" data-id="${id}">重新读取任务</button>`;}
+}
+async function generateAgentTask(){
+ const topic=document.querySelector('#agent-topic').value.trim(),count=Number(document.querySelector('#count').value),type=Number(document.querySelector('#type').value),difficulty=Number(document.querySelector('#difficulty').value);
+ if(!topic)throw Error('请填写具体学习主题');if(!Number.isInteger(count)||count<1||count>10)throw Error('协同出题每次支持1—10道');
+ stopAgentPolling();const result=await request('/api/console/agents/tasks','POST',{topic,count,type,difficulty});agentUI.taskId=result.id;agentUI.topic=topic;generated=[];generatedView();await pollAgentTask(result.id);
+}
+async function showAgentTasks(c){const tasks=await request('/api/console/agents/tasks');c.innerHTML=hero('多智能体协同记录','出题、独立审题和反馈修订的实际执行档案。','agents')+'<section class="panel">'+table(['主题','状态','创建时间','操作'],tasks.map(t=>`<tr><td>${e(t.topic)}</td><td>${e(agentStates[t.status]||t.status)}</td><td>${e(t.create_time)}</td><td><button data-agent-action="open" data-id="${e(t.id)}">查看 / 继续</button></td></tr>`))+'</section>';}
+async function showLearningFeedback(c){const rows=await request('/api/console/agents/feedback');c.innerHTML=hero('学习反馈与再练习','来自党员学习端实际提交的AI辅导记录，可据此发起下一轮协同出题。','study')+'<section class="panel">'+table(['题目','可能原因','建议练习主题','操作'],rows.map(r=>`<tr><td>${e(r.title)}</td><td>${e(r.feedback.possibleCause||'未提供')}</td><td>${e(r.feedback.nextPracticeTopic)}</td><td><button data-agent-action="feedback" data-topic="${e(r.feedback.nextPracticeTopic)}">按此主题出题</button></td></tr>`))+'</section>';}
+async function renderAssignmentEvidence(id,c){try{const tasks=await request('/api/console/agents/assignment/'+id);if(!tasks.length)return;const section=document.createElement('section');section.className='panel';section.innerHTML='<h2>协同出题与法条依据</h2><p class="muted">以下保留生成时的依据与审题意见。人工修改题目后，应重新核对当前题目是否仍受原依据支持。</p>'+tasks.map(t=>`<details><summary>任务 #${e(t.id)} · ${e(t.topic)}</summary>${parseTaskResults(t.result_json).map((q,i)=>qhtml(q,i)).join('')}<button data-agent-action="audit" data-id="${e(t.id)}">查看完整协作记录</button></details>`).join('');c.appendChild(section);}catch(err){toast('协同依据加载失败：'+err.message)}}
+function parseTaskResults(raw){try{return JSON.parse(raw)||[]}catch{return []}}
+root.addEventListener('click',async ev=>{const b=ev.target.closest('[data-agent-action]');if(!b)return;b.disabled=true;try{
+ if(b.dataset.agentAction==='retry'){await pollAgentTask(Number(b.dataset.id));}
+ else if(b.dataset.agentAction==='feedback'){const topic=b.dataset.topic;await page('create');document.querySelector('#agent-topic').value=topic;}
+ else if(b.dataset.agentAction==='open'){const task=await request('/api/console/agents/tasks/'+b.dataset.id);if(task.assignment_id){await detail(task.assignment_id,false);await renderAssignmentEvidence(task.assignment_id,document.querySelector('#content'));return;}await page('create');agentUI.taskId=Number(task.id);document.querySelector('#agent-topic').value=task.topic;document.querySelector('#count').value=task.question_count;document.querySelector('#type').value=task.question_type;document.querySelector('#difficulty').value=task.difficulty;await pollAgentTask(Number(task.id));}
+ else if(b.dataset.agentAction==='audit'){const task=await request('/api/console/agents/tasks/'+b.dataset.id);const c=document.querySelector('#content');c.innerHTML=hero('协同任务审计','模型调用、审核理由与修订结果均来自数据库记录。','trace')+button('back','返回列表','')+'<section id="task-audit" class="panel"></section>';renderTask(task,document.querySelector('#task-audit'));}
+}catch(err){toast(err.message)}finally{b.disabled=false}});

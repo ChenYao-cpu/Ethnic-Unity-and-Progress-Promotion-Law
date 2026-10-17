@@ -1,0 +1,70 @@
+{
+  "pages": [
+    "pages/welcome/welcome",
+    "pages/index/index",
+    "pages/teacher-home/teacher-home",
+    "pages/legal-officer-home/legal-officer-home",
+    "pages/course/course",
+    "pages/login/login",
+    "pages/user/user",
+    "pages/question/question",
+    "pages/wrong/wrong",
+    "pages/exam/exam",
+    "pages/notice-detail/notice-detail",
+    "pages/study-detail/study-detail",
+    "pages/notice/notice",
+    "pages/study/study",
+    "pages/note/note",
+    "pages/note-edit/note-edit",
+    "pages/ai/ai",
+    "custom-tab-bar/index",
+    "pages/exam-config/exam-config",
+    "pages/student-exam-config/student-exam-config",
+    "pages/game-index/game-index",
+    "pages/game-match/game-match",
+    "pages/game-quick/game-quick",
+    "pages/game-scenario/game-scenario",
+    "pages/leaderboard/leaderboard",
+    "pages/register/register",
+    "pages/achievements/achievements",
+    "pages/assignment-detail/assignment-detail",
+    "pages/assignment-list/assignment-list",
+    "pages/reminder-list/reminder-list",
+    "pages/ai-tutor/ai-tutor"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#791817",
+    "navigationBarTitleText": "云疆知法",
+    "navigationBarTextStyle": "white",
+    "pageOrientation": "auto"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999999",
+    "selectedColor": "#791817",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/study/study",
+        "text": "学习"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "usingComponents": {
+    "data-state": "/components/data-state/index"
+  },
+  "entryPagePath": "pages/welcome/welcome"
+}

@@ -1,0 +1,81 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">趣味</text>
+      <text class="title-sub">练习</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="content-wrapper">
+    <view class="game-list">
+      <view class="game-item full-width" bindtap="startGame" data-type="match">
+        <view class="game-content">
+          <view class="iconfont game-icon yj-match yj-icon"></view>
+          <text class="game-text">法条匹配</text>
+        </view>
+        <text class="iconfont game-arrow icon-right"></text>
+      </view>
+
+      <view class="game-row">
+        <view class="game-item half-width" bindtap="startGame" data-type="quick">
+          <view class="game-content">
+            <view class="iconfont game-icon yj-quick yj-icon"></view>
+            <text class="game-text">法条对战</text>
+          </view>
+          <text class="iconfont game-arrow icon-right"></text>
+        </view>
+        <view class="game-item half-width" bindtap="startGame" data-type="scenario">
+          <view class="game-content">
+            <view class="iconfont game-icon yj-scenario yj-icon"></view>
+            <text class="game-text">情景模拟</text>
+          </view>
+          <text class="iconfont game-arrow icon-right"></text>
+        </view>
+      </view>
+
+      <view class="game-row">
+        <view class="game-item half-width leaderboard-btn" bindtap="goToLeaderboard">
+          <view class="game-content">
+            <view class="iconfont game-icon yj-rank yj-icon"></view>
+            <text class="game-text">排行榜</text>
+          </view>
+          <text class="iconfont game-arrow icon-right"></text>
+        </view>
+        <view class="game-item half-width achievement-btn" bindtap="goToAchievements">
+          <view class="game-content">
+            <view class="iconfont game-icon yj-medal yj-icon"></view>
+            <text class="game-text">勋章墙</text>
+          </view>
+          <text class="iconfont game-arrow icon-right"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

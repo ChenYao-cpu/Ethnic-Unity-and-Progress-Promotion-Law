@@ -1,0 +1,79 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <!-- 导航栏 -->
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">成就</text>
+      <text class="title-sub">勋章</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{userInfo.totalScore || 0}}</text>
+      </view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="content-wrapper"><data-state loading="{{_listStates.achievements.loading}}" error="{{_listStates.achievements.error}}" empty="{{unlockedAchievements.length === 0}}" title="还没有解锁的成就" hint="继续参与学习与练习，解锁的成就会记录在这里。"  bind:retry="loadAchievements">
+    <!-- 勋章进度 -->
+    <view class="medal-progress" wx:if="{{!loading}}">
+      <text class="progress-text">{{unlockedCount}}/{{totalCount}} 已解锁</text>
+    </view>
+
+    <!-- 成就网格 -->
+    <view class="achievements-grid" wx:if="{{!loading}}">
+      <view
+        class="achievement-card unlocked"
+        wx:for="{{unlockedAchievements}}"
+        wx:key="code">
+
+        <!-- 勋章图标 -->
+        <view class="medal-circle">
+          <view class="medal-icon">
+            <text class="iconfont {{item.iconClass}}"></text>
+          </view>
+        </view>
+
+        <!-- 成就信息 -->
+        <view class="medal-info">
+          <text class="medal-name">{{item.name}}</text>
+          <text class="medal-desc">{{item.desc}}</text>
+          <text class="unlock-time" wx:if="{{item.unlocked && item.unlockTime}}">
+            解锁时间: {{item.unlockTime}}
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载中 -->
+    <view class="loading" wx:if="{{loading}}">
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{!loading && achievements.length === 0}}">
+      <text class="empty-text">暂无成就数据</text>
+    </view>
+  </data-state></view>
+</view>

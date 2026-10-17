@@ -1,0 +1,76 @@
+page { background: #F5F5F5; min-height: 100vh; }
+
+.nav-header {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 50%, #D8171E 100%);
+  width: 100%; height: 140rpx;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 50rpx 30rpx 0; box-sizing: border-box;
+  position: fixed; top: 0; left: 0; z-index: 100;
+}
+.nav-left { display: flex; align-items: center; }
+.nav-back { width: 80rpx; height: 80rpx; display: flex; align-items: center; justify-content: center; }
+.back-icon { font-size: 48rpx; color: #FFF; font-weight: bold; }
+.nav-title { display: flex; align-items: baseline; gap: 8rpx; }
+.title-main { font-family: "MaoFont","STXingkai","KaiTi",serif; font-size: 60rpx; color: #FFF; font-weight: bold; }
+.title-sub { font-size: 30rpx; color: #FFF; font-weight: bold; letter-spacing: 4rpx; }
+.nav-right { width: 80rpx; }
+/* 校徽翻转 */
+.logo-flip-container { width: 80rpx; height: 80rpx; perspective: 1000rpx; }
+.logo-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
+.flip-animation { animation: logoFlip 4s ease-in-out infinite; }
+@keyframes logoFlip {
+  0%,40% { transform: rotateY(0deg); }
+  50%,90% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+.logo-front, .logo-back {
+  position: absolute; width: 100%; height: 100%;
+  backface-visibility: hidden; border-radius: 50%; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-front { background: #FFF; }
+.logo-image { width: 90%; height: 90%; }
+.logo-back {
+  background: linear-gradient(135deg,#F03038,#ED1C24);
+  transform: rotateY(180deg); flex-direction: column; border: 2rpx solid #FFF;
+}
+.school-name, .school-name-university { font-size: 16rpx; color: #FFF; font-weight: bold; }
+
+.form-container { padding: 170rpx 30rpx 40rpx; min-height: 100vh; }
+.form-group { margin-bottom: 30rpx; }
+.label { font-size: 28rpx; color: #333; font-weight: 500; display: block; margin-bottom: 12rpx; }
+.required { color: #DC2626; }
+.input {
+  background: #FFF; border: 1rpx solid #E5E7EB; border-radius: 12rpx;
+  padding: 28rpx 24rpx; font-size: 28rpx; width: 100%; box-sizing: border-box;
+  height: 88rpx; line-height: 32rpx;
+}
+.picker {
+  background: #FFF; border: 1rpx solid #E5E7EB; border-radius: 12rpx;
+  padding: 28rpx 24rpx; font-size: 28rpx; height: 88rpx; line-height: 32rpx;
+  display: flex; align-items: center;
+}
+.textarea {
+  background: #FFF; border: 1rpx solid #E5E7EB; border-radius: 12rpx;
+  padding: 28rpx 24rpx; font-size: 28rpx; width: 100%; min-height: 180rpx; box-sizing: border-box;
+}
+.form-row { display: flex; gap: 20rpx; }
+.half { flex: 1; }
+
+/* 封面图选择器 */
+.cover-picker {
+  width: 100%; height: 280rpx; border-radius: 12rpx;
+  border: 2rpx dashed #E5E7EB; background: #FFF;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.cover-picker:active { border-color: #F03038; background: #FFF5F5; }
+.cover-preview { width: 100%; height: 100%; }
+.cover-placeholder { display: flex; flex-direction: column; align-items: center; gap: 12rpx; }
+.cover-placeholder-icon { font-size: 60rpx; }
+.cover-placeholder-text { font-size: 26rpx; color: #999; }
+
+.btn-group { margin-top: 50rpx; display: flex; flex-direction: column; gap: 20rpx; padding-bottom: 40rpx; }
+.btn { border: none; border-radius: 12rpx; padding: 28rpx; font-size: 30rpx; text-align: center; }
+.btn-primary { background: linear-gradient(135deg, #F03038, #ED1C24); color: #FFF; }
+.btn-delete { background: #FFF; color: #F03038; border: 1rpx solid #FCA5A5; }

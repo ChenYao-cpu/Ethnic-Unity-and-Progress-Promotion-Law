@@ -1,0 +1,43 @@
+# ==================== 敏感配置（含密码、密钥等） ====================
+.env
+*.env
+
+# ==================== Java / Maven ====================
+target/
+*.class
+*.jar
+*.war
+*.log
+
+# ==================== IDE ====================
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# ==================== Docker ====================
+docker-compose.override.yml
+
+# ==================== OS ====================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+~$*
+
+# ==================== 上传目录 ====================
+upload/
+
+# ==================== 杩愯鏃朵笌鐢熸垚鐗?====================
+/uploads/
+/undefined/
+/.feisuan/
+/law-study-system/
+/docs/*.zip
+/docs/posters/
+/docs/posters-v2/
+/docs/posters-v3-textfree/
+/docs/posters-v4-minimal/
+frontend/miniprogram_npm/

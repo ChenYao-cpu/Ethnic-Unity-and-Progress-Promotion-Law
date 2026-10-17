@@ -1,0 +1,18 @@
+<view class="tutor-page">
+ <view class="tutor-heading"><image class="tutor-avatar" src="/images/brand/ai-tutor-avatar-512.png" mode="aspectFill"></image><text>AI针对性辅导</text></view>
+ <text class="tutor-intro">结合你的答案与理由查阅知识库，给出解释和下一轮练习建议。理由不足时不会断定错因。</text>
+ <view class="tutor-card">
+  <text class="field-label">你选择的答案（例如 A 或 AC）</text><input value="{{answer}}" bindinput="onAnswer" maxlength="6" placeholder="答案字母" disabled="{{busy}}"/>
+  <text class="field-label">你为什么这样选？（可选）</text><textarea value="{{reason}}" bindinput="onReason" maxlength="1000" placeholder="说说你的判断依据，有助于更准确地辅导" disabled="{{busy}}"/>
+  <button loading="{{busy}}" disabled="{{busy}}" bindtap="askTutor">{{busy ? '正在检索法条并生成辅导…' : '获取有依据的辅导'}}</button>
+ </view>
+ <view class="tutor-error" wx:if="{{error}}">{{error}}</view>
+ <view class="tutor-card" wx:if="{{feedback}}">
+  <text class="section-label">理解与解释</text><text class="paragraph">{{feedback.explanation}}</text>
+  <text class="section-label">可能原因</text><text class="paragraph">{{feedback.possibleCause}}</text>
+  <text class="section-label">建议再练习</text><text class="paragraph">{{feedback.nextPracticeTopic}}</text>
+  <text class="section-label">知识库依据 · {{feedback.evidence.articleNumber}}</text><text class="quote">{{feedback.quote}}</text>
+  <text class="paragraph">{{feedback.evidence.content}}</text>
+  <text class="tutor-intro">依据来自项目知识库。AI辅导仅供学习，发现内容疑问请联系法务核验。练习主题已保存，管理员可据此组织后续练习。</text>
+ </view>
+</view>

@@ -1,0 +1,124 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">作业</text>
+      <text class="title-sub">答题</text>
+    </view>
+    <view class="nav-right" wx:if="{{!isCompleted && !examResult}}">
+      <view class="timer-display">
+        <text class="timer-icon">⏱</text>
+        <text class="timer-value">{{timeLeftText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="content-wrapper">
+    <!-- 未完成作业 - 答题页面 -->
+    <view class="exam-content" wx:if="{{!isCompleted && !examResult && questions.length > 0}}">
+      <view class="question-card">
+        <view class="question-header">
+          <text class="question-num">第 {{currentIndex + 1}}/{{questions.length}} 题</text>
+          <text class="question-type">{{questions[currentIndex].type === 'multi' ? '多选题' : '单选题'}}</text>
+        </view>
+
+        <view class="question-text">{{questions[currentIndex].question}}</view>
+
+        <view class="options">
+          <view
+            class="option-item {{questions[currentIndex].optionsSelected[idx] ? 'selected' : ''}}"
+            wx:for="{{questions[currentIndex].options}}"
+            wx:for-index="idx"
+            wx:key="idx"
+            bindtap="selectAnswer"
+            data-idx="{{idx}}"
+          >
+            <text class="option-label">{{optionLabels[idx]}}</text>
+            <text class="option-text">{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="nav-buttons">
+        <button wx:if="{{currentIndex > 0}}" class="nav-btn prev-btn" bindtap="prevQuestion">上一题</button>
+        <button wx:if="{{currentIndex < questions.length - 1}}" class="nav-btn next-btn" bindtap="nextQuestion">下一题</button>
+        <button wx:if="{{currentIndex === questions.length - 1}}" class="nav-btn submit-btn" bindtap="submitAssignment">提交作业</button>
+      </view>
+    </view>
+
+    <!-- 已完成作业 - 查看答案页面 -->
+    <view class="review-content" wx:elif="{{isCompleted && questions.length > 0}}">
+      <view class="result-header">
+        <text class="result-title">已完成</text>
+        <text class="result-score">得分：{{userScore}} 分</text>
+      </view>
+
+      <view class="question-card" wx:for="{{questions}}" wx:key="id" wx:for-index="idx">
+        <view class="question-header">
+          <text class="question-num">第 {{idx + 1}}/{{questions.length}} 题</text>
+          <text class="question-type">{{item.type === 'multi' ? '多选题' : '单选题'}}</text>
+        </view>
+
+        <view class="question-text">{{item.question}}</view>
+
+        <view class="options review-options">
+          <view class="option-item {{item.answer === optionLabels[idx2] ? 'correct-answer' : ''}}"
+                wx:for="{{item.options}}" wx:for-index="idx2" wx:key="idx2">
+            <text class="option-label">{{optionLabels[idx2]}}</text>
+            <text class="option-text">{{item}}</text>
+          </view>
+        </view>
+
+        <view class="answer-section">
+          <text class="answer-label">正确答案：</text>
+          <text class="answer-text">{{item.answer}}</text>
+        </view>
+
+        <view class="analysis-section">
+          <text class="analysis-label">解析：</text>
+          <text class="analysis-text">{{item.analysis}}</text>
+        </view>
+      </view>
+
+      <view class="action-buttons">
+        <button class="btn back" bindtap="backToHome">返回</button>
+      </view>
+    </view>
+
+    <!-- 未完成作业 - 结果页面 -->
+    <view class="result-container" wx:elif="{{!isCompleted && examResult}}">
+      <view class="result-card">
+        <view class="score-circle">
+          <text class="score">{{examResult.score}}</text>
+          <text class="label">分</text>
+        </view>
+        <view class="stats">
+          <view class="stat-item">
+            <text class="value correct">{{examResult.correctCount}}</text>
+            <text class="desc">答对</text>
+          </view>
+          <view class="stat-item">
+            <text class="value wrong">{{examResult.wrongCount}}</text>
+            <text class="desc">答错</text>
+          </view>
+        </view>
+        <view class="action-buttons">
+          <button class="btn back" bindtap="backToHome">返回</button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载中 -->
+    <view class="empty" wx:elif="{{loading}}">加载中...</view>
+
+    <!-- 暂无题目 -->
+    <view class="empty" wx:else>暂无题目数据</view>
+  </view>
+</view>
+<view wx:if="{{isCompleted && questions.length}}"><button bindtap="openTutor">本题AI针对性辅导</button></view>

@@ -1,0 +1,622 @@
+@import '../../styles/iconfont.wxss';
+
+page {
+  background: #F5F5F5;
+  min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.nav-header {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 50%, #D8171E 100%);
+  width: 100%;
+  height: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50rpx 30rpx 0 30rpx;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  z-index: 101;
+}
+
+.nav-back {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.back-hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.back-icon {
+  font-size: 48rpx;
+  color: #FFF;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.nav-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.title-main {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 60rpx;
+  color: #FFF;
+  font-weight: bold;
+  letter-spacing: 0rpx;
+}
+
+.title-sub {
+  font-size: 30rpx;
+  color: #FFF;
+  font-weight: bold;
+  letter-spacing: 4rpx;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.score-label-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rpx;
+}
+
+.score-label-vertical text {
+  font-size: 22rpx;
+  color: #FFD700;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.score-value {
+  font-size: 40rpx;
+  color: #FFD700;
+  font-weight: bold;
+  font-family: "Arial", sans-serif;
+}
+
+.divider {
+  width: 2rpx;
+  height: 36rpx;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 1rpx;
+}
+
+.logo-flip-container {
+  width: 80rpx;
+  height: 80rpx;
+  perspective: 1000rpx;
+}
+
+.logo-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.flip-animation {
+  animation: logoFlip 4s ease-in-out infinite;
+}
+
+@keyframes logoFlip {
+  0%, 40% { transform: rotateY(0deg); }
+  50%, 90% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+.logo-front,
+.logo-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-front {
+  background: #FFF;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.logo-image {
+  width: 90%;
+  height: 90%;
+}
+
+.logo-back {
+  background: linear-gradient(135deg, #F03038, #ED1C24);
+  transform: rotateY(180deg);
+  flex-direction: column;
+  border: 2rpx solid #FFF;
+  justify-content: center;
+  align-items: center;
+}
+
+.school-name {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 18rpx;
+  color: #FFF;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.school-name-university {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 18rpx;
+  color: #FFF;
+  font-weight: bold;
+  margin-top: 2rpx;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  padding-top: 160rpx;
+  padding-bottom: 30rpx;
+}
+
+/* 我的测验 - 无图标 */
+.my-quiz-section {
+  padding: 0 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.my-quiz-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.my-quiz-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.my-quiz-name {
+  font-size: 36rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.my-quiz-desc {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.arrow {
+  font-size: 36rpx;
+  color: #999;
+}
+
+/* 考试类型选择 - 三个卡片高度变小 */
+.exam-types {
+  padding: 0 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.type-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 24rpx 30rpx;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.type-icon {
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56rpx;
+  color: #FFF;
+  flex-shrink: 0;
+}
+
+.type-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.type-name {
+  font-size: 40rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.type-desc {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 专项训练类型选择 */
+.special-train-selection {
+  padding: 0 20rpx;
+}
+
+.selection-title {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  padding-left: 10rpx;
+}
+
+.train-type-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 24rpx 30rpx;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.train-icon {
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56rpx;
+  color: #FFF;
+  flex-shrink: 0;
+}
+
+.train-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.train-name {
+  font-size: 40rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.train-desc {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 章节列表 */
+.chapter-list {
+  padding: 0 20rpx;
+}
+
+.chapter-title {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  padding-left: 10rpx;
+}
+
+.chapter-item {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.chapter-item.completed {
+  border-left: 4rpx solid #4CAF50;
+}
+
+.chapter-icon {
+  width: 60rpx;
+  height: 60rpx;
+  background: rgba(237, 28, 36, 0.1);
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  color: #ED1C24;
+}
+
+.chapter-name {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 答题页面 */
+.exam-page {
+  padding: 0 20rpx;
+}
+
+.exam-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.progress {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.timer {
+  font-size: 28rpx;
+  color: #ED1C24;
+  font-weight: bold;
+}
+
+.question-box {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.question-type {
+  display: inline-block;
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  color: #FFF;
+  padding: 8rpx 20rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.question-text {
+  font-size: 32rpx;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 30rpx;
+  font-weight: 500;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.option-item {
+  padding: 24rpx;
+  background: rgba(237, 28, 36, 0.05);
+  border-radius: 12rpx;
+  border: 2rpx solid transparent;
+}
+
+.option-item.active {
+  border-color: #ED1C24;
+  background: rgba(237, 28, 36, 0.1);
+}
+
+.option-label {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ED1C24;
+  margin-right: 12rpx;
+}
+
+.option-text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.exam-footer {
+  display: flex;
+  gap: 16rpx;
+}
+
+.btn-prev, .btn-next, .btn-submit {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  border: none;
+}
+
+.btn-prev, .btn-next {
+  background: rgba(255, 255, 255, 0.92);
+  color: #333;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  color: #FFF;
+}
+
+/* 结果页面 */
+.result-page {
+  padding: 0 20rpx;
+}
+
+.score-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 40rpx;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.score-num {
+  font-size: 100rpx;
+  color: #ED1C24;
+  font-weight: bold;
+  font-family: "Arial", sans-serif;
+}
+
+.score-unit {
+  font-size: 32rpx;
+  color: #666;
+  margin-top: 10rpx;
+  display: block;
+}
+
+.score-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30rpx;
+}
+
+.stat-correct {
+  font-size: 28rpx;
+  color: #4CAF50;
+}
+
+.stat-wrong {
+  font-size: 28rpx;
+  color: #FF5722;
+}
+
+.wrong-analysis {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.wrong-scroll {
+  max-height: 600rpx;
+}
+
+.wrong-item {
+  padding: 20rpx;
+  background: rgba(255, 87, 34, 0.05);
+  border-radius: 12rpx;
+  border-left: 4rpx solid #FF5722;
+  margin-bottom: 16rpx;
+}
+
+.wrong-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.q-type {
+  font-size: 24rpx;
+  color: #FFF;
+  background: #FF5722;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+.q-status {
+  font-size: 24rpx;
+  color: #FF5722;
+}
+
+.q-title {
+  font-size: 28rpx;
+  color: #333;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.q-answer {
+  font-size: 26rpx;
+  color: #4CAF50;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.q-analysis {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+}
+
+.result-actions {
+  margin-top: 20rpx;
+}
+
+.btn-retry {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  color: #FFF;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  border: none;
+}

@@ -1,0 +1,206 @@
+page { background: #F5F5F5; min-height: 100vh; }
+.page { min-height: 100vh; position: relative; overflow: hidden; }
+.page-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+
+.nav-header {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 50%, #D8171E 100%);
+  width: 100%; height: 140rpx; display: flex; align-items: center;
+  justify-content: space-between; padding: 50rpx 30rpx 0 30rpx;
+  box-sizing: border-box; position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+}
+
+.nav-left { display: flex; align-items: center; z-index: 101; }
+.nav-back { width: 120rpx; height: 120rpx; display: flex; align-items: center; justify-content: center; }
+.back-icon { font-size: 48rpx; color: #FFF; font-weight: bold; line-height: 1; }
+
+.nav-title { display: flex; align-items: baseline; gap: 8rpx; }
+.title-main { font-family: "MaoFont", "STXingkai", "KaiTi", serif; font-size: 60rpx; color: #FFF; font-weight: bold; }
+.title-sub { font-size: 30rpx; color: #FFF; font-weight: bold; letter-spacing: 4rpx; }
+
+.nav-right { display: flex; align-items: center; gap: 20rpx; }
+.logo-flip-container { width: 80rpx; height: 80rpx; perspective: 1000rpx; }
+.logo-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
+.flip-animation { animation: logoFlip 4s ease-in-out infinite; }
+@keyframes logoFlip {
+  0%, 40% { transform: rotateY(0deg); }
+  50%, 90% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+.logo-front, .logo-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.logo-front { background: #FFF; border-radius: 50%; overflow: hidden; }
+.logo-image { width: 90%; height: 90%; }
+.logo-back { background: linear-gradient(135deg, #F03038, #ED1C24); transform: rotateY(180deg); flex-direction: column; border: 2rpx solid #FFF; }
+.school-name { font-family: "MaoFont", "STXingkai", "KaiTi", serif; font-size: 18rpx; color: #FFF; font-weight: bold; }
+.school-name-university { font-family: "MaoFont", "STXingkai", "KaiTi", serif; font-size: 18rpx; color: #FFF; font-weight: bold; margin-top: 2rpx; }
+
+.container { position: relative; z-index: 1; min-height: 100vh; padding: 170rpx 30rpx 30rpx; box-sizing: border-box; }
+
+/* 审核进度条 */
+.progress-bar {
+    background: rgba(255,255,255,0.95);
+    border-radius: 16rpx;
+    padding: 24rpx;
+    margin-bottom: 20rpx;
+    box-shadow: 0 4rpx 12rpx rgba(237,28,36,0.08);
+}
+.progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12rpx; }
+.progress-title { font-size: 26rpx; font-weight: bold; color: #333; }
+.progress-text { font-size: 24rpx; color: #999; }
+.progress-track {
+    height: 16rpx; background: #f0f0f0; border-radius: 8rpx;
+    position: relative; overflow: hidden; margin-bottom: 12rpx;
+}
+.progress-fill {
+    height: 100%; position: absolute; top: 0;
+    transition: width 0.3s ease;
+}
+.progress-fill.approved { background: #52c41a; left: 0; }
+.progress-fill.rejected { background: #ff4d4f; }
+.progress-stats { display: flex; gap: 24rpx; }
+.stat { font-size: 22rpx; font-weight: bold; }
+.stat.approved { color: #52c41a; }
+.stat.rejected { color: #ff4d4f; }
+.stat.pending { color: #999; }
+
+/* 作业信息 */
+.assignment-info {
+    background: linear-gradient(135deg, #F03038, #ED1C24);
+    border-radius: 20rpx;
+    padding: 30rpx;
+    margin-bottom: 20rpx;
+    color: #fff;
+}
+.info-title { font-size: 34rpx; font-weight: bold; display: block; margin-bottom: 10rpx; }
+.info-desc { font-size: 26rpx; opacity: 0.9; display: block; margin-bottom: 16rpx; }
+.info-meta { display: flex; flex-wrap: wrap; gap: 16rpx; }
+.meta-item { font-size: 22rpx; opacity: 0.8; background: rgba(255,255,255,0.2); padding: 6rpx 16rpx; border-radius: 20rpx; }
+
+/* 题目 */
+.questions-section { margin-bottom: 20rpx; }
+.section-title { font-size: 30rpx; font-weight: bold; color: #2d3748; margin-bottom: 16rpx; display: block; }
+
+.question-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 16rpx;
+    padding: 24rpx;
+    margin-bottom: 16rpx;
+    box-shadow: 0 4rpx 12rpx rgba(237,28,36,0.08);
+    border-left: 6rpx solid transparent;
+    position: relative;
+    transition: all 0.3s;
+}
+.question-card.approved { border-left-color: #52c41a; background: #f6ffed; }
+.question-card.rejected { border-left-color: #ff4d4f; background: #fff2f0; }
+
+/* 审核状态标签 */
+.review-status-badge { margin-bottom: 12rpx; }
+.badge { display: inline-block; padding: 6rpx 16rpx; border-radius: 20rpx; font-size: 22rpx; font-weight: bold; }
+.badge.approved { background: #52c41a; color: #fff; }
+.badge.rejected { background: #ff4d4f; color: #fff; }
+
+.question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12rpx; }
+.question-num { font-size: 26rpx; font-weight: bold; color: #ED1C24; }
+.q-type { font-size: 22rpx; padding: 4rpx 14rpx; border-radius: 20rpx; }
+.q-type.single { background: #e6f7ff; color: #1890ff; }
+.q-type.multi { background: #fff7e6; color: #fa8c16; }
+.question-text { font-size: 28rpx; color: #333; line-height: 1.7; display: block; margin-bottom: 16rpx; }
+
+.options-list { display: flex; flex-direction: column; gap: 12rpx; margin-bottom: 16rpx; }
+.option-item {
+    display: flex; align-items: center; gap: 12rpx;
+    padding: 14rpx 20rpx; border-radius: 12rpx; background: #fafafa;
+    border: 2rpx solid #f0f0f0;
+}
+.option-item.correct { background: #f6ffed; border-color: #52c41a; }
+.option-label { font-size: 26rpx; font-weight: bold; color: #666; width: 40rpx; }
+.option-text { font-size: 26rpx; color: #333; flex: 1; }
+.correct-mark { font-size: 22rpx; color: #52c41a; font-weight: bold; }
+
+.analysis-box { background: #fffbe6; border-radius: 12rpx; padding: 16rpx 20rpx; margin-top: 12rpx; border: 1rpx solid #ffe58f; }
+.analysis-label { font-size: 24rpx; color: #d48806; font-weight: bold; }
+.analysis-text { font-size: 24rpx; color: #8c6900; line-height: 1.5; }
+
+/* 驳回意见 */
+.reject-comment {
+    background: #fff2f0; border: 1rpx solid #ffccc7;
+    border-radius: 12rpx; padding: 16rpx 20rpx; margin-top: 12rpx;
+}
+.reject-label { font-size: 24rpx; color: #ff4d4f; font-weight: bold; }
+.reject-text { font-size: 24rpx; color: #cf1322; line-height: 1.5; }
+
+/* 逐题操作按钮 */
+.question-actions {
+    display: flex; gap: 12rpx; margin-top: 20rpx;
+    padding-top: 20rpx; border-top: 1rpx solid #f0f0f0;
+}
+.q-btn {
+    flex: 1; height: 64rpx; line-height: 64rpx;
+    font-size: 24rpx; font-weight: bold; border-radius: 10rpx;
+    padding: 0; text-align: center;
+}
+.q-btn.approve {
+    background: #f6ffed; color: #52c41a;
+    border: 2rpx solid #b7eb8f;
+}
+.q-btn.approve[disabled] {
+    background: #52c41a; color: #fff; opacity: 0.8;
+}
+.q-btn.reject {
+    background: #fff2f0; color: #ff4d4f;
+    border: 2rpx solid #ffccc7;
+}
+.q-btn.reject[disabled] {
+    background: #ff4d4f; color: #fff; opacity: 0.8;
+}
+.q-btn.reset {
+    background: #fafafa; color: #999;
+    border: 2rpx solid #d9d9d9; flex: 0 0 120rpx;
+}
+
+/* 审核意见 */
+.review-form { margin-bottom: 24rpx; }
+.comment-input {
+    background: rgba(255,255,255,0.95);
+    border-radius: 16rpx;
+    min-height: 160rpx;
+    padding: 20rpx;
+    font-size: 28rpx;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4rpx 12rpx rgba(237,28,36,0.08);
+}
+
+/* 提交按钮 */
+.review-actions { margin-bottom: 40rpx; }
+.submit-review-btn {
+    width: 100%; height: 90rpx; line-height: 90rpx;
+    background: linear-gradient(135deg, #F03038, #ED1C24);
+    color: #fff; font-size: 30rpx; font-weight: bold;
+    border-radius: 16rpx; border: none;
+    box-shadow: 0 8rpx 20rpx rgba(237,28,36,0.3);
+}
+
+/* 驳回弹窗 */
+.comment-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+}
+.comment-panel {
+    width: 600rpx; background: #fff; border-radius: 20rpx;
+    padding: 40rpx; box-sizing: border-box;
+}
+.comment-title { font-size: 32rpx; font-weight: bold; color: #333; display: block; margin-bottom: 20rpx; }
+.comment-textarea {
+    width: 100%; min-height: 200rpx; background: #f8f8f8;
+    border-radius: 12rpx; padding: 20rpx; font-size: 28rpx;
+    box-sizing: border-box; margin-bottom: 24rpx;
+}
+.comment-actions { display: flex; gap: 20rpx; }
+.comment-btn {
+    flex: 1; height: 80rpx; line-height: 80rpx;
+    font-size: 28rpx; font-weight: bold; border-radius: 12rpx;
+    text-align: center; padding: 0;
+}
+.comment-btn.cancel { background: #f5f5f5; color: #666; border: none; }
+.comment-btn.confirm { background: #ff4d4f; color: #fff; border: none; }

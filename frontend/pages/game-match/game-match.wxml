@@ -1,0 +1,215 @@
+<view class="page">
+
+  <image
+          class="page-bg"
+          src="/images/backgrounds/index-bg.png"
+          mode="aspectFill">
+  </image>
+
+  <!-- 顶部 -->
+  <view class="nav-header">
+
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+
+    <view class="nav-title">
+      <text class="title-main">法条</text>
+      <text class="title-sub">匹配</text>
+    </view>
+
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image
+                    class="logo-image"
+                    src="/images/brand/app-icon-192.png"
+                    mode="aspectFit">
+            </image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容 -->
+  <view class="content-wrapper">
+
+    <view class="timer-bar">
+      <text>⏱️</text>
+      <text>{{timeUsed}}秒</text>
+    </view>
+
+    <!-- 游戏区域 -->
+    <view class="game-area" wx:if="{{!showResult}}">
+
+      <scroll-view class="match-scroll" scroll-y="true">
+
+        <view class="match-columns">
+
+          <!-- 左边 -->
+          <view class="column left-column">
+
+            <view class="column-title">
+              法条
+            </view>
+
+            <view class="list">
+
+              <view
+                      wx:for="{{items}}"
+                      wx:key="id"
+                      data-id="{{item.id}}"
+                      bindtap="selectItem"
+                      class="card {{selectedId === item.id ? 'selected' : ''}} {{item.colorClass}}">
+
+                <view class="index">{{index + 1}}</view>
+
+                <text class="text">
+                  {{item.content}}
+                </text>
+
+              </view>
+
+            </view>
+
+          </view>
+
+          <!-- 右边 -->
+          <view class="column right-column">
+
+            <view class="column-title">
+              内容
+            </view>
+
+            <view class="list">
+
+              <view
+                      wx:for="{{options}}"
+                      wx:key="id"
+                      wx:for-index="ri"
+                      data-index="{{ri}}"
+                      bindtap="selectOption"
+                      class="card {{options[ri].colorClass}}">
+
+                <text class="text">
+                  {{options[ri].content}}
+                </text>
+
+              </view>
+
+            </view>
+
+          </view>
+
+        </view>
+
+      </scroll-view>
+
+      <button
+              class="check-btn"
+              wx:if="{{allMatched}}"
+              bindtap="showFinalResult">
+        ✓ 检查答案
+      </button>
+
+      <view class="tip" wx:else>
+        先点左边，再点右边配对
+      </view>
+
+    </view>
+
+    <!-- 结果 -->
+    <view class="result-panel" wx:if="{{showResult}}">
+
+      <view class="result-header">
+        <text class="icon">🎯</text>
+        <text class="title">完美匹配！</text>
+      </view>
+
+      <view class="result-actions">
+
+        <button
+                class="btn btn-restart"
+                bindtap="restart">
+          重新开始
+        </button>
+
+        <button
+                class="btn btn-back"
+                bindtap="goBack">
+          返回
+        </button>
+
+      </view>
+
+    </view>
+
+  </view>
+
+  <!-- 通关弹窗 -->
+  <view class="all-complete-mask" wx:if="{{showAllComplete}}">
+    <view class="dialog">
+      <!-- 右上角关闭按钮 -->
+      <view class="dialog-close" bindtap="closeAllComplete">
+        <text class="iconfont icon-cuowu"></text>
+      </view>
+
+      <!-- 全对页面 -->
+      <view wx:if="{{isFullScore}}" class="full-score-page">
+        <view class="dialog-trophy">
+          <text class="iconfont yj-rank trophy-icon yj-icon"></text>
+        </view>
+        <view class="dialog-icon-wrap">
+          <text class="iconfont icon-gongxi dialog-icon-main"></text>
+          <text class="dialog-title">恭喜通关！</text>
+        </view>
+        <view class="dialog-stats">
+          <view class="stat-row">
+            <text class="stat-label">总耗时</text>
+            <text class="stat-value">{{totalTimeText}}</text>
+          </view>
+          <view class="stat-row">
+            <text class="stat-label">得分</text>
+            <text class="stat-value score-perfect">100分</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 非全对页面 -->
+      <view wx:else class="partial-score-page">
+        <text class="dialog-title">挑战结束</text>
+        <view class="dialog-score-big">{{displayScore}}分</view>
+        <text class="dialog-sub">共完成7关</text>
+        <view class="dialog-stats">
+          <view class="stat-row">
+            <text class="stat-label">总耗时</text>
+            <text class="stat-value">{{totalTimeText}}</text>
+          </view>
+          <view class="stat-row">
+            <text class="stat-label">历史最高</text>
+            <text class="stat-value">{{bestScore}}分</text>
+          </view>
+        </view>
+      </view>
+
+      <button class="dialog-btn" bindtap="closeAllComplete">返回上一页</button>
+    </view>
+  </view>
+
+</view>

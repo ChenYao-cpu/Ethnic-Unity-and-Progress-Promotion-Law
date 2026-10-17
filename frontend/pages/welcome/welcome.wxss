@@ -1,0 +1,15 @@
+page{background:#FAF7EB;}
+.welcome{position:relative;width:100%;height:100vh;overflow:hidden;background:#FAF7EB;}
+.bg-illustration{position:absolute;left:0;bottom:0;width:100%;height:58%;}
+.bg-wave{position:absolute;left:0;top:0;width:100%;}
+.bottom-actions{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 70rpx);display:flex;justify-content:center;align-items:center;gap:24rpx;z-index:9;}
+.pill{min-width:220rpx;height:78rpx;line-height:78rpx;padding:0 40rpx;border-radius:39rpx;text-align:center;font-size:28rpx;letter-spacing:2rpx;box-sizing:border-box;}
+.pill.ghost{color:#791817;background:rgba(250,247,235,.96);border:1rpx solid rgba(121,24,23,.22);box-shadow:0 6rpx 14rpx rgba(56,12,10,.14),0 18rpx 40rpx rgba(56,12,10,.24);}
+.pill.primary{color:#FAF7EB;background:#791817;box-shadow:0 6rpx 14rpx rgba(90,16,15,.2),0 18rpx 44rpx rgba(121,24,23,.38);}
+.hero{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;padding-top:calc(env(safe-area-inset-top) + 150rpx);}
+.hero-logo{width:450rpx;height:152rpx;filter:drop-shadow(0 10rpx 22rpx rgba(56,12,10,.14));}
+.kicker{margin-top:30rpx;display:flex;align-items:center;gap:10rpx;color:#791817;font-size:22rpx;letter-spacing:1rpx;opacity:.92;}
+.kicker .dot{width:10rpx;height:10rpx;border-radius:50%;background:#D07367;}
+.slogan{margin-top:54rpx;display:flex;flex-direction:column;align-items:center;color:#791817;font-size:50rpx;font-weight:700;line-height:1.55;letter-spacing:2rpx;}
+.rule{margin-top:64rpx;width:92rpx;height:2rpx;background:rgba(121,24,23,.32);}
+.tip{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 40rpx);text-align:center;color:rgba(121,24,23,.55);font-size:22rpx;letter-spacing:2rpx;z-index:4;}

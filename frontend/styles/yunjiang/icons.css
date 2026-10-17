@@ -1,0 +1,21 @@
+@font-face{font-family:yunjiang;src:url("./yunjiang-icons-v2.woff") format("woff"),url("./yunjiang-icons-v2.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:block;}
+.yj-icon.yj-icon{font-family:yunjiang!important;font-style:normal;font-weight:normal;line-height:1;display:inline-block;}
+.yj-home:before{content:"\e900";}
+.yj-study:before{content:"\e901";}
+.yj-user:before{content:"\e902";}
+.yj-unity:before{content:"\e903";}
+.yj-ai:before{content:"\e904";}
+.yj-practice:before{content:"\e905";}
+.yj-exam:before{content:"\e906";}
+.yj-note:before{content:"\e907";}
+.yj-notice:before{content:"\e908";}
+.yj-wrong:before{content:"\e909";}
+.yj-match:before{content:"\e90a";}
+.yj-quick:before{content:"\e90b";}
+.yj-scenario:before{content:"\e90c";}
+.yj-rank:before{content:"\e90d";}
+.yj-medal:before{content:"\e90e";}
+.yj-review:before{content:"\e90f";}
+.yj-agents:before{content:"\e910";}
+.yj-trace:before{content:"\e911";}
+.yj-course:before{content:"\e912";}

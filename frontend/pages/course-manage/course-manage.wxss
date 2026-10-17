@@ -1,0 +1,155 @@
+page { background: #F5F5F5; min-height: 100vh; }
+
+/* ===== 导航栏 ===== */
+.nav-header {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 50%, #D8171E 100%);
+  width: 100%; height: 140rpx;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 50rpx 30rpx 0; box-sizing: border-box;
+  position: fixed; top: 0; left: 0; z-index: 100;
+}
+.nav-left { display: flex; align-items: center; }
+.nav-back { width: 80rpx; height: 80rpx; display: flex; align-items: center; justify-content: center; }
+.back-icon { font-size: 48rpx; color: #FFF; font-weight: bold; }
+.nav-title { display: flex; align-items: baseline; gap: 8rpx; }
+.title-main { font-family: "MaoFont","STXingkai","KaiTi",serif; font-size: 60rpx; color: #FFF; font-weight: bold; }
+.title-sub { font-size: 30rpx; color: #FFF; font-weight: bold; letter-spacing: 4rpx; }
+.nav-right { width: auto; }
+.logo-flip-container { width: 80rpx; height: 80rpx; perspective: 1000rpx; }
+.logo-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
+.flip-animation { animation: logoFlip 4s ease-in-out infinite; }
+@keyframes logoFlip {
+  0%,40% { transform: rotateY(0deg); }
+  50%,90% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+.logo-front, .logo-back {
+  position: absolute; width: 100%; height: 100%;
+  backface-visibility: hidden; border-radius: 50%; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-front { background: #FFF; }
+.logo-image { width: 90%; height: 90%; }
+.logo-back {
+  background: linear-gradient(135deg,#F03038,#ED1C24);
+  transform: rotateY(180deg); flex-direction: column; border: 2rpx solid #FFF;
+}
+.school-name, .school-name-university { font-size: 16rpx; color: #FFF; font-weight: bold; }
+
+/* ===== 背景 ===== */
+.page-bg {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+}
+
+/* ===== 内容区域 ===== */
+.content-wrapper {
+  position: relative; z-index: 1;
+  padding: 160rpx 30rpx 40rpx;
+}
+
+/* ===== 顶部栏 ===== */
+.header-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 30rpx;
+}
+.header-title { font-size: 28rpx; font-weight: bold; color: #333; }
+.btn-create {
+  background: linear-gradient(135deg, #F03038, #ED1C24);
+  color: #FFF; border: none; border-radius: 30rpx;
+  padding: 14rpx 30rpx; font-size: 26rpx;
+}
+
+/* ===== 空状态 ===== */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 120rpx 0; gap: 20rpx;
+}
+.empty-icon { font-size: 80rpx; }
+.empty-text { font-size: 28rpx; color: #9CA3AF; }
+
+/* ===== 课程卡片列表 ===== */
+.course-list {
+  display: flex; flex-direction: column; gap: 30rpx;
+}
+
+/* ===== 课程卡片 ===== */
+.course-card {
+  background: rgba(255,255,255,0.95);
+  border-radius: 24rpx; overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+.course-card:active { transform: scale(0.98); }
+
+/* ===== 封面区域 ===== */
+.course-cover {
+  position: relative; width: 100%; height: 360rpx;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.cover-image { width: 100%; height: 100%; object-fit: cover; }
+.cover-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12rpx;
+}
+.cover-placeholder-icon { font-size: 60rpx; }
+.cover-placeholder-title {
+  font-size: 26rpx; color: rgba(255,255,255,0.8);
+  padding: 0 30rpx; text-align: center;
+}
+
+.cover-play-icon {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80rpx; height: 80rpx;
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.cover-play-icon::before {
+  content: '';
+  width: 0; height: 0;
+  border-left: 22rpx solid #FFF;
+  border-top: 12rpx solid transparent;
+  border-bottom: 12rpx solid transparent;
+  margin-left: 6rpx;
+}
+
+/* ===== 状态标签 ===== */
+.status-tag {
+  position: absolute; top: 16rpx; right: 16rpx;
+  font-size: 22rpx; color: #FFF; padding: 6rpx 18rpx;
+  border-radius: 20rpx; z-index: 3;
+}
+.status-draft { background: rgba(156,163,175,0.85); }
+.status-pending_review { background: rgba(245,158,11,0.85); }
+.status-approved { background: rgba(16,185,129,0.85); }
+.status-rejected { background: rgba(239,68,68,0.85); }
+.status-published { background: rgba(59,130,246,0.85); }
+
+/* ===== 课程信息（封面下方） ===== */
+.card-info {
+  padding: 24rpx 24rpx 0;
+}
+.card-title {
+  font-size: 30rpx; font-weight: bold; color: #333;
+  display: block; margin-bottom: 8rpx;
+}
+.card-meta {
+  font-size: 24rpx; color: #999;
+}
+
+/* ===== 操作按钮区域 ===== */
+.card-actions {
+  display: flex; gap: 16rpx; padding: 20rpx 24rpx;
+}
+.action-btn {
+  flex: 1; font-size: 24rpx; padding: 16rpx 0; border-radius: 12rpx;
+  text-align: center; border: none; line-height: 1.4;
+}
+.btn-edit { background: #F3F4F6; color: #333; }
+.btn-review { background: #FEF3C7; color: #D97706; }
+.btn-unpublish { background: #FEE2E2; color: #DC2626; }
+.btn-delete { background: #F3F4F6; color: #9CA3AF; }

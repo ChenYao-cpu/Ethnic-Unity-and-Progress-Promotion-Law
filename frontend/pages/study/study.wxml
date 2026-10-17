@@ -1,0 +1,215 @@
+<view class="page">
+  <!-- 背景图 -->
+  <image class="page-bg" src="/images/backgrounds/study-bg.jpg" mode="aspectFill"></image>
+
+  <!-- 导航栏 -->
+  <view class="nav-header">
+    <view class="nav-title">
+      <text class="title-main">民族团结</text>
+      <text class="title-sub">促进法学习</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 容器 -->
+  <view class="container"><data-state loading="{{_listStates.study.loading || isLoading}}" error="{{_listStates.study.error}}"   bind:retry="loadData">
+    <!-- Loading State -->
+    <view wx:if="{{isLoading}}" class="loading-container">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <!-- Not Logged In -->
+    <view wx:elif="{{!isLogin}}" class="empty-tip">
+      <image class="empty-icon" src="/images/states/empty.png" mode="aspectFit"></image>
+      <text class="tip-text">请先登录后查看学习记录</text>
+      <button class="login-btn" bindtap="goLogin">去登录</button>
+    </view>
+
+    <!-- Main Content -->
+    <view wx:else class="content">
+      <!-- Tab Navigation -->
+      <view class="tab-nav">
+        <view class="tab-item {{activeTab === 'overview' ? 'active' : ''}}"
+              data-tab="overview"
+              bindtap="switchTab">学习概览</view>
+
+        <view class="tab-item {{activeTab === 'checkin' ? 'active' : ''}}"
+              data-tab="checkin"
+              bindtap="switchTab">打卡</view>
+
+        <view class="tab-item {{activeTab === 'records' ? 'active' : ''}}"
+              data-tab="records"
+              bindtap="switchTab">最近学习</view>
+      </view>
+
+      <!-- Overview Tab -->
+      <view wx:if="{{activeTab === 'overview'}}" class="tab-content">
+        <!-- Stats Overview -->
+        <view class="stats-card">
+          <view class="stats-header">
+            <text class="stats-title">学习概览</text>
+            <text class="stats-subtitle">累计学习数据</text>
+          </view>
+          <view class="stats-grid">
+            <view class="stat-card">
+              <view class="stat-icon icon-time"></view>
+              <text class="stat-value">{{overview.totalMinutes || 0}}</text>
+              <text class="stat-label">总时长(分钟)</text>
+            </view>
+            <view class="stat-card">
+              <view class="stat-icon icon-course"></view>
+              <text class="stat-value">{{overview.courseCount || 0}}</text>
+              <text class="stat-label">学习课程</text>
+            </view>
+            <view class="stat-card">
+              <view class="stat-icon icon-score"></view>
+              <text class="stat-value">{{weeklyReport.growthValue || 0}}</text>
+              <text class="stat-label">成长值</text>
+            </view>
+            <view class="stat-card">
+              <view class="stat-icon icon-days"></view>
+              <text class="stat-value">{{checkinData.activeDays || 0}}</text>
+              <text class="stat-label">活跃天数</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- Study Profile Radar -->
+        <view class="section-card">
+          <view class="section-header">
+            <text class="section-title">能力分布</text>
+          </view>
+          <view class="radar-container">
+            <view class="radar-item" wx:for="{{profile.radarData}}" wx:key="name">
+              <view class="radar-label">{{item.name}}</view>
+              <view class="radar-bar">
+                <view class="radar-fill" style="width: {{item.value || 0}}%"></view>
+              </view>
+              <view class="radar-value">{{item.value || 0}}分</view>
+            </view>
+          </view>
+        </view>
+
+        <!-- Weekly Stats -->
+        <view class="section-card">
+          <view class="section-header">
+            <text class="section-title">近7日学习</text>
+            <text class="section-more" bindtap="switchTab" data-tab="records">查看全部</text>
+          </view>
+          <view class="weekly-stats">
+            <view class="day-stat" wx:for="{{studyStats}}" wx:key="date">
+              <text class="day-date">{{item.date}}</text>
+              <text class="day-duration">{{item.duration || 0}}分钟</text>
+            </view>
+            <data-state wx:if="{{studyStats.length === 0}}" empty="{{true}}" title="还没有学习记录" hint="先完成一节课程，再来回顾你的学习足迹。" action-label="去学习" action-url="/pages/course/course"></data-state>
+          </view>
+        </view>
+
+        <!-- Quick Actions -->
+        <view class="section-card">
+          <view class="section-header">
+            <text class="section-title">快速操作</text>
+          </view>
+          <view class="quick-actions">
+            <view class="action-btn" bindtap="handleCheckin" wx:if="{{!todayCheckedIn}}">
+              <view class="action-icon icon-checkin"></view>
+              <text class="action-text">今日打卡</text>
+            </view>
+            <view class="action-btn disabled" wx:else>
+              <view class="action-icon icon-checked"></view>
+              <text class="action-text">今日已打卡</text>
+            </view>
+            <view class="action-btn">
+              <view class="action-icon icon-report"></view>
+              <text class="action-text">生成报告</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+
+        <!-- Records Tab -->
+        <view wx:if="{{activeTab === 'records'}}" class="tab-content">
+            <view class="section-card">
+                <view class="section-header">
+                    <text class="section-title">最近学习记录</text>
+                    <text class="section-more" bindtap="goToDetail">查看详情</text>
+                </view>
+                <view class="records-list">
+                    <view class="record-item" wx:for="{{recentRecords}}" wx:key="id" bindtap="viewDetail" data-course-id="{{item.course_id}}">
+                        <view class="record-icon">
+                            <view class="record-icon-bg"></view>
+                            <text class="record-icon-text">{{item.progress || 0}}%</text>
+                        </view>
+                        <view class="record-info">
+                            <text class="record-title">{{item.course_title || '未知课程'}}</text>
+                            <text class="record-desc">{{item.study_duration || 0}}分钟</text>
+                            <text class="record-date">{{item.study_time}}</text>
+                        </view>
+                        <view class="record-progress">
+                            <view class="progress-mini">
+                                <view class="progress-mini-fill" style="width: {{item.progress || 0}}%"></view>
+                            </view>
+                        </view>
+                    </view>
+                    <data-state wx:if="{{recentRecords.length === 0}}" empty="{{true}}" title="还没有学习足迹" hint="完成一节课程后，可以在这里继续回顾。" action-label="去学习" action-url="/pages/course/course"></data-state>
+                </view>
+            </view>
+        </view>
+
+
+
+
+        <!-- Checkin Tab -->
+      <view wx:if="{{activeTab === 'checkin'}}" class="tab-content">
+        <view class="section-card">
+          <view class="checkin-header">
+            <text class="checkin-title">学习打卡</text>
+            <text class="checkin-subtitle">坚持打卡，记录成长</text>
+          </view>
+
+          <view class="checkin-status">
+            <view class="checkin-btn {{todayCheckedIn ? 'checked' : ''}}" bindtap="handleCheckin">
+              <view class="checkin-btn-inner">
+                <view class="checkin-icon"></view>
+                <text class="checkin-text">{{todayCheckedIn ? '今日已打卡' : '打卡'}}</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="checkin-stats">
+            <view class="checkin-stat-item">
+              <text class="checkin-stat-value">{{checkinData.activeDays || 0}}</text>
+              <text class="checkin-stat-label">本月活跃</text>
+            </view>
+            <view class="checkin-stat-item">
+              <text class="checkin-stat-value">{{checkinData.maxContinuousDays || 0}}</text>
+              <text class="checkin-stat-label">最长连续</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </data-state></view>
+</view>

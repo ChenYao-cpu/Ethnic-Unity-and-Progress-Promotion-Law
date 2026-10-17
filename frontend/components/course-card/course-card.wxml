@@ -1,0 +1,27 @@
+<!-- D:\idea_code\law-study-system\frontend\components\course-card\course-card.wxml -->
+<view class="course-card" bindtap="handleClick">
+  <image class="course-cover" src="{{course.cover || '/images/default-course.png'}}" mode="aspectFill"></image>
+
+  <view class="course-info">
+    <text class="course-title">{{course.title}}</text>
+    <text class="course-desc">{{course.description}}</text>
+
+    <view class="course-meta">
+      <view class="meta-item">
+        <text class="meta-icon">👥</text>
+        <text class="meta-text">{{course.students || 0}}人学习</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-icon">⏱</text>
+        <text class="meta-text">{{course.duration || 0}}分钟</text>
+      </view>
+    </view>
+
+    <view class="course-progress" wx:if="{{course.progress !== undefined}}">
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{course.progress}}%"></view>
+      </view>
+      <text class="progress-text">{{course.progress}}%</text>
+    </view>
+  </view>
+</view>

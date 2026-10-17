@@ -1,0 +1,130 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/user-bg.jpg" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">学习</text>
+      <text class="title-sub">进度</text>
+    </view>
+    <view class="nav-right">
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="container">
+    <!-- 测验选择 -->
+    <view class="form-section">
+      <view class="form-item">
+        <text class="label">选择测验</text>
+        <picker mode="selector" range="{{assignments}}" range-key="title" value="{{selectedIndex}}" bindchange="onAssignmentChange">
+          <view class="form-picker">
+            <text>{{assignments[selectedIndex] ? assignments[selectedIndex].title : '暂无已发布测验'}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 进度概览卡片 -->
+    <view class="overview-section" wx:if="{{progress}}">
+      <view class="overview-cards">
+        <view class="overview-card total">
+          <text class="overview-num">{{progress.totalStudents}}</text>
+          <text class="overview-label">党员总数</text>
+        </view>
+        <view class="overview-card done">
+          <text class="overview-num">{{progress.completedCount}}</text>
+          <text class="overview-label">已完成</text>
+        </view>
+        <view class="overview-card pending">
+          <text class="overview-num">{{progress.uncompletedCount}}</text>
+          <text class="overview-label">未完成</text>
+        </view>
+        <view class="overview-card rate">
+          <text class="overview-num">{{progress.completionRate}}%</text>
+          <text class="overview-label">完成率</text>
+        </view>
+      </view>
+
+      <view class="progress-bar-wrap">
+        <view class="progress-bar-bg">
+          <view class="progress-bar-fill" style="width: {{progress.completionRate}}%"></view>
+        </view>
+      </view>
+
+      <!-- 一键催促 -->
+      <view class="batch-remind" wx:if="{{progress.uncompletedCount > 0}}">
+        <button class="remind-all-btn" bindtap="remindAllUncompleted">
+          📢 一键催促全部未完成党员（{{progress.uncompletedCount}}人）
+        </button>
+      </view>
+    </view>
+
+    <!-- 已完成列表 -->
+    <view class="student-section" wx:if="{{progress && progress.completedList.length > 0}}">
+      <view class="section-title-bar done">
+        <text class="section-title-text">✅ 已完成</text>
+        <text class="section-count">{{progress.completedList.length}}人</text>
+      </view>
+      <view class="student-cards">
+        <view class="student-card done-card" wx:for="{{progress.completedList}}" wx:key="studentId">
+          <view class="student-avatar done-avatar">{{item.studentName ? item.studentName[0] : '学'}}</view>
+          <view class="student-detail">
+            <text class="s-name">{{item.studentName}}</text>
+            <text class="s-school" wx:if="{{item.school}}">{{item.school}}</text>
+          </view>
+          <view class="student-score-box {{item.score >= 90 ? 'excellent' : item.score >= 60 ? 'pass' : 'fail'}}">
+            <text class="score-text">{{item.score}}分</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 未完成列表 -->
+    <view class="student-section" wx:if="{{progress && progress.uncompletedList.length > 0}}">
+      <view class="section-title-bar pending">
+        <text class="section-title-text">⏳ 未完成</text>
+        <text class="section-count">{{progress.uncompletedList.length}}人</text>
+      </view>
+      <view class="student-cards">
+        <view class="student-card pending-card" wx:for="{{progress.uncompletedList}}" wx:key="studentId">
+          <view class="student-avatar pending-avatar">{{item.studentName ? item.studentName[0] : '学'}}</view>
+          <view class="student-detail">
+            <text class="s-name">{{item.studentName}}</text>
+            <text class="s-school" wx:if="{{item.school}}">{{item.school}}</text>
+          </view>
+          <button class="remind-btn {{remindedStudents[item.studentId] ? 'reminded' : ''}}" bindtap="remindStudent" data-sid="{{item.studentId}}" data-name="{{item.studentName}}">
+            {{remindedStudents[item.studentId] ? '已催促' : '📢 催促'}}
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 全部完成 -->
+    <view class="empty-state" wx:if="{{progress && progress.uncompletedCount === 0 && progress.completedCount > 0}}">
+      <text class="empty-icon">🎉</text>
+      <text class="empty-text">全部党员已完成此测验！</text>
+    </view>
+
+    <!-- 无数据 -->
+    <view class="empty-state" wx:if="{{!progress && assignments.length === 0}}">
+      <text class="empty-icon">📋</text>
+      <text class="empty-text">暂无已发布的测验</text>
+    </view>
+  </view>
+</view>

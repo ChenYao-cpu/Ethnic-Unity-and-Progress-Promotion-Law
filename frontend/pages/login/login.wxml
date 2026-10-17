@@ -1,0 +1,50 @@
+<view class="login-container">
+  <view class="custom-navbar">
+    <view class="navbar-content">
+      <view class="navbar-left" bindtap="goBack">
+        <text class="iconfont icon-right back-icon"></text>
+      </view>
+      <view class="navbar-title">登录</view>
+      <view class="navbar-right"></view>
+    </view>
+  </view>
+  <view class="bg-pattern">
+    <view class="danghui-bg" wx:for="{{danghuiPositions}}" wx:key="index"          style="left:{{item.left}}; top:{{item.top}};">
+    </view>
+  </view>
+  <view class="header">
+    <view class="logo-circle">
+      <image class="brand-auth-logo" src="/images/brand/logo-horizontal-transparent.png" mode="aspectFit" aria-label="云疆知法"></image>
+    </view>
+    <text class="app-title">民族团结促进法学习</text>
+    <text class="app-subtitle">欢迎回来，请登录您的账号</text>
+  </view>
+
+  <view class="login-card">
+    <view class="form-group">
+      <view class="input-wrapper">
+        <text class="iconfont icon-zhanghao input-icon"></text>
+        <input class="input" placeholder="请输入用户名"
+               value="{{username}}" bindinput="onUsernameInput" />
+      </view>
+
+      <view class="input-wrapper">
+        <text class="iconfont icon-mima input-icon"></text>
+        <input class="input" password="{{!showPassword}}" placeholder="请输入密码"
+               value="{{password}}" bindinput="onPasswordInput" />
+        <text class="iconfont {{showPassword ? 'icon-yanjing_yincang_o' : 'icon-yanjing_xianshi_o'}} eye-icon"
+              bindtouchstart="onPasswordTouchStart" bindtouchend="onPasswordTouchEnd"></text>
+      </view>
+    </view>
+
+    <button class="login-btn" bindtap="handleLogin">
+      登录
+    </button>
+
+    <view class="footer-links">
+      <text class="link-item" bindtap="goRegister">注册新账号</text>
+      <text class="divider">|</text>
+      <text class="link-item" bindtap="forgotPassword">忘记密码？</text>
+    </view>
+  </view>
+</view>

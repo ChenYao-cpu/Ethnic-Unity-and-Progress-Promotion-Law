@@ -1,0 +1,142 @@
+<view class="page">
+ <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+   <view class="nav-header">
+     <view class="nav-left">
+       <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+         <text class="back-icon">‹</text>
+       </view>
+     </view>
+     <view class="nav-title">
+       <text class="title-main">学习</text>
+       <text class="title-sub">笔记</text>
+     </view>
+     <view class="nav-right">
+       <view class="score-display">
+         <view class="score-label-vertical">
+           <text>积</text>
+           <text>分</text>
+         </view>
+         <text class="score-value">{{score}}</text>
+       </view>
+       <view class="divider"></view>
+       <view class="logo-flip-container">
+         <view class="logo-card flip-animation">
+           <view class="logo-front">
+             <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+           </view>
+           <view class="logo-back">
+             <text class="school-name">西南民族</text>
+             <text class="school-name-university">大学</text>
+           </view>
+         </view>
+       </view>
+     </view>
+   </view>
+  <view class="content-wrapper"><data-state loading="{{_listStates.notes.loading}}" error="{{_listStates.notes.error}}" bind:retry="loadNote">
+    <!-- 标题输入 -->
+    <view class="title-input">
+      <input
+        class="title-field"
+        placeholder="请输入笔记标题"
+        value="{{noteTitle}}"
+        bindinput="onTitleInput"
+        maxlength="50"
+      />
+    </view>
+
+    <!-- 内容编辑器 -->
+    <view class="editor-container">
+      <textarea
+        class="content-editor"
+        placeholder="开始记录你的学习笔记..."
+        value="{{noteContent}}"
+        bindinput="onContentInput"
+        auto-height
+        maxlength="5000"  style="font-family: {{selectedFontFamily}}; color: {{selectedColor}};"
+      ></textarea>
+
+      <!-- 已添加的图片 -->
+      <view class="image-list" wx:if="{{images.length > 0}}">
+        <view class="image-item" wx:for="{{images}}" wx:key="index">
+          <image class="note-image" src="{{item}}" mode="widthFix"></image>
+          <view class="delete-image" bindtap="deleteImage" data-index="{{index}}">×</view>
+        </view>
+      </view>
+    </view>
+  </data-state></view>
+
+  <!-- 左下角编辑按钮 -->
+  <view class="edit-button {{showToolbar ? 'active' : ''}}" bindtap="toggleToolbar">
+    <text class="edit-icon iconfont icon-bianji"></text>
+    <text class="edit-text">编辑</text>
+  </view>
+
+  <!-- 底部工具栏 -->
+  <view class="toolbar {{showToolbar ? 'show' : ''}}"><text>字体与颜色仅用于编辑预览，笔记保存标题和正文。</text>
+    <view class="tool-group">
+      <view class="tool-btn {{images.length > 0 ? 'active' : ''}}" >
+        <text class="tool-icon iconfont icon-tupian"></text>
+        <text class="tool-text">贴图（待开发）</text>
+      </view>
+      <view class="tool-btn" bindtap="showFontPicker">
+        <text class="tool-icon iconfont icon-ziti"></text>
+        <text class="tool-text">字体</text>
+      </view>
+      <view class="tool-btn" bindtap="showColorPicker">
+        <text class="tool-icon iconfont icon-yanse"></text>
+        <text class="tool-text">颜色</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 右下角保存按钮 -->
+  <view class="save-button" bindtap="saveNote">
+    <text class="save-icon iconfont icon-baocun"></text>
+    <text class="save-text">保存</text>
+  </view>
+
+  <!-- 字体选择弹窗 -->
+  <view class="modal {{showFontModal ? 'show' : ''}}" bindtap="closeFontModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">选择字体</text>
+        <text class="modal-close" bindtap="closeFontModal">×</text>
+      </view>
+      <view class="font-list">
+        <view
+          class="font-item {{selectedFont === item.value ? 'selected' : ''}}"
+          wx:for="{{fontList}}"
+          wx:key="value"
+          style="font-family: {{item.fontFamily}}"
+          bindtap="selectFont"
+          data-font="{{item.name}}"
+        >
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 颜色选择弹窗 -->
+  <view class="modal {{showColorModal ? 'show' : ''}}" bindtap="closeColorModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">选择颜色</text>
+        <text class="modal-close" bindtap="closeColorModal">×</text>
+      </view>
+      <view class="color-list">
+        <view
+          class="color-item {{selectedColor === item ? 'selected' : ''}}"
+          wx:for="{{colorList}}"
+          wx:key="*this"
+          style="background: {{item}}"
+          bindtap="selectColor"
+          data-color="{{item}}"
+        >
+          <text class="check-icon" wx:if="{{selectedColor === item}}">✓</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

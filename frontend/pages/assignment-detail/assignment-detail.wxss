@@ -1,0 +1,348 @@
+@import '../../styles/iconfont.wxss';
+
+page {
+  background: #F5F5F5;
+  min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.nav-header {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 50%, #D8171E 100%);
+  width: 100%;
+  height: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50rpx 30rpx 0 30rpx;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  z-index: 101;
+}
+
+.nav-back {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.back-hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.back-icon {
+  font-size: 48rpx;
+  color: #FFF;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.nav-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.title-main {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 60rpx;
+  color: #FFF;
+  font-weight: bold;
+  letter-spacing: 0rpx;
+}
+
+.title-sub {
+  font-size: 30rpx;
+  color: #FFF;
+  font-weight: bold;
+  letter-spacing: 4rpx;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.timer-display {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.timer-icon {
+  font-size: 28rpx;
+}
+
+.timer-value {
+  font-size: 28rpx;
+  color: #FFD700;
+  font-weight: bold;
+  font-family: "Arial", sans-serif;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  padding-top: 160rpx;
+  padding-bottom: 30rpx;
+}
+
+.exam-content {
+  padding: 0 20rpx;
+}
+
+.question-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.question-num {
+  font-weight: bold;
+  color: #ED1C24;
+}
+
+.question-type {
+  color: #ED1C24;
+  font-weight: 500;
+}
+
+.question-text {
+  font-size: 32rpx;
+  line-height: 1.6;
+  margin-bottom: 30rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  background: rgba(237, 28, 36, 0.05);
+  border-radius: 12rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.2s ease;
+}
+
+.option-item.selected {
+  background: rgba(237, 28, 36, 0.1);
+  border-color: #ED1C24;
+}
+
+.option-label {
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  background: #E0E0E0;
+  border-radius: 50%;
+  margin-right: 16rpx;
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.option-item.selected .option-label {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  color: white;
+}
+
+.option-text {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.option-item.selected .option-text {
+  color: #ED1C24;
+  font-weight: 500;
+}
+
+/* 导航按钮 */
+.nav-buttons {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 -4rpx 12rpx rgba(0, 0, 0, 0.08);
+  z-index: 99;
+}
+
+.nav-btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn::after {
+  border: none;
+}
+
+.prev-btn {
+  background: #F0F0F0;
+  color: #666;
+  max-width: 200rpx;
+  flex: 0 0 auto;
+}
+
+.next-btn, .submit-btn {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  color: white;
+}
+
+/* 结果页面 */
+.result-container {
+  padding: 0 20rpx;
+}
+
+.result-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16rpx;
+  padding: 60rpx 40rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.score-circle {
+  width: 240rpx;
+  height: 240rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  margin: 0 auto 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8rpx 24rpx rgba(237, 28, 36, 0.3);
+}
+
+.score-circle .score {
+  font-size: 80rpx;
+  font-weight: bold;
+}
+
+.score-circle .label {
+  font-size: 28rpx;
+  margin-left: 10rpx;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40rpx;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item .value {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.stat-item .value.correct {
+  color: #4CAF50;
+}
+
+.stat-item .value.wrong {
+  color: #FF5722;
+}
+
+.stat-item .desc {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.action-buttons {
+  margin-top: 20rpx;
+}
+
+.btn {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  border: none;
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  color: white;
+}
+
+.btn::after {
+  border: none;
+}
+
+.empty {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}

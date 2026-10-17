@@ -1,0 +1,139 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/user-bg.jpg" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">编辑</text>
+      <text class="title-sub">作业</text>
+    </view>
+    <view class="nav-right">
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="container">
+    <view class="form-section">
+      <view class="form-item">
+        <text class="label">作业标题</text>
+        <input class="input" placeholder="请输入作业标题" value="{{title}}" bindinput="onTitleInput" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">作业描述</text>
+        <textarea class="textarea" placeholder="请输入作业描述（可选）" value="{{description}}" bindinput="onDescInput" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">截止时间</text>
+        <picker mode="date" value="{{deadline}}" bindchange="onDeadlineChange">
+          <view class="form-picker {{deadline ? '' : 'placeholder'}}">{{deadline || '请选择截止日期'}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 题目列表 -->
+    <view class="questions-section">
+      <view class="section-header">
+        <text class="section-title">题目列表（{{questions.length}}题）</text>
+        <view class="header-actions">
+          <text class="add-btn" bindtap="addEmptyQuestion">+ 手动添加</text>
+          <text class="add-btn primary" bindtap="showAddQuestion">+ 从题库添加</text>
+        </view>
+      </view>
+
+      <view class="question-list" wx:if="{{questions.length > 0}}">
+        <view class="question-card" wx:for="{{questions}}" wx:key="_index">
+          <view class="question-header">
+            <text class="question-num">第{{index + 1}}题</text>
+            <view class="question-tags">
+              <text class="q-tag {{item.type == 1 ? 'single' : 'multi'}}">{{item.type == 1 ? '单选' : '多选'}}</text>
+              <text class="q-tag diff">难度{{item.difficulty || 2}}</text>
+            </view>
+          </view>
+          <text class="question-text">{{item.questionText}}</text>
+          <view class="question-options" wx:if="{{item.options && item.options.length > 0}}">
+            <text class="opt" wx:for="{{item.options}}" wx:for-item="opt" wx:for-index="oi" wx:key="oi">{{['A','B','C','D'][oi]}}. {{opt}}</text>
+          </view>
+          <text class="answer-text">答案：{{item.correctAnswer || item.answer}}</text>
+          <view class="question-actions">
+            <button class="q-btn edit" bindtap="editQuestion" data-index="{{index}}">编辑</button>
+            <button class="q-btn delete" bindtap="deleteQuestion" data-index="{{index}}">删除</button>
+          </view>
+        </view>
+      </view>
+
+      <view class="empty-state" wx:else>
+        <text class="empty-text">暂无题目，请添加</text>
+      </view>
+    </view>
+
+    <!-- 添加题目面板 -->
+    <view class="add-panel-overlay" wx:if="{{showAddPanel}}" bindtap="hideAddPanel">
+      <view class="add-panel" catchtap="">
+        <view class="panel-header">
+          <text class="panel-title">从题库添加题目</text>
+          <text class="panel-close" bindtap="hideAddPanel">✕</text>
+        </view>
+
+        <view class="panel-body">
+          <view class="config-item">
+            <text class="config-label">题目分类</text>
+            <picker mode="selector" range="{{categories}}" range-key="label" value="{{bankCategoryIndex}}" bindchange="onBankCategoryChange">
+              <view class="picker">{{categories[bankCategoryIndex].label}}</view>
+            </picker>
+          </view>
+
+          <view class="config-item">
+            <text class="config-label">题目类型</text>
+            <picker mode="selector" range="{{questionTypes}}" range-key="label" value="{{bankTypeIndex}}" bindchange="onBankTypeChange">
+              <view class="picker">{{questionTypes[bankTypeIndex].label}}</view>
+            </picker>
+          </view>
+
+          <view class="config-item">
+            <text class="config-label">抽取数量</text>
+            <input class="config-input" type="number" value="{{bankQuestionCount}}" bindinput="onBankCountInput" placeholder="1-50" />
+          </view>
+
+          <button class="bank-btn" bindtap="loadBankQuestions" loading="{{loadingBank}}">
+            {{loadingBank ? '加载中...' : '随机抽题'}}
+          </button>
+
+          <!-- 待选题目列表 -->
+          <view class="pending-list" wx:if="{{pendingQuestions.length > 0}}">
+            <view class="pending-item {{item.selected ? 'selected' : ''}}" wx:for="{{pendingQuestions}}" wx:key="questionId" bindtap="togglePendingQuestion" data-index="{{index}}">
+              <view class="checkbox {{item.selected ? 'checked' : ''}}">
+                <text wx:if="{{item.selected}}">✓</text>
+              </view>
+              <view class="pending-info">
+                <text class="pending-text">{{item.questionText}}</text>
+                <text class="pending-type">{{item.type == 1 ? '单选' : '多选'}}</text>
+              </view>
+            </view>
+          </view>
+
+          <button class="confirm-btn" bindtap="confirmAddQuestions" wx:if="{{pendingQuestions.length > 0}}" disabled="{{selectedPendingCount === 0}}">
+            确认添加（{{selectedPendingCount}}题）
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <button class="save-btn" bindtap="saveAssignment">保存修改</button>
+  </view>
+</view>

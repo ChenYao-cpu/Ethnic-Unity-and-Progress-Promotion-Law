@@ -1,0 +1,48 @@
+NEW_FILE_CODE
+<view class="page">
+    <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+    <view class="nav-header">
+        <view class="nav-left">
+            <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+                <text class="back-icon">‹</text>
+            </view>
+        </view>
+        <view class="nav-title">
+            <text class="title-main">公告</text>
+            <text class="title-sub">详情</text>
+        </view>
+        <view class="nav-right">
+            <view class="score-display">
+                <view class="score-label-vertical">
+                    <text>积</text>
+                    <text>分</text>
+                </view>
+                <text class="score-value">{{score}}</text>
+            </view>
+            <view class="divider"></view>
+            <view class="logo-flip-container">
+                <view class="logo-card flip-animation">
+                    <view class="logo-front">
+                        <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+                    </view>
+                    <view class="logo-back">
+                        <text class="school-name">西南民族</text>
+                        <text class="school-name-university">大学</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="content-wrapper"><data-state loading="{{_listStates.noticeDetail.loading}}" error="{{_listStates.noticeDetail.error}}" bind:retry="loadNotice">
+        <view class="section-wrapper">
+            <view class="detail-title">{{title}}</view>
+            <view class="detail-date">{{date}}</view>
+            <view class="detail-divider"></view>
+            <view class="detail-content">
+                <text class="content-text">{{content}}</text>
+            </view>
+        </view>
+    </data-state></view>
+</view>

@@ -1,0 +1,531 @@
+@import '../../styles/iconfont.wxss';
+
+page {
+  background: #F5F5F5;
+  min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* 导航栏样式 */
+.nav-header {
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 50%, #D8171E 100%);
+  width: 100%;
+  height: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50rpx 30rpx 0 30rpx;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.nav-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.title-main {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 60rpx;
+  color: #FFF;
+  font-weight: bold;
+  letter-spacing: 0rpx;
+}
+
+.title-sub {
+  font-size: 30rpx;
+  color: #FFF;
+  font-weight: bold;
+  letter-spacing: 4rpx;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.score-label-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rpx;
+}
+
+.score-label-vertical text {
+  font-size: 22rpx;
+  color: #FFD700;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.score-value {
+  font-size: 40rpx;
+  color: #FFD700;
+  font-weight: bold;
+  font-family: "Arial", sans-serif;
+}
+
+.divider {
+  width: 2rpx;
+  height: 36rpx;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 1rpx;
+}
+
+.logo-flip-container {
+  width: 80rpx;
+  height: 80rpx;
+  perspective: 1000rpx;
+}
+
+.logo-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.flip-animation {
+  animation: logoFlip 4s ease-in-out infinite;
+}
+
+@keyframes logoFlip {
+  0%, 40% { transform: rotateY(0deg); }
+  50%, 90% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+.logo-front,
+.logo-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-front {
+  background: #FFF;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.logo-image {
+  width: 90%;
+  height: 90%;
+}
+
+.logo-back {
+  background: linear-gradient(135deg, #F03038, #ED1C24);
+  transform: rotateY(180deg);
+  flex-direction: column;
+  border: 2rpx solid #FFF;
+  justify-content: center;
+  align-items: center;
+}
+
+.school-name {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 18rpx;
+  color: #FFF;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.school-name-university {
+  font-family: "MaoFont", "STXingkai", "KaiTi", serif;
+  font-size: 18rpx;
+  color: #FFF;
+  font-weight: bold;
+  margin-top: 2rpx;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 140rpx 30rpx 320rpx;
+  box-sizing: border-box;
+  background: transparent;
+  margin-top: -20rpx;
+}
+
+/* 顶部个人栏升级 - 红色渐变 */
+.user-header {
+  margin: 0 -30rpx 0;
+  padding: 60rpx 40rpx 50rpx;
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  border-bottom-left-radius: 40rpx;
+  border-bottom-right-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.avatar {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  border: 5rpx solid rgba(255,255,255,0.4);
+  margin-right: 26rpx;
+  background: #FFF;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: bold;
+  display: block;
+}
+
+.username {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.8);
+  margin-top: 8rpx;
+  display: block;
+}
+
+.sign {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.9);
+  display: block;
+  margin-top: 10rpx;
+}
+
+.role-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 6rpx;
+}
+
+.role-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.3);
+  color: #fff;
+  font-size: 20rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.score-box {
+  color: #fff;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.score-box .iconfont {
+  font-size: 36rpx;
+}
+
+.score-text {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+/* 知识之树圆形卡片 */
+.tree-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 32rpx;
+  padding: 40rpx;
+  margin-top: 30rpx;
+  box-shadow: 0 8rpx 24rpx rgba(237, 28, 36, 0.1);
+}
+
+.tree-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.tree-display-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0 0 30rpx;
+  min-height: 400rpx;
+  padding-top: 60rpx;
+}
+
+.tree-icon-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 350rpx;
+  background: linear-gradient(180deg, #E8F5E9 0%, #C8E6C9 100%);
+  border-radius: 20rpx;
+  margin-bottom: 20rpx;
+  transition: all 0.5s ease;
+  padding-bottom: 40rpx;
+}
+
+
+.tree-icon-display {
+  font-family: "iconfont";
+
+}
+
+/* 10个等级的树样式 - 从浅绿到深绿 */
+.tree-level-1 {
+  font-size: 160rpx;
+  color: #E8F5E9;
+}
+
+.tree-level-2 {
+  font-size: 180rpx;
+  color: #C8E6C9;
+}
+
+.tree-level-3 {
+  font-size: 200rpx;
+  color: #A5D6A7;
+}
+
+.tree-level-4 {
+  font-size: 220rpx;
+  color: #81C784;
+}
+
+.tree-level-5 {
+  font-size: 240rpx;
+  color: #66BB6A;
+}
+
+.tree-level-6 {
+  font-size: 260rpx;
+  color: #4CAF50;
+}
+
+.tree-level-7 {
+  font-size: 280rpx;
+  color: #43A047;
+}
+
+.tree-level-8 {
+  font-size: 300rpx;
+  color: #388E3C;
+}
+
+.tree-level-9 {
+  font-size: 320rpx;
+  color: #2E7D32;
+}
+
+.tree-level-10 {
+  font-size: 340rpx;
+  color: #1B5E20;
+}
+.tree-level-badge {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  padding: 12rpx 30rpx;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 50rpx;
+  margin-top: 20rpx;
+}
+
+.badge-text {
+  font-size: 28rpx;
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.tree-level-badge .iconfont {
+  font-size: 32rpx;
+  color: #4CAF50;
+}
+
+/* 经验进度条 */
+.exp-bar {
+  height: 16rpx;
+  background: #f5e0e2;
+  border-radius: 99rpx;
+  margin: 30rpx 0;
+  overflow: hidden;
+}
+
+.exp-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #F03038 0%, #ED1C24 100%);
+  border-radius: 99rpx;
+  transition: all 0.4s;
+}
+
+.tree-state {
+  text-align: center;
+  color: #666;
+  font-size: 28rpx;
+  line-height: 2;
+  margin-bottom: 30rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.water-main-btn {
+  background: linear-gradient(90deg, #F03038 0%, #ED1C24 100%);
+  color: #fff;
+  border-radius: 99rpx;
+  font-size: 30rpx;
+  padding: 24rpx 0;
+  border: none;
+  margin: 0 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+}
+
+.water-icon {
+  font-size: 32rpx;
+  color: #87CEEB;
+}
+
+.water-text {
+  font-size: 30rpx;
+}
+
+/* 三宫格功能列表 */
+.func-grid {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30rpx;
+  gap: 20rpx;
+}
+
+.func-item {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24rpx;
+  padding: 30rpx 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.05);
+}
+
+.func-icon {
+  font-size: 40rpx;
+  color: #ED1C24;
+}
+
+.func-text {
+  flex: 1;
+  margin-left: 20rpx;
+  font-size: 30rpx;
+  color: #333;
+  text-align: left;
+}
+
+.func-arrow {
+  font-size: 36rpx;
+  color: #ccc;
+}
+
+/* 切换到管理端按钮（红色边框区分） */
+.func-item.admin-switch {
+  border: 2rpx solid rgba(237, 28, 36, 0.3);
+  background: rgba(237, 28, 36, 0.03);
+}
+
+.func-item.admin-switch .func-text {
+  color: #ED1C24;
+  font-weight: 600;
+}
+
+/* 底部超大安全区·退出按钮绝对看得见 */
+.safe-bottom {
+  margin-top: 60rpx;
+  padding-bottom: 120rpx;
+}
+
+.logout-new-btn {
+  border: 2rpx solid #ff5555;
+  color: #ff5555;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 99rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 32rpx;
+  margin: 0;
+}
+
+/* 动画保留 */
+.tree-image-wrapper,
+.tree-icon-container {
+  transition: all 0.5s ease;
+}
+
+.tree-grow {
+  transform: scale(1.1);
+}
+
+.tree-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+  75% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.login-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #F03038 0%, #ED1C24 100%);
+  margin: 0 -30rpx;
+}
+
+.prompt-text {
+  font-size: 32rpx;
+  color: white;
+  font-weight: bold;
+}

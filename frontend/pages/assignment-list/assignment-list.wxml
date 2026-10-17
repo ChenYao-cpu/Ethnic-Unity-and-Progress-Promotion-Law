@@ -1,0 +1,55 @@
+<view class="tabs">
+  <view class="tab-item {{activeTab === 'pending' ? 'active' : ''}}" bindtap="switchTab" data-tab="pending">
+    <text>未完成</text>
+  </view>
+  <view class="tab-item {{activeTab === 'completed' ? 'active' : ''}}" bindtap="switchTab" data-tab="completed">
+    <text>已完成</text>
+  </view>
+</view>
+
+<view class="content-wrapper"><data-state loading="{{_listStates.assignments.loading || loading}}" error="{{_listStates.assignments.error}}"   bind:retry="loadData">
+  <view class="loading-state" wx:if="{{loading}}">加载中...</view>
+
+  <!-- 未完成列表 -->
+  <block wx:elif="{{activeTab === 'pending'}}">
+    <view class="assignment-list" wx:if="{{pendingList.length > 0}}">
+      <view class="assignment-card" wx:for="{{pendingList}}" wx:key="id" bindtap="startAssignment" data-id="{{item.id}}">
+        <!-- 卡片内容 -->
+        <view class="card-header">
+          <text class="card-title">{{item.title}}</text>
+          <view class="status-badge pending">未完成</view>
+        </view>
+        <view class="card-body">
+          <text>题目数量：{{item.questionCount}} 题</text>
+          <text>总分：{{item.totalScore}} 分</text>
+        </view>
+        <view class="card-footer">
+          <text>截止：{{item.deadline}}</text>
+          <view class="start-btn">开始作答</view>
+        </view>
+      </view>
+    </view>
+    <data-state wx:else empty="{{true}}" title="暂无待完成作业" hint="新作业发布后会显示在这里，可以先去学习课程。"></data-state>
+  </block>
+
+  <!-- 已完成列表 -->
+  <block wx:elif="{{activeTab === 'completed'}}">
+    <view class="assignment-list" wx:if="{{completedList.length > 0}}">
+      <view class="assignment-card" wx:for="{{completedList}}" wx:key="id" bindtap="startAssignment" data-id="{{item.id}}">
+        <view class="card-header">
+          <text class="card-title">{{item.title}}</text>
+          <view class="status-badge completed">已完成</view>
+        </view>
+        <view class="card-body">
+          <text>题目数量：{{item.questionCount}} 题</text>
+          <text>总分：{{item.totalScore}} 分</text>
+        </view>
+        <view class="card-footer">
+          <text>截止：{{item.deadline}}</text>
+          <view class="start-btn">查看答案</view>
+        </view>
+      </view>
+    </view>
+    <data-state wx:else empty="{{true}}" title="还没有已完成作业" hint="完成作业后，可以在这里回顾结果。"></data-state>
+  </block>
+</data-state></view>

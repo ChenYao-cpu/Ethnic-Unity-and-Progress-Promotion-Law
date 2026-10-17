@@ -1,0 +1,20 @@
+<view class="welcome">
+  <image class="bg-illustration" src="/images/backgrounds/landing-fan.jpg" mode="aspectFill"></image>
+  <image class="bg-wave" src="/images/backgrounds/welcome-wave.png" mode="widthFix"></image>
+
+  <view class="hero">
+    <image class="hero-logo" src="/images/brand/logo-horizontal-transparent.png" mode="aspectFit"></image>
+    <view class="kicker"><view class="dot"></view><text>协同出题 · 独立审题 · 法务核验</text></view>
+    <view class="slogan">
+      <text>智能出题，专业审核。</text>
+      <text>连接每一次普法学习。</text>
+    </view>
+    <view class="rule"></view>
+  </view>
+
+  <view class="bottom-actions" wx:if="{{!loggedIn}}">
+    <view class="pill ghost" bindtap="goLogin">登录</view>
+    <view class="pill primary" bindtap="goRegister">注册</view>
+  </view>
+  <view class="tip" wx:if="{{loggedIn}}">正在进入首页…</view>
+</view>

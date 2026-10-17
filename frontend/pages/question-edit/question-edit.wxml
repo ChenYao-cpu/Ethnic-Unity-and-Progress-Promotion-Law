@@ -1,0 +1,75 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/user-bg.jpg" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">{{isNew ? '添加' : '编辑'}}</text>
+      <text class="title-sub">题目</text>
+    </view>
+    <view class="nav-right"></view>
+  </view>
+
+  <view class="container">
+    <view class="form-section">
+      <view class="form-item">
+        <text class="label">题目类型</text>
+        <picker mode="selector" range="{{questionTypes}}" value="{{questionTypeIndex}}" bindchange="onTypeChange">
+          <view class="form-picker">{{questionTypes[questionTypeIndex]}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">难度等级</text>
+        <picker mode="selector" range="{{difficulties}}" value="{{difficultyIndex}}" bindchange="onDifficultyChange">
+          <view class="form-picker">{{difficulties[difficultyIndex]}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">题目内容</text>
+        <textarea class="textarea question-textarea" placeholder="请输入题目内容" value="{{questionText}}" bindinput="onTextInput" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">选项 A</text>
+        <input class="input" placeholder="请输入选项A" value="{{optionA}}" bindinput="onOptionAInput" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">选项 B</text>
+        <input class="input" placeholder="请输入选项B" value="{{optionB}}" bindinput="onOptionBInput" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">选项 C</text>
+        <input class="input" placeholder="请输入选项C（选填）" value="{{optionC}}" bindinput="onOptionCInput" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">选项 D</text>
+        <input class="input" placeholder="请输入选项D（选填）" value="{{optionD}}" bindinput="onOptionDInput" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">正确答案</text>
+        <picker mode="selector" range="{{answerOptions}}" value="{{answerIndex}}" bindchange="onAnswerChange">
+          <view class="form-picker">{{answerOptions[answerIndex]}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">题目解析</text>
+        <textarea class="textarea" placeholder="请输入题目解析（选填）" value="{{analysis}}" bindinput="onAnalysisInput" />
+      </view>
+    </view>
+
+    <button class="save-btn" bindtap="saveQuestion">
+      {{isNew ? '添加题目' : '保存修改'}}
+    </button>
+  </view>
+</view>

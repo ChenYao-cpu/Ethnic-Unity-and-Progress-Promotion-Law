@@ -1,0 +1,119 @@
+<view class="register-container">
+  <view class="custom-navbar">
+    <view class="navbar-content">
+      <view class="navbar-left" bindtap="goBack">
+        <text class="iconfont icon-right back-icon"></text>
+      </view>
+      <view class="navbar-title">注册</view>
+      <view class="navbar-right"></view>
+    </view>
+  </view>
+  <view class="bg-pattern">
+    <view class="danghui-bg" wx:for="{{danghuiPositions}}" wx:key="index" style="left:{{item.left}}; top:{{item.top}};">
+    </view>
+  </view>
+  <view class="header">
+    <view class="logo-circle">
+      <image class="brand-auth-logo" src="/images/brand/logo-horizontal-transparent.png" mode="aspectFit" aria-label="云疆知法"></image>
+    </view>
+    <text class="app-title">注册新账号</text>
+    <text class="app-subtitle">欢迎加入民族团结促进法学习系统</text>
+  </view>
+
+  <view class="register-card">
+    <view class="form-group">
+      <!-- 学校/单位 选择 -->
+      <view class="school-row">
+        <view class="input-wrapper school-input-wrapper">
+          <text class="iconfont icon-xuexiao input-icon"></text>
+          <input class="input" placeholder="请输入或选择学校/单位"
+                 value="{{schoolInput}}" bindinput="onSchoolInput" />
+        </view>
+        <picker mode="selector" range="{{schools}}" bindchange="onSchoolChange">
+          <view class="school-picker-btn">
+            <text class="iconfont icon-xiala picker-arrow-icon"></text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 身份选择 -->
+      <view class="identity-section">
+        <text class="section-label">选择身份</text>
+        <view class="identity-chips">
+          <view class="identity-chip {{identity.party_member ? 'active' : ''}}"
+                bindtap="onIdentityTap" data-key="party_member">
+            <text class="iconfont icon-dangyuan chip-icon"></text>
+            <text class="chip-text">党员</text>
+            <view class="chip-check" wx:if="{{identity.party_member}}">✓</view>
+          </view>
+          <view class="identity-chip {{identity.admin ? 'active' : ''}}"
+                bindtap="onIdentityTap" data-key="admin">
+            <text class="iconfont icon-guanliyuan chip-icon"></text>
+            <text class="chip-text">管理员</text>
+            <view class="chip-check" wx:if="{{identity.admin}}">✓</view>
+          </view>
+          <view class="identity-chip {{identity.legal_officer ? 'active' : ''}}"
+                bindtap="onIdentityTap" data-key="legal_officer">
+            <text class="iconfont icon-a-007_falvfawu chip-icon"></text>
+            <text class="chip-text">法务人员</text>
+            <view class="chip-check" wx:if="{{identity.legal_officer}}">✓</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 用户名 -->
+      <view class="input-wrapper">
+        <text class="iconfont icon-zhanghao input-icon"></text>
+        <input class="input" placeholder="设置用户名"
+               data-field="username" bindinput="onInput" />
+      </view>
+
+      <!-- 密码 -->
+      <view class="input-wrapper">
+        <text class="iconfont icon-mima input-icon"></text>
+        <input class="input" password="{{!showPassword}}" placeholder="设置登录密码"
+               data-field="password" bindinput="onInput" />
+        <text class="iconfont {{showPassword ? 'icon-yanjing_yincang_o' : 'icon-yanjing_xianshi_o'}} eye-icon"
+              data-field="password" bindtouchstart="onPasswordTouchStart" bindtouchend="onPasswordTouchEnd"></text>
+      </view>
+
+      <!-- 确认密码 -->
+      <view class="input-wrapper">
+        <text class="iconfont icon-mima input-icon"></text>
+        <input class="input" password="{{!showConfirmPassword}}" placeholder="再次确认密码"
+               data-field="confirmPassword" bindinput="onInput" />
+        <text class="iconfont {{showConfirmPassword ? 'icon-yanjing_yincang_o' : 'icon-yanjing_xianshi_o'}} eye-icon"
+              data-field="confirmPassword" bindtouchstart="onPasswordTouchStart" bindtouchend="onPasswordTouchEnd"></text>
+      </view>
+
+      <!-- 邮箱 -->
+      <view class="input-wrapper">
+        <text class="iconfont icon-youxiang input-icon"></text>
+        <input class="input" type="text" placeholder="请输入邮箱"
+               data-field="email" bindinput="onInput" />
+      </view>
+
+      <!-- 验证码 -->
+      <view class="verify-row">
+        <view class="input-wrapper verify-input-wrapper">
+          <text class="iconfont icon-yanzhengma input-icon"></text>
+          <input class="input" type="text" placeholder="验证码"
+                 data-field="verifyCode" bindinput="onInput" />
+        </view>
+        <button class="verify-code-btn {{codeCountdown > 0 ? 'counting' : ''}}"
+                bindtap="sendVerifyCode"
+                disabled="{{codeCountdown > 0}}">
+          {{codeCountdown > 0 ? codeCountdown + 's' : '获取验证码'}}
+        </button>
+      </view>
+    </view>
+
+    <button class="register-btn" bindtap="handleRegister">
+      立即注册
+    </button>
+
+    <view class="footer-links">
+      <text class="link-item" bindtap="goBack">已有账号？返回登录</text>
+    </view>
+  </view>
+</view>

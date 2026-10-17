@@ -1,0 +1,61 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">学习</text>
+      <text class="title-sub">笔记</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="content-wrapper"><data-state loading="{{_listStates.notes.loading}}" error="{{_listStates.notes.error}}" empty="{{notes.length === 0}}" title="还没有学习笔记" hint="记录一条学习心得，方便以后回顾。" action-label="写第一篇笔记" action-url="/pages/note-edit/note-edit" bind:retry="loadNotes">
+    <view class="empty-tip" wx:if="{{notes.length === 0}}">
+      <text class="empty-text">暂无笔记</text>
+      <text class="empty-hint">点击右下角 + 创建笔记</text>
+    </view>
+
+          <view class="note-list" wx:else>
+      <view class="note-item" wx:for="{{notes}}" wx:key="id" bindtap="openNote" data-id="{{item.id}}">
+        <view class="note-title">{{item.title}}</view>
+        <view class="note-content">{{item.content}}</view>
+        <view class="note-images" wx:if="{{item.images && item.images.length > 0}}">
+          <image class="note-thumb" wx:for="{{item.images}}" wx:for-item="img" wx:key="*this" src="{{img}}" mode="aspectFill"></image>
+        </view>
+        <view class="note-date">{{item.createTime}}</view>
+      </view>
+    </view>
+
+
+  </data-state></view>
+
+  <!-- 右下角加号按钮 -->
+  <view class="fab-button" bindtap="createNote">
+    <text class="fab-icon">+</text>
+  </view>
+</view>

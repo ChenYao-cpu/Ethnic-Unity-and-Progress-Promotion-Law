@@ -1,0 +1,320 @@
+<view class="page">
+  <!-- 背景图 -->
+  <image class="page-bg" src="/images/backgrounds/user-bg.jpg" mode="aspectFill"></image>
+
+  <!-- 导航栏 -->
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">布置</text>
+      <text class="title-sub">作业</text>
+    </view>
+    <view class="nav-right">
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="container">
+    <view class="form-section">
+        <view class="form-item">
+            <text class="label">作业标题</text>
+            <input class="input" placeholder="请输入作业标题" value="{{title}}" bindinput="onTitleInput" />
+        </view>
+
+        <view class="form-item">
+            <text class="label">作业描述</text>
+            <textarea class="textarea" placeholder="请输入作业描述（可选）" value="{{description}}" bindinput="onDescInput" />
+        </view>
+
+        <view class="form-item">
+            <text class="label">截止时间</text>
+            <picker mode="date" value="{{deadline}}" bindchange="onDeadlineChange">
+                <view class="form-picker {{deadline ? '' : 'placeholder'}}">{{deadline || '请选择截止日期'}}</view>
+            </picker>
+        </view>
+
+        <view class="mode-switch">
+            <view class="mode-item {{questionMode === 'ai' ? 'active' : ''}}" bindtap="switchMode" data-mode="ai">
+                <text class="iconfont icon-star-ai mode-icon"></text>
+                <text class="mode-text">AI 生成</text>
+            </view>
+            <view class="mode-item {{questionMode === 'bank' ? 'active' : ''}}" bindtap="switchMode" data-mode="bank">
+                <text class="iconfont icon-tiku mode-icon"></text>
+                <text class="mode-text">题库选择</text>
+            </view>
+        </view>
+
+        <view class="ai-section" wx:if="{{questionMode === 'ai'}}">
+            <view class="ai-header">
+                <text class="ai-title"><text class="iconfont icon-star-ai"></text> AI 智能生成题目</text>
+                <text class="ai-desc">基于《中华人民共和国民族团结进步促进法》自动生成题目</text>
+            </view>
+
+            <view class="ai-config">
+                <view class="config-item">
+                    <text class="config-label">题目数量</text>
+                    <input class="config-input" type="number" value="{{aiQuestionCount}}" bindinput="onAiQuestionCountInput" placeholder="1-20" />
+                </view>
+
+                <view class="config-item">
+                    <text class="config-label">题目类型</text>
+                    <picker mode="selector" range="{{questionTypes}}" range-key="label" value="{{aiQuestionTypeIndex}}" bindchange="onAiQuestionTypeChange">
+                        <view class="picker">{{questionTypes[aiQuestionTypeIndex].label}}</view>
+                    </picker>
+                </view>
+
+                <view class="config-item">
+                    <text class="config-label">难度等级</text>
+                    <picker mode="selector" range="{{difficulties}}" range-key="label" value="{{aiDifficultyIndex}}" bindchange="onAiDifficultyChange">
+                        <view class="picker">{{difficulties[aiDifficultyIndex].label}}</view>
+                    </picker>
+                </view>
+            </view>
+
+            <view class="ai-actions">
+                <button class="ai-btn" bindtap="generateQuestions" loading="{{generating}}" disabled="{{generating}}">
+                    {{generating ? '生成中...' : 'AI 生成题目'}}
+                </button>
+                <button class="clear-btn" bindtap="clearPendingQuestions" wx:if="{{pendingQuestions.length > 0}}">
+                    清空题目
+                </button>
+            </view>
+        </view>
+
+        <view class="bank-section" wx:if="{{questionMode === 'bank'}}">
+            <view class="bank-header">
+                <text class="bank-title"><text class="iconfont icon-tiku"></text> 从题库中选择题目</text>
+                <text class="bank-desc">从现有题库中筛选并随机抽取题目</text>
+            </view>
+
+            <view class="bank-config">
+                <view class="config-item">
+                    <text class="config-label">题目数量</text>
+                    <input class="config-input" type="number" value="{{bankQuestionCount}}" bindinput="onBankQuestionCountInput" placeholder="1-50" />
+                </view>
+
+                <view class="config-item">
+                    <text class="config-label">题目分类</text>
+                    <picker mode="selector" range="{{categories}}" range-key="label" value="{{bankCategoryIndex}}" bindchange="onBankCategoryChange">
+                        <view class="picker">{{categories[bankCategoryIndex].label}}</view>
+                    </picker>
+                </view>
+
+                <view class="config-item">
+                    <text class="config-label">题目类型</text>
+                    <picker mode="selector" range="{{questionTypes}}" range-key="label" value="{{bankTypeIndex}}" bindchange="onBankTypeChange">
+                        <view class="picker">{{questionTypes[bankTypeIndex].label}}</view>
+                    </picker>
+                </view>
+            </view>
+
+            <button class="bank-btn" bindtap="loadBankQuestions" loading="{{loadingBank}}" disabled="{{loadingBank}}">
+                {{loadingBank ? '加载中...' : '随机抽题'}}
+            </button>
+        </view>
+
+        <view class="questions-section" wx:if="{{pendingQuestions.length > 0 || generatedQuestions.length > 0}}">
+
+            <view class="pending-section" wx:if="{{pendingQuestions.length > 0}}">
+                <view class="section-header">
+                    <text class="section-title pending-title">🎯 待确认题目（{{pendingQuestions.length}}题，已选{{pendingCount}}题）</text>
+                    <view class="header-actions">
+                        <text class="section-tip">请选择需要的题目</text>
+                    </view>
+                </view>
+
+                <view class="pending-actions">
+                    <button class="confirm-btn" bindtap="confirmPendingQuestions" disabled="{{pendingCount === 0}}">
+                        确认加入（{{pendingCount}}题）
+                    </button>
+                    <button class="clear-pending-btn" bindtap="clearPendingQuestions">
+                        清空
+                    </button>
+                </view>
+
+                <view class="pending-list">
+                    <view class="pending-item {{item.selected ? 'selected' : ''}}" wx:for="{{pendingQuestions}}" wx:key="questionId" bindtap="togglePendingQuestion" data-index="{{index}}">
+                        <view class="question-header">
+                            <view class="checkbox {{item.selected ? 'checked' : ''}}">
+                                <text wx:if="{{item.selected}}">✓</text>
+                            </view>
+                            <text class="question-type-tag {{item.questionType == 1 ? 'single' : 'multi'}}">{{item.questionType == 1 ? '单选题' : '多选题'}}</text>
+                            <text class="source-tag {{item.source}}">{{item.source === 'ai' ? 'AI 生成' : '题库'}}</text>
+                            <text class="difficulty-tag">难度{{item.difficulty || 2}}</text>
+                        </view>
+
+                        <view class="question-content">
+                            <text class="question-text">{{item.questionText || item.content}}</text>
+
+                            <view class="options-list" wx:if="{{item.options && item.options.length > 0}}">
+                                <view class="option-item" wx:for="{{item.options}}" wx:for-item="option" wx:for-index="optIndex" wx:key="optIndex">
+                                    <text class="option-label">{{['A', 'B', 'C', 'D'][optIndex]}}.</text>
+                                    <text class="option-text">{{option}}</text>
+                                </view>
+                            </view>
+
+                            <view class="answer-section">
+                                <text class="answer-label"> 正确答案：</text>
+                                <text class="answer-text">{{item.correctAnswer || item.answer}}</text>
+                            </view>
+
+                            <view class="analysis-section" wx:if="{{item.analysis || item.explanation}}">
+                                <text class="analysis-label"> 解析：</text>
+                                <text class="analysis-text">{{item.analysis || item.explanation}}</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+
+            <view class="confirmed-section" wx:if="{{generatedQuestions.length > 0}}">
+                <view class="section-header">
+                    <text class="section-title">📋 已选题目（共{{generatedQuestions.length}}题，已选{{selectedCount}}题）</text>
+                    <view class="header-actions">
+                        <text class="section-tip">点击题目可切换选择状态</text>
+                        <text class="clear-text" bindtap="clearAllQuestions">清空</text>
+                    </view>
+                </view>
+
+                <view class="question-group" wx:if="{{singleQuestions.length > 0}}">
+                    <view class="group-title">
+                        <text class="iconfont icon-star-ai group-icon"></text>
+                        <text>AI 生成 - 单选题（{{singleQuestions.length}}题）</text>
+                    </view>
+                    <view class="question-list">
+                        <view class="question-item {{item.selected ? 'selected' : ''}}" wx:for="{{singleQuestions}}" wx:key="questionId" bindtap="toggleQuestion" data-index="{{item.globalIndex}}">
+                            <view class="question-header">
+                                <view class="checkbox {{item.selected ? 'checked' : ''}}">
+                                    <text wx:if="{{item.selected}}">✓</text>
+                                </view>
+                                <text class="question-type-tag single">单选题</text>
+                                <text class="source-tag ai">AI 生成</text>
+                                <text class="difficulty-tag">难度{{item.difficulty || 2}}</text>
+                            </view>
+
+                            <view class="question-content">
+                                <text class="question-text">{{item.questionText || item.content}}</text>
+
+                                <view class="options-list" wx:if="{{item.options}}">
+                                    <view class="option-item" wx:for="{{item.options}}" wx:for-item="option" wx:for-index="optIndex" wx:key="optIndex">
+                                        <text class="option-label">{{['A', 'B', 'C', 'D'][optIndex]}}.</text>
+                                        <text class="option-text">{{option}}</text>
+                                    </view>
+                                </view>
+
+                                <view class="answer-section">
+                                    <text class="answer-label"> 正确答案：</text>
+                                    <text class="answer-text">{{item.correctAnswer || item.answer}}</text>
+                                </view>
+
+                                <view class="analysis-section" wx:if="{{item.analysis || item.explanation}}">
+                                    <text class="analysis-label"> 解析：</text>
+                                    <text class="analysis-text">{{item.analysis || item.explanation}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+
+                <view class="question-group" wx:if="{{multiQuestions.length > 0}}">
+                    <view class="group-title">
+                        <text class="iconfont icon-star-ai group-icon"></text>
+                        <text>AI 生成 - 多选题（{{multiQuestions.length}}题）</text>
+                    </view>
+                    <view class="question-list">
+                        <view class="question-item {{item.selected ? 'selected' : ''}}" wx:for="{{multiQuestions}}" wx:key="questionId" bindtap="toggleQuestion" data-index="{{singleQuestions.length + index}}">
+                            <view class="question-header">
+                                <view class="checkbox {{item.selected ? 'checked' : ''}}">
+                                    <text wx:if="{{item.selected}}">✓</text>
+                                </view>
+                                <text class="question-type-tag multi">多选题</text>
+                                <text class="source-tag ai">AI 生成</text>
+                                <text class="difficulty-tag">难度{{item.difficulty || 2}}</text>
+                            </view>
+
+                            <view class="question-content">
+                                <text class="question-text">{{item.questionText || item.content}}</text>
+
+                                <view class="options-list" wx:if="{{item.options}}">
+                                    <view class="option-item" wx:for="{{item.options}}" wx:for-item="option" wx:for-index="optIndex" wx:key="optIndex">
+                                        <text class="option-label">{{['A', 'B', 'C', 'D'][optIndex]}}.</text>
+                                        <text class="option-text">{{option}}</text>
+                                    </view>
+                                </view>
+
+                                <view class="answer-section">
+                                    <text class="answer-label"> 正确答案：</text>
+                                    <text class="answer-text">{{item.correctAnswer || item.answer}}</text>
+                                </view>
+
+                                <view class="analysis-section" wx:if="{{item.analysis || item.explanation}}">
+                                    <text class="analysis-label"> 解析：</text>
+                                    <text class="analysis-text">{{item.analysis || item.explanation}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+
+                <view class="question-group" wx:if="{{bankQuestions.length > 0}}">
+                    <view class="group-title">
+                        <text class="iconfont icon-tiku group-icon"></text>
+                        <text>题库选择（{{bankQuestions.length}}题）</text>
+                    </view>
+                    <view class="question-list">
+                        <view class="question-item {{item.selected ? 'selected' : ''}}" wx:for="{{bankQuestions}}" wx:key="questionId" bindtap="toggleQuestion" data-index="{{singleQuestions.length + multiQuestions.length + index}}">
+                            <view class="question-header">
+                                <view class="checkbox {{item.selected ? 'checked' : ''}}">
+                                    <text wx:if="{{item.selected}}">✓</text>
+                                </view>
+                                <text class="question-type-tag {{item.questionType == 1 ? 'single' : 'multi'}}">{{item.questionType == 1 ? '单选题' : '多选题'}}</text>
+                                <text class="source-tag bank">题库</text>
+                                <text class="difficulty-tag">难度{{item.difficulty || 2}}</text>
+                            </view>
+
+                            <view class="question-content">
+                                <text class="question-text">{{item.questionText || item.content}}</text>
+
+                                <view class="options-list" wx:if="{{item.options}}">
+                                    <view class="option-item" wx:for="{{item.options}}" wx:for-item="option" wx:for-index="optIndex" wx:key="optIndex">
+                                        <text class="option-label">{{['A', 'B', 'C', 'D'][optIndex]}}.</text>
+                                        <text class="option-text">{{option}}</text>
+                                    </view>
+                                </view>
+
+                                <view class="answer-section">
+                                    <text class="answer-label"> 正确答案：</text>
+                                    <text class="answer-text">{{item.correctAnswer || item.answer}}</text>
+                                </view>
+
+                                <view class="analysis-section" wx:if="{{item.analysis || item.explanation}}">
+                                    <text class="analysis-label"> 解析：</text>
+                                    <text class="analysis-text">{{item.analysis || item.explanation}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <button class="submit-btn" bindtap="publishAssignment" disabled="{{generatedQuestions.length === 0 || selectedCount === 0}}">
+            保存并提交审核（{{selectedCount || 0}}题）
+        </button>
+    </view>
+  </view>
+</view>

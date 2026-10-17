@@ -1,0 +1,8 @@
+### 测试AI问答接口
+POST http://localhost:8080/api/ai/ask
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "question": "这个法是干什么的？"
+}

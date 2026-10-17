@@ -1,0 +1,97 @@
+[
+  {
+    "name": "home",
+    "label": "同心家园",
+    "unicode": "e900"
+  },
+  {
+    "name": "study",
+    "label": "法典学习",
+    "unicode": "e901"
+  },
+  {
+    "name": "user",
+    "label": "个人中心",
+    "unicode": "e902"
+  },
+  {
+    "name": "unity",
+    "label": "同心连接",
+    "unicode": "e903"
+  },
+  {
+    "name": "ai",
+    "label": "智能助学",
+    "unicode": "e904"
+  },
+  {
+    "name": "practice",
+    "label": "趣味练习",
+    "unicode": "e905"
+  },
+  {
+    "name": "exam",
+    "label": "普法测验",
+    "unicode": "e906"
+  },
+  {
+    "name": "note",
+    "label": "学习笔记",
+    "unicode": "e907"
+  },
+  {
+    "name": "notice",
+    "label": "普法公告",
+    "unicode": "e908"
+  },
+  {
+    "name": "wrong",
+    "label": "错题复习",
+    "unicode": "e909"
+  },
+  {
+    "name": "match",
+    "label": "法条匹配",
+    "unicode": "e90a"
+  },
+  {
+    "name": "quick",
+    "label": "快速答题",
+    "unicode": "e90b"
+  },
+  {
+    "name": "scenario",
+    "label": "情境学习",
+    "unicode": "e90c"
+  },
+  {
+    "name": "rank",
+    "label": "学习排行",
+    "unicode": "e90d"
+  },
+  {
+    "name": "medal",
+    "label": "学习成就",
+    "unicode": "e90e"
+  },
+  {
+    "name": "review",
+    "label": "法务核验",
+    "unicode": "e90f"
+  },
+  {
+    "name": "agents",
+    "label": "多智能体协同",
+    "unicode": "e910"
+  },
+  {
+    "name": "trace",
+    "label": "证据溯源",
+    "unicode": "e911"
+  },
+  {
+    "name": "course",
+    "label": "视频课程",
+    "unicode": "e912"
+  }
+]

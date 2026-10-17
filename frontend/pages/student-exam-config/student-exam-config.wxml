@@ -1,0 +1,108 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">我的</text>
+      <text class="title-sub">测验</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="content-wrapper"><data-state loading="{{_listStates.assignments.loading}}" error="{{_listStates.assignments.error}}"   bind:retry="loadAssignments">
+    <view class="tab-bar">
+
+        <view class="tab-bar">
+            <!-- 未完成 -->
+            <view class="tab-item {{activeTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">
+                <text>未完成</text>
+                <view class="tab-badge" wx:if="{{assignments.length > 0}}">{{assignments.length}}</view>
+            </view>
+
+            <!-- 已完成 -->
+            <view class="tab-item {{activeTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">
+                <text>已完成</text>
+                <view class="tab-badge done" wx:if="{{completedAssignments.length > 0}}">{{completedAssignments.length}}</view>
+            </view>
+        </view>
+
+    </view>
+
+
+      <view wx:if="{{activeTab === 0}}" class="list-wrap">
+          <view wx:if="{{assignments.length > 0}}" class="assignment-list">
+              <view class="card pending-card" wx:for="{{assignments}}" wx:key="id" bindtap="startAssignment" data-id="{{item.id}}">
+                  <view class="card-left">
+                      <view class="card-icon pending-icon">
+                          <text class="iconfont icon-he_37datifenlei"></text>
+                      </view>
+                      <view class="card-content">
+                          <text class="title">{{item.title}}</text>
+                          <view class="card-meta">
+                              <text class="meta-item">{{item.questionCount}} 题</text>
+                              <text class="meta-item">满分 {{item.totalScore}} 分</text>
+                          </view>
+                          <view class="card-meta">
+                              <text class="meta-item deadline">截止 {{item.deadline}}</text>
+                          </view>
+                      </view>
+                  </view>
+                  <view class="card-action">
+                      <view class="action-btn pending-btn">开始作答</view>
+                  </view>
+              </view>
+          </view>
+          <data-state wx:else empty="{{true}}" title="暂无待完成作业" hint="新作业发布后会显示在这里，也可以先去课程学习。"></data-state>
+      </view>
+
+
+      <view wx:if="{{activeTab === 1}}" class="list-wrap">
+          <view wx:if="{{completedAssignments.length > 0}}" class="assignment-list">
+              <view class="card completed-card" wx:for="{{completedAssignments}}" wx:key="id">
+                  <view class="card-left">
+                      <view class="card-icon completed-icon">
+                          <text class="iconfont icon-he_37datifenlei"></text>
+                      </view>
+                      <view class="card-content">
+                          <text class="title">{{item.title}}</text>
+                          <view class="card-meta">
+                              <text class="meta-item">{{item.questionCount}} 题</text>
+                              <text class="meta-item">满分 {{item.totalScore}} 分</text>
+                              <text class="meta-item score-text">得分 {{item.avgScore || '-'}}</text>
+                          </view>
+                      </view>
+                  </view>
+                  <view class="card-action">
+                      <view class="action-btn completed-btn">已完成</view>
+                  </view>
+              </view>
+          </view>
+          <data-state wx:else empty="{{true}}" title="还没有已完成的作业" hint="完成一次作业后，可以在这里回顾学习结果。"></data-state>
+      </view>
+  </data-state></view>
+</view>

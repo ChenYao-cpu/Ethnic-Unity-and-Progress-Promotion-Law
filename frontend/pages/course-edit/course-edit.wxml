@@ -1,0 +1,86 @@
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">课程</text>
+      <text class="title-sub">{{mode === 'create' ? '新建' : '编辑'}}</text>
+    </view>
+    <view class="nav-right">
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-container">
+    <!-- 课程标题 -->
+    <view class="form-group">
+      <text class="label">课程标题 <text class="required">*</text></text>
+      <input class="input" placeholder="输入课程标题" value="{{form.title}}" bindinput="onTitleInput" />
+    </view>
+
+    <!-- 课程分类 -->
+    <view class="form-group">
+      <text class="label">分类</text>
+      <picker mode="selector" range="{{categoryOptions}}" value="{{categoryIndex}}" bindchange="onCategoryChange">
+        <view class="picker">{{categoryOptions[categoryIndex]}}</view>
+      </picker>
+    </view>
+
+    <!-- 视频链接 -->
+    <view class="form-group">
+      <text class="label">视频链接 <text class="required">*</text></text>
+      <input class="input" placeholder="输入视频URL地址" value="{{form.videoUrl}}" bindinput="onVideoUrlInput" />
+    </view>
+
+    <!-- 封面图 -->
+    <view class="form-group">
+      <text class="label">封面图</text>
+      <view class="cover-picker" bindtap="chooseCover">
+        <image class="cover-preview" src="{{coverPreview || '/images/default-cover.png'}}" mode="aspectFill" wx:if="{{coverPreview}}"></image>
+        <view class="cover-placeholder" wx:else>
+          <text class="cover-placeholder-icon">📷</text>
+          <text class="cover-placeholder-text">点击选择封面图片</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 时长和积分 -->
+    <view class="form-row">
+      <view class="form-group half">
+        <text class="label">时长(分钟)</text>
+        <input class="input" type="number" placeholder="30" value="{{form.duration}}" bindinput="onDurationInput" />
+      </view>
+      <view class="form-group half">
+        <text class="label">完成积分</text>
+        <input class="input" type="number" placeholder="10" value="{{form.points}}" bindinput="onPointsInput" />
+      </view>
+    </view>
+
+    <!-- 课程描述 -->
+    <view class="form-group">
+      <text class="label">课程描述</text>
+      <textarea class="textarea" placeholder="输入课程简介..." value="{{form.description}}" bindinput="onDescInput" />
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="btn-group">
+      <button class="btn btn-primary" bindtap="onSubmit" loading="{{submitting}}" disabled="{{submitting}}">提交审核</button>
+
+      <button class="btn btn-delete" wx:if="{{mode === 'edit'}}" bindtap="deleteCourse">删除课程</button>
+    </view>
+  </view>
+</view>

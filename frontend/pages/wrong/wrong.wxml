@@ -1,0 +1,118 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">错题</text>
+      <text class="title-sub">本</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="content-wrapper"><data-state loading="{{loading || _listStates.wrong.loading}}" error="{{_listStates.wrong.error}}" empty="{{wrongList.length === 0 && !inPractice && !done}}" title="暂时没有错题记录" hint="先去完成一次练习，需要回顾的题目会收录在这里。" action-label="去练习" action-url="/pages/game-index/game-index" bind:retry="loadWrongList">
+    <!-- 空状态 -->
+    <view wx:if="{{wrongList.length === 0 && !inPractice && !done}}" class="empty-page">
+      <text class="empty-icon iconfont icon-gongxi"></text>
+      <text class="empty-text">暂无错题，继续保持！</text>
+    </view>
+
+    <!-- 错题列表 + 开始按钮 -->
+    <view wx:elif="{{!inPractice && !done}}" class="start-wrapper">
+      <view class="wrong-count-card">
+        <text class="count-num">{{wrongList.length}}</text>
+        <text class="count-label">道错题待消灭</text>
+      </view>
+      <view class="wrong-preview-list" wx:if="{{wrongList.length > 0}}">
+        <view class="preview-item" wx:for="{{wrongList}}" wx:key="id" wx:for-item="w">
+          <text class="preview-q">{{w.question || w.title || '题目'}}</text>
+          <text class="preview-type">{{w.type === 'judge' || w.type === 'judgment' ? '判断' : w.type === 'multi' ? '多选' : '单选'}}</text>
+        </view>
+      </view>
+      <button class="btn-start" bindtap="startPractice" wx:if="{{wrongList.length > 0}}">逐题消灭错题</button>
+    </view>
+
+    <!-- 答题中 -->
+    <view wx:if="{{inPractice}}" class="practice-page">
+      <view class="practice-header">
+        <text class="remain-badge">剩 {{totalCount}} 题</text>
+        <text class="score-change" wx:if="{{showAnswer && isCurrentCorrect}}">答案已记录 ✓</text>
+      </view>
+
+      <view class="question-card">
+        <view class="q-type-tag">{{currentQuestion.type === 'judge' || currentQuestion.type === 'judgment' ? '判断题' : currentQuestion.type === 'multi' ? '多选题' : '单选题'}}</view>
+        <text class="q-text">{{currentQuestion.question || currentQuestion.title}}</text>
+
+        <view class="options-list">
+          <view
+            class="opt-item {{item.isActive ? 'opt-active' : ''}} {{showAnswer ? (isCurrentCorrect && item.isActive ? 'opt-correct' : (!isCurrentCorrect && item.isActive ? 'opt-wrong' : (item.isCorrectAnswer ? 'opt-correct' : ''))) : ''}}"
+            wx:for="{{currentOptions}}"
+            wx:key="label"
+            bindtap="onOptionTap"
+            data-label="{{item.label}}"
+          >
+            <view class="opt-label">{{item.label}}</view>
+            <text class="opt-text">{{item.text}}</text>
+          </view>
+        </view>
+
+        <button wx:if="{{currentQuestion.type === 'multi' && !showAnswer}}" bindtap="checkAnswer">提交答案</button>
+        <!-- 答案解析 -->
+        <view wx:if="{{showAnswer}}" class="result-box">
+          <view class="result-header {{isCurrentCorrect ? 'result-correct' : 'result-wrong'}}">
+            <text>{{isCurrentCorrect ? '✓ 回答正确！' : '✗ 回答错误，继续留在错题本'}}</text>
+          </view>
+          <text class="result-answer">正确答案：{{currentQuestion.answer}}</text>
+          <text class="result-analysis" wx:if="{{currentQuestion.analysis}}">💡 {{currentQuestion.analysis}}</text>
+        </view>
+      </view>
+
+      <view class="practice-footer" wx:if="{{showAnswer}}">
+        <button class="btn-next" bindtap="nextQuestion">下一题 ›</button>
+      </view>
+    </view>
+
+    <!-- 练习完成 -->
+    <view wx:if="{{done}}" class="done-page">
+      <view class="done-card">
+        <text class="done-icon">🎉</text>
+        <text class="done-title">本次练习完成！</text>
+        <view class="done-stats">
+          <view class="done-stat">
+            <text class="done-num green">{{doneCorrect}}</text>
+            <text class="done-label">道答对</text>
+          </view>
+          <view class="done-stat">
+            <text class="done-num red">{{doneWrong}}</text>
+            <text class="done-label">道仍需复习</text>
+          </view>
+        </view>
+      </view>
+      <button class="btn-back" bindtap="restartPractice">返回</button>
+    </view>
+  </data-state></view>
+</view>

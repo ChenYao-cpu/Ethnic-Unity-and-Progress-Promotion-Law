@@ -1,0 +1,94 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">AI</text>
+      <text class="title-sub">助学</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="content-wrapper">
+    <!-- 聊天区 -->
+    <scroll-view class="chat-area" scroll-y="true" scroll-into-view="{{scrollIntoView}}" scroll-with-animation><data-state loading="{{_listStates.history.loading}}" error="{{_listStates.history.error}}" bind:retry="loadHistory">
+      <view class="welcome-message" wx:if="{{messages.length === 0}}">
+        <view class="message-wrapper ai-msg">
+          <image class="avatar ai-avatar" src="/images/brand/ai-tutor-avatar-512.png" mode="aspectFill"></image>
+          <text class="message-text">你好！我是 AI 法律问答助手，基于《民族团结进步促进法》全文及官方立法解读，为你提供权威、准确的智能问答和法条解读服务。<br/>请问有什么可以帮助你的吗？</text>
+        </view>
+      </view>
+
+      <view class="message-list" wx:else>
+        <view class="message-item" wx:for="{{messages}}" wx:key="index" id="msg-{{index}}">
+          <view class="message-wrapper {{item.role === 'user' ? 'user-msg' : 'ai-msg'}}">
+            <block wx:if="{{item.role === 'ai'}}">
+              <image class="avatar ai-avatar" src="/images/brand/ai-tutor-avatar-512.png" mode="aspectFill"></image>
+            </block>
+            <text class="message-text">{{item.content}}</text>
+            <block wx:if="{{item.role === 'user'}}">
+              <view class="avatar user-avatar" style="visibility: hidden;"></view>
+            </block>
+          </view>
+        </view>
+      </view>
+
+      <view class="loading" wx:if="{{loading}}">
+        <view class="loading-dots">
+          <text class="dot">.</text>
+          <text class="dot">.</text>
+          <text class="dot">.</text>
+        </view>
+        <text class="loading-text">AI 正在思考中</text>
+      </view>
+    </data-state></scroll-view>
+
+    <!-- 输入区占位 -->
+    <view style="height: 180rpx;"></view>
+  </view>
+
+  <!-- 输入区（固定） -->
+  <view class="input-section">
+    <view class="quick-actions">
+      <button class="action-btn {{mode === 'qa' ? 'active' : ''}}" bindtap="switchMode" data-mode="qa">
+        <text class="action-icon iconfont icon-V"></text>
+        <text>智能问答</text>
+      </button>
+      <button class="action-btn {{mode === 'interpret' ? 'active' : ''}}" bindtap="switchMode" data-mode="interpret">
+        <text class="action-icon iconfont icon-jiedu"></text>
+        <text>法条解读</text>
+      </button>
+    </view>
+
+    <view class="input-area">
+      <input class="input-box" placeholder="输入你的问题..." value="{{inputText}}" bindinput="onInput" bindconfirm="sendMessage" />
+      <button class="send-btn" bindtap="sendMessage" disabled="{{!inputText}}">发送</button>
+    </view>
+  </view>
+</view>

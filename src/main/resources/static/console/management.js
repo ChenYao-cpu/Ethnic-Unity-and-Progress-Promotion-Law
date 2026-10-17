@@ -1,0 +1,16 @@
+'use strict';
+let unfinishedRecipients=[];
+async function showDetailedProgress(id){
+ progressAssignment=Number(id);
+ const [progress,submissions]=await Promise.all([api('/teacher/assignment/'+id+'/progress'),api('/teacher/assignment/'+id+'/submissions')]);
+ const scores=submissions.map(s=>Number(s.score)).filter(Number.isFinite),avg=scores.length?(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1):'暂无提交';
+ unfinishedRecipients=(progress.studentDetails||[]).filter(s=>s.status==='uncompleted').map(s=>Number(s.studentId));
+ const bins=[['0—59',0,59],['60—79',60,79],['80—89',80,89],['90—100',90,100]];
+ document.querySelector('#content').innerHTML=hero('学习进度与成绩','统计基于实际提交记录，未提交者不计入平均分。','rank')+`<div class="actions">${button('back','返回列表','')}${button('export','导出成绩CSV',id)}${unfinishedRecipients.length?'<button data-management="remindAll">提醒未完成人员（'+e(unfinishedRecipients.length)+'人）</button>':''}</div><section class="panel"><div class="row"><div>党员总人数<p class="stat">${e(progress.totalStudents??'未记录')}</p></div><div>已完成人数<p class="stat">${e(progress.completedCount??'未记录')}</p></div><div>提交记录平均分<p class="stat">${e(avg)}</p></div></div><h3>实际提交成绩分布</h3>${bins.map(([label,min,max])=>{const count=scores.filter(s=>s>=min&&s<=max).length;return `<div class="distribution"><span>${label}分</span><meter min="0" max="${Math.max(1,scores.length)}" value="${count}"></meter><span>${count}条</span></div>`}).join('')}</section><section class="panel"><h2>党员完成情况</h2>`+table(['党员','完成情况','成绩','操作'],(progress.studentDetails||[]).map(s=>`<tr><td>${e(s.studentName||s.username||s.studentId)}</td><td>${s.status==='completed'?'已完成':'未完成'}</td><td>${e(s.status==='completed'?s.score:'未提交')}</td><td>${s.status==='uncompleted'?button('remind','发送提醒',s.studentId):''}</td></tr>`))+'</section>';
+}
+root.addEventListener('click',async ev=>{const b=ev.target.closest('[data-management]');if(!b)return;b.disabled=true;try{
+ if(b.dataset.management==='remindAll'){if(!confirm('向'+unfinishedRecipients.length+'名未完成人员发送提醒？'))return;const message=prompt('请输入提醒内容：');if(message===null)return;const result=await request('/api/console/assignment/'+progressAssignment+'/remind-batch','POST',{toUserIds:unfinishedRecipients,message});toast('已实际发送 '+result.count+' 条提醒');}
+ else if(b.dataset.management==='addBank'){const list=await api('/question/list?limit=100');const box=document.createElement('section');box.className='panel';box.id='bank-picker';box.innerHTML='<h2>从题库补充题目</h2><p class="muted">添加后回到草稿状态，需要重新提交审核。</p><select id="bank-question">'+list.map(q=>`<option value="${e(q.id)}">${e(q.title)}</option>`).join('')+'</select><button data-management="confirmBank">添加选中题目</button>';document.querySelector('#content').appendChild(box);}
+ else if(b.dataset.management==='confirmBank'){const qid=Number(document.querySelector('#bank-question').value);if(!qid)throw Error('请选择题目');await request('/api/console/assignment/'+selected+'/questions','POST',{bankQuestionId:qid});toast('题目已添加，需要重新审核');await detail(selected,false);}
+ else if(b.dataset.management==='removeQuestion'){if(!confirm('从作业移除该题？题库原题仍保留。'))return;await request('/api/console/assignment/'+selected+'/questions/'+b.dataset.id,'DELETE');toast('已移除，作业回到草稿状态');await detail(selected,false);}
+}catch(err){toast(err.message)}finally{b.disabled=false}});

@@ -1,0 +1,133 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">情景</text>
+      <text class="title-sub">模拟</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical"><text>积</text><text>分</text></view>
+        <text class="score-value">{{userInfo.totalScore || 0}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="content-wrapper">
+    <!-- 空状态提示 -->
+    <view class="empty-state" wx:if="{{scenarios.length === 0 && !showResult}}">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无情景题目</text>
+    </view>
+
+    <!-- 进度条 -->
+    <view class="progress-bar" wx:if="{{scenarios.length > 0 && !showResult}}">
+      <view class="progress-text">{{currentIndex + 1}} / {{scenarios.length}}</view>
+      <view class="progress-line">
+        <view class="progress-fill" style="width: {{scenarios.length > 0 ? (currentIndex + 1) / scenarios.length * 100 : 0}}%"></view>
+      </view>
+    </view>
+
+    <!-- 情景卡片 -->
+    <view class="scenario-card" wx:if="{{scenarios.length > 0 && !showResult && scenarios[currentIndex]}}">
+      <view class="scenario-icon">🎭</view>
+      <view class="scenario-title">情景描述</view>
+
+      <image class="scenario-image" src="{{scenarios[currentIndex].image}}" mode="widthFix" wx:if="{{scenarios[currentIndex].image}}"></image>
+
+      <view class="scenario-content">{{scenarios[currentIndex].scenario}}</view>
+
+      <view class="question-label">请选择适用的法律条款：</view>
+
+      <view class="options">
+          <view class="no-options-tip" wx:if="{{scenarios[currentIndex].options.length === 0}}">
+              <text>⚠️ 该题选项加载失败，请返回重试</text>
+          </view>
+          <view
+                  class="option {{answers[scenarios[currentIndex].id] === optionLabels[index] ? 'selected' : ''}}"
+                  wx:for="{{scenarios[currentIndex].options}}"
+                  wx:for-index="index"
+                  wx:key="*this"
+                  data-scenario-index="{{currentIndex}}"
+                  data-answer-index="{{index}}"
+                  bindtap="selectAnswer">
+              <text class="option-label">{{optionLabels[index]}}.</text>
+              <text class="option-text">{{item}}</text>
+          </view>
+      </view>
+
+      <view class="knowledge-tip" wx:if="{{scenarios[currentIndex].knowledgePoint}}">
+          <text class="tip-icon">💡</text>
+          <text class="tip-text">知识点：{{scenarios[currentIndex].knowledgePoint}}</text>
+      </view>
+  </view>
+
+    <!-- 结果展示 -->
+    <view class="result-panel" wx:if="{{showResult}}">
+      <view class="result-header">
+        <text class="result-icon">{{result.status === 2 ? '🏆' : (result.status === 1 ? '✨' : '📚')}}</text>
+        <text class="result-title">{{result.status === 2 ? '法律达人' : (result.status === 1 ? '表现不错' : '继续学习')}}</text>
+      </view>
+
+      <view class="result-stats">
+        <view class="stat-row">
+          <text class="stat-label">得分</text>
+          <text class="stat-value">{{result.score}}</text>
+        </view>
+        <view class="stat-row">
+          <text class="stat-label">正确数</text>
+          <text class="stat-value">{{result.correct}}/{{result.total}}</text>
+        </view>
+        <view class="stat-row">
+          <text class="stat-label">正确率</text>
+          <text class="stat-value">{{result.accuracy}}%</text>
+        </view>
+        <view class="stat-row bonus-row" wx:if="{{result.bonus}}">
+          <text class="stat-label">完成奖励</text>
+          <text class="stat-value bonus-value">+{{result.bonus}} 分 🎉</text>
+        </view>
+      </view>
+
+      <!-- 逐题对错详情 -->
+      <view class="detail-section" wx:if="{{result.details && result.details.length > 0}}">
+        <text class="detail-title">答题详情</text>
+        <view class="detail-item" wx:for="{{result.details}}" wx:key="questionId">
+          <view class="detail-status {{item.isCorrect ? 'status-right' : 'status-wrong'}}">
+            <text>{{item.isCorrect ? '✓' : '✗'}}</text>
+          </view>
+          <view class="detail-content">
+            <text class="detail-scenario">{{item.scenario}}</text>
+            <view class="detail-answers">
+              <text class="detail-your">你的答案：{{item.userAnswer}}</text>
+              <text class="detail-correct">正确答案：{{item.correctAnswer}}</text>
+            </view>
+            <text class="detail-analysis" wx:if="{{item.analysis}}">💡 {{item.analysis}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="result-actions">
+        <button class="btn btn-restart" bindtap="restartLevel">再练一次</button>
+        <button class="btn btn-back" bindtap="backToHome">返回主页</button>
+      </view>
+    </view>
+  </view>
+</view>

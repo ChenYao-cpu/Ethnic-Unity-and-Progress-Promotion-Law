@@ -1,0 +1,134 @@
+<view class="page">
+  <!-- 背景图 -->
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <!-- 导航栏 -->
+  <view class="nav-header">
+    <view class="nav-title">
+      <text class="title-main">云疆知法</text>
+      <text class="title-sub">同心学法 · 有据可查</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">云疆知法</text>
+            <text class="school-name-university">同心学法</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="content-wrapper">
+    <!-- 功能卡片 -->
+    <view class="grid-container">
+      <view class="action-card" bindtap="navigateTo" data-url="/pages/course/course">
+        <image class="feature-icon" src="/images/features/study.png" mode="aspectFit"></image>
+        <text class="action-text">课程学习</text>
+      </view>
+      <view class="action-card" bindtap="navigateTo" data-url="/pages/ai/ai">
+              <image class="feature-icon" src="/images/features/ai.png" mode="aspectFit"></image>
+              <text class="action-text">AI助学</text>
+      </view>
+      <view class="action-card" bindtap="navigateTo" data-url="/pages/game-index/game-index">
+                    <image class="feature-icon" src="/images/features/practice.png" mode="aspectFit"></image>
+                    <text class="action-text">趣味练习</text>
+                  </view>
+      <view class="action-card" bindtap="navigateTo" data-url="/pages/exam/exam">
+        <image class="feature-icon" src="/images/features/exam.png" mode="aspectFit"></image>
+        <text class="action-text">普法测验</text>
+      </view>
+      <view class="action-card" bindtap="navigateTo" data-url="/pages/note/note">
+        <image class="feature-icon" src="/images/features/note.png" mode="aspectFit"></image>
+        <text class="action-text">学习笔记</text>
+      </view>
+
+
+      <view class="action-card" bindtap="navigateTo" data-url="/pages/notice/notice">
+        <image class="feature-icon" src="/images/features/notice.png" mode="aspectFit"></image>
+        <text class="action-text">普法公告</text>
+      </view>
+
+    </view>
+
+    <!-- 最新消息（管理员催促提醒） -->
+    <view class="section-wrapper"><data-state loading="{{isLoading}}" error="{{_listStates.reminders.error}}" empty="{{latestReminders.length === 0}}" title="暂时没有提醒" hint="学习提醒会显示在这里。" bind:retry="loadData">
+      <view class="section-header">
+        <text class="section-title">消息提醒</text>
+        <text class="section-more" bindtap="goToReminders">查看全部<text class="unread-badge" wx:if="{{unreadReminderCount > 0}}">{{unreadReminderCount}}</text></text>
+      </view>
+      <view class="notice-list" wx:if="{{latestReminders.length > 0}}">
+        <view class="notice-item reminder-item" wx:for="{{latestReminders}}" wx:key="id" bindtap="goToReminders">
+          <view class="notice-dot" style="background: {{item.isRead ? '#d9d9d9' : '#ff4d4f'}};"></view>
+          <view class="notice-content">
+            <text class="notice-title">{{item.message}}</text>
+            <text class="notice-date">{{item.createTime}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="empty-tip" wx:else>
+        <text class="tip-text">暂无提醒消息</text>
+      </view>
+    </data-state></view>
+
+    <!-- 最新公告 -->
+    <view class="section-wrapper"><data-state loading="{{isLoading}}" error="{{_listStates.notices.error}}" empty="{{notices.length === 0}}" title="暂时没有公告" hint="新公告发布后会显示在这里。" bind:retry="loadData">
+      <view class="section-header">
+        <text class="section-title">最新公告</text>
+        <text class="section-more" bindtap="navigateTo" data-url="/pages/notice/notice">查看全部</text>
+      </view>
+      <view class="notice-list">
+        <view class="notice-item" wx:for="{{notices}}" wx:key="id" bindtap="navigateTo" data-url="/pages/notice-detail/notice-detail?id={{item.id}}">
+          <view class="notice-dot"></view>
+          <view class="notice-content">
+            <text class="notice-title">{{item.title}}</text>
+            <text class="notice-date">{{item.date}}</text>
+          </view>
+        </view>
+      </view>
+    </data-state></view>
+
+    <view class="section-wrapper"><data-state loading="{{isLoading}}" error="{{_listStates.assignments.error}}" empty="{{assignments.length === 0}}" title="暂时没有待完成测验" hint="新测验发布后会显示在这里，也可以先去课程学习。" bind:retry="loadData">
+      <view class="section-header">
+        <text class="section-title">最新测验</text>
+        <text class="section-more" bindtap="navigateTo" data-url="/pages/student-exam-config/student-exam-config">查看全部</text>
+      </view>
+
+      <!-- 老师发布的测验列表 - 竖着放，红色系 -->
+      <view class="exam-list">
+        <view class="exam-item" wx:for="{{assignments}}" wx:key="id" bindtap="goToExamDetail" data-id="{{item.id}}">
+          <view class="exam-icon">
+            <view class="iconfont yj-note yj-icon" style="color: #fff; font-size: 44rpx; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></view>
+          </view>
+          <view class="exam-info">
+            <text class="exam-title">{{item.title}}</text>
+            <view class="exam-meta">
+              <text class="exam-date">{{item.date}}</text>
+            </view>
+          </view>
+          <view class="exam-tag">去测验</view>
+        </view>
+      </view>
+
+      <!-- 如果没有测验，显示提示 -->
+      <view wx:if="{{assignments.length === 0 && !isLoading}}" class="empty-tip">
+        <text>暂无最新测验</text>
+      </view>
+    </data-state></view>
+
+
+  </view>
+</view>

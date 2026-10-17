@@ -1,0 +1,89 @@
+@import '/styles/yunjiang/icons.wxss';
+
+@import '/styles/iconfont.wxss';
+
+page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+}
+
+page {
+  background: #F5F5F5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 民族风主题色 */
+.container {
+  background: linear-gradient(180deg, #FFF8DC, #F5DEB3);
+  min-height: 100vh;
+}
+
+/* 通用卡片样式 */
+.card {
+  background: #FFF;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+  border: 2rpx solid #DAA520;
+}
+
+/* 按钮样式 */
+.btn-primary {
+  background: linear-gradient(135deg, #DC143C, #8B0000);
+  color: #FFD700;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  padding: 20rpx 0;
+  border: none;
+}
+
+.btn-secondary {
+  background: #FFF;
+  color: #DC143C;
+  border: 2rpx solid #DC143C;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  padding: 16rpx 0;
+}
+
+/* 标题样式 */
+.section-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #8B4513;
+  padding: 20rpx 30rpx;
+  border-left: 6rpx solid #DC143C;
+  background: linear-gradient(90deg, #FFF8DC, transparent);
+  margin: 20rpx 0;
+}
+
+/* 加载动画 */
+.loading {
+  text-align: center;
+  padding: 40rpx;
+  color: #999;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 40rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+/* Approved brand lockup on authentication screens. */
+
+.brand-auth-logo{width:600rpx;height:188rpx;}
+
+/* Stacked brand icon needs its full wordmark visible. */
+.logo-flip-container .logo-front,.logo-flip-container .logo-back{border-radius:14rpx!important;}
+.logo-flip-container .logo-image{border-radius:0!important;object-fit:contain;}

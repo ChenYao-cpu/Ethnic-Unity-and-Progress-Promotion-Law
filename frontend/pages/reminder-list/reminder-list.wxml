@@ -1,0 +1,59 @@
+<view class="page">
+    <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+    <view class="nav-header">
+        <view class="nav-left">
+            <view class="nav-back" bindtap="goBack">
+                <text class="back-icon">‹</text>
+            </view>
+        </view>
+        <view class="nav-title">
+            <text class="title-main">催促</text>
+            <text class="title-sub">提醒</text>
+        </view>
+        <view class="nav-right">
+            <view class="score-display">
+                <view class="score-label-vertical">
+                    <text>积</text>
+                    <text>分</text>
+                </view>
+                <text class="score-value">{{score}}</text>
+            </view>
+            <view class="divider"></view>
+            <view class="logo-flip-container">
+                <view class="logo-card flip-animation">
+                    <view class="logo-front">
+                        <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+                    </view>
+                    <view class="logo-back">
+                        <text class="school-name">西南民族</text>
+                        <text class="school-name-university">大学</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="content-wrapper">
+        <view class="section-wrapper"><data-state loading="{{_listStates.reminders.loading}}" error="{{_listStates.reminders.error}}" empty="{{reminders.length === 0}}" title="暂时没有提醒" hint="有新的学习提醒时会显示在这里。"  bind:retry="loadReminders">
+            <view class="section-header">
+                <text class="section-title">提醒列表</text>
+                <text class="section-more" bindtap="markAllRead" wx:if="{{reminders.length > 0}}">全部标为已读</text>
+            </view>
+            <view class="notice-list">
+                <view class="notice-item" wx:for="{{reminders}}" wx:key="id">
+                    <view class="notice-dot" style="background: {{item.isRead ? '#d9d9d9' : '#ff4d4f'}};"></view>
+                    <view class="notice-content">
+                        <text class="notice-title">{{item.message}}</text>
+                        <text class="notice-date">{{item.createTime}}</text>
+                    </view>
+                    <text class="notice-status" style="color: {{item.isRead ? '#999' : '#ff4d4f'}};">{{item.isRead ? '已读' : '未读'}}</text>
+                </view>
+            </view>
+
+            <view wx:if="{{reminders.length === 0}}" class="empty-tip">
+                <text>暂无提醒消息</text>
+            </view>
+        </data-state></view>
+    </view>
+</view>

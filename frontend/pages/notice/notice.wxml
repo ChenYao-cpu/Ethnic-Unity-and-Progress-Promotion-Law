@@ -1,0 +1,54 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+     <view class="nav-left">
+        <view class="nav-back" bindtap="goBack">
+          <text class="back-icon">‹</text>
+        </view>
+     </view>
+    <view class="nav-title">
+      <text class="title-main">普法</text>
+      <text class="title-sub">公告</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="content-wrapper">
+    <view class="section-wrapper"><data-state loading="{{_listStates.notices.loading}}" error="{{_listStates.notices.error}}" empty="{{notices.length === 0}}" title="暂时没有公告" hint="新公告发布后会显示在这里，可以稍后再来查看。"  bind:retry="loadNotices">
+      <view class="section-header">
+        <text class="section-title">公告列表</text>
+      </view>
+      <view class="notice-list">
+        <view class="notice-item" wx:for="{{notices}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
+          <view class="notice-dot"></view>
+          <view class="notice-content">
+            <text class="notice-title">{{item.title}}</text>
+            <text class="notice-date">{{item.date}}</text>
+          </view>
+          <text class="notice-arrow">></text>
+        </view>
+      </view>
+    </data-state></view>
+  </view>
+</view>

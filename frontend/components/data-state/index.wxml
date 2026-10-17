@@ -1,0 +1,6 @@
+<view wx:if="{{loading}}" class="state-skeleton" aria-role="status" aria-label="内容加载中">
+ <view class="skeleton-row" wx:for="{{rows}}" wx:key="*this"><view class="skeleton-thumb skeleton-block"></view><view class="skeleton-lines"><view class="skeleton-block skeleton-title"></view><view class="skeleton-block skeleton-line"></view><view class="skeleton-block skeleton-short"></view></view></view>
+</view>
+<view wx:elif="{{error}}" class="state-message" aria-role="alert"><image class="state-art" src="/images/states/empty.png" mode="aspectFit"></image><text class="state-title">暂时没有加载成功</text><text class="state-hint">{{error}}</text><button class="state-action" bindtap="retry">重新加载</button></view>
+<view wx:elif="{{empty}}" class="state-message"><image class="state-art" src="/images/states/empty.png" mode="aspectFit"></image><text class="state-title">{{title}}</text><text class="state-hint">{{hint}}</text><button wx:if="{{actionLabel}}" class="state-action" bindtap="act">{{actionLabel}}</button></view>
+<slot wx:else></slot>

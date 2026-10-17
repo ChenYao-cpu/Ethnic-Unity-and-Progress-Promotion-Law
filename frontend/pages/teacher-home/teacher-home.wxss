@@ -1,0 +1,2 @@
+@import '../../styles/yunjiang/icons.wxss';
+page{background:#FAF7EB}.portal{padding:100rpx 44rpx;display:flex;flex-direction:column;gap:32rpx}.mark{font-size:100rpx;color:#791817}.title{font-size:38rpx;font-weight:600;color:#791817}.description,.hint{font-size:28rpx;color:#796762;line-height:1.8}.url{padding:26rpx;background:#fff;border-radius:12rpx;font-size:26rpx;word-break:break-all}button{width:100%;background:#791817;color:#fff}.secondary{background:#F0D3CC;color:#791817}

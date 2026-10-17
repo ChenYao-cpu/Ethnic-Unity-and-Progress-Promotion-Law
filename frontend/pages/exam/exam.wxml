@@ -1,0 +1,157 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/index-bg.png" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack" hover-class="back-hover">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">普法</text>
+      <text class="title-sub">测验</text>
+    </view>
+    <view class="nav-right">
+      <view class="score-display">
+        <view class="score-label-vertical">
+          <text>积</text>
+          <text>分</text>
+        </view>
+        <text class="score-value">{{score}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="content-wrapper">
+    <!-- 我的测验（无图标） -->
+    <view class="my-quiz-section" wx:if="{{!currentType}}">
+      <view class="my-quiz-card" bindtap="goToMyQuiz">
+        <view class="my-quiz-info">
+          <text class="my-quiz-name">我的测验</text>
+          <text class="my-quiz-desc">{{assignments.length}} 个待完成</text>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 考试类型选择 -->
+    <view wx:if="{{!currentType}}" class="exam-types">
+      <view class="type-card" bindtap="selectType" data-type="专项训练">
+        <view class="type-icon iconfont icon-zhuanxiangxunlian"></view>
+        <view class="type-info">
+          <text class="type-name">专项训练</text>
+          <text class="type-desc">针对性练习，巩固知识点</text>
+        </view>
+      </view>
+      <view class="type-card" bindtap="selectType" data-type="综合模拟">
+        <view class="type-icon iconfont icon-moniceshiguanli"></view>
+        <view class="type-info">
+          <text class="type-name">综合模拟</text>
+          <text class="type-desc">全真模拟考试，检验学习成果</text>
+        </view>
+      </view>
+      <view class="type-card" bindtap="selectType" data-type="错题重考">
+        <view class="type-icon iconfont icon-cuotiben1"></view>
+        <view class="type-info">
+          <text class="type-name">错题重考</text>
+          <text class="type-desc">重温错题，查漏补缺</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 专项训练类型选择 -->
+    <view wx:elif="{{currentType === '专项训练' && questions.length === 0}}" class="special-train-selection">
+      <view class="selection-title">请选择训练类型</view>
+      <view class="train-type-card" bindtap="startSpecialTrain" data-type="single">
+        <view class="train-icon iconfont icon-tiku"></view>
+        <view class="train-info">
+          <text class="train-name">单选专项</text>
+          <text class="train-desc">10道单选题，随机抽取</text>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+      <view class="train-type-card" bindtap="startSpecialTrain" data-type="multi">
+        <view class="train-icon iconfont icon-tiku"></view>
+        <view class="train-info">
+          <text class="train-name">多选专项</text>
+          <text class="train-desc">10道多选题，随机抽取</text>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 答题页面 -->
+    <view wx:elif="{{questions.length > 0 && !examResult}}" class="exam-page">
+      <view class="exam-header">
+        <text class="progress">{{currentIndex + 1}} / {{questions.length}}</text>
+        <text class="timer">{{formatTime(timeLeft)}}</text>
+      </view>
+      <view class="question-box">
+        <view class="question-type">
+          {{questions[currentIndex].type === 'single' || questions[currentIndex].type === 1 ? '单选题' : (questions[currentIndex].type === 'multi' || questions[currentIndex].type === 2 ? '多选题' : (questions[currentIndex].type === 'scenario' || questions[currentIndex].type === 4 ? '情景题' : '判断题'))}}
+        </view>
+        <image wx:if="{{questions[currentIndex].image}}" class="question-image" src="{{questions[currentIndex].image}}" mode="aspectFill" style="width:100%;border-radius:12rpx;margin-bottom:20rpx;max-height:300rpx;"></image>
+        <view class="question-text">{{questions[currentIndex].question || questions[currentIndex].questionText}}</view>
+        <view class="options">
+          <view
+            class="option-item {{item.isActive ? 'active' : ''}}"
+            wx:for="{{currentOptions}}"
+            wx:key="label"
+            bindtap="onOptionTap"
+            data-label="{{item.label}}"
+          >
+            <text class="option-label">{{item.label}}.</text>
+            <text class="option-text">{{item.text}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="exam-footer">
+        <button class="btn-prev" bindtap="prevQuestion" disabled="{{currentIndex === 0}}">上一题</button>
+        <button class="btn-next" bindtap="nextQuestion" wx:if="{{currentIndex < questions.length - 1}}">下一题</button>
+        <button class="btn-submit" bindtap="submitExam" wx:else>交卷</button>
+      </view>
+    </view>
+
+    <!-- 结果页面 -->
+    <view wx:if="{{examResult}}" class="result-page">
+      <view class="score-card">
+        <text class="score-num">{{examResult.score}}</text>
+        <text class="score-unit">分</text>
+        <view class="score-stats">
+          <text class="stat-correct">答对 {{examResult.correctCount}} 题</text>
+          <text class="stat-wrong">答错 {{examResult.wrongCount}} 题</text>
+        </view>
+      </view>
+      <view class="wrong-analysis" wx:if="{{examResult.wrongList.length > 0}}">
+        <view class="section-title">错题解析</view>
+        <scroll-view scroll-y class="wrong-scroll">
+          <view class="wrong-item" wx:for="{{examResult.wrongList}}" wx:key="id">
+            <view class="wrong-header">
+              <text class="q-type">{{item.type === 'judge' || item.type === 'judgment' ? '判断题' : (item.type === 'single' ? '单选题' : '多选题')}}</text>
+              <text class="q-status">你的答案：{{item.userAnswer}}</text>
+            </view>
+            <text class="q-title">{{item.question}}</text>
+            <text class="q-answer">正确答案：{{item.answer}}</text>
+            <text class="q-analysis">💡 {{item.analysis || '暂无解析'}}</text>
+            <button bindtap="openTutor" data-id="{{item.id}}" data-answer="{{item.userAnswer}}">AI针对性辅导</button>
+          </view>
+        </scroll-view>
+      </view>
+      <view class="result-actions">
+        <button class="btn-retry" bindtap="backToHome">返回</button>
+      </view>
+    </view>
+  </view>
+</view>

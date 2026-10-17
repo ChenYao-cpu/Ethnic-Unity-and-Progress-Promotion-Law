@@ -1,0 +1,148 @@
+<view class="page">
+  <image class="page-bg" src="/images/backgrounds/user-bg.jpg" mode="aspectFill"></image>
+
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">测验</text>
+      <text class="title-sub">审核</text>
+    </view>
+    <view class="nav-right">
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="container">
+    <!-- 审核进度 -->
+    <view class="progress-bar" wx:if="{{assignment}}">
+      <view class="progress-header">
+        <text class="progress-title">审核进度</text>
+        <text class="progress-text">{{approvedCount + rejectedCount}}/{{totalCount}} 题已审核</text>
+      </view>
+      <view class="progress-track">
+        <view class="progress-fill approved" style="width: {{totalCount > 0 ? (approvedCount / totalCount * 100) : 0}}%"></view>
+        <view class="progress-fill rejected" style="width: {{totalCount > 0 ? (rejectedCount / totalCount * 100) : 0}}%; left: {{totalCount > 0 ? (approvedCount / totalCount * 100) : 0}}%"></view>
+      </view>
+      <view class="progress-stats">
+        <text class="stat approved">✓ 通过 {{approvedCount}}</text>
+        <text class="stat rejected">✗ 驳回 {{rejectedCount}}</text>
+        <text class="stat pending">○ 待审 {{totalCount - approvedCount - rejectedCount}}</text>
+      </view>
+    </view>
+
+    <!-- 作业信息 -->
+    <view class="assignment-info" wx:if="{{assignment}}">
+      <text class="info-title">{{assignment.title}}</text>
+      <text class="info-desc" wx:if="{{assignment.description}}">{{assignment.description}}</text>
+      <view class="info-meta">
+        <text class="meta-item">提交人：{{assignment.submitter}}</text>
+        <text class="meta-item">题目数：{{questions.length}}题</text>
+      </view>
+    </view>
+
+    <!-- 题目列表 - 逐题审核 -->
+    <view class="questions-section" wx:if="{{questions.length > 0}}">
+      <text class="section-title">逐题审核（共{{questions.length}}题）</text>
+
+      <view class="question-card {{questionReviews[item.id] ? (questionReviews[item.id].status === 'approved' ? 'approved' : 'rejected') : ''}}"
+            wx:for="{{questions}}" wx:key="id" wx:for-item="item">
+        <!-- 审核状态标签 -->
+        <view class="review-status-badge" wx:if="{{questionReviews[item.id]}}">
+          <view class="badge {{questionReviews[item.id].status === 'approved' ? 'approved' : 'rejected'}}">
+            <text>{{questionReviews[item.id].status === 'approved' ? '✓ 已通过' : '✗ 已驳回'}}</text>
+          </view>
+        </view>
+
+        <view class="question-header">
+          <text class="question-num">第{{index + 1}}题</text>
+          <text class="q-type {{item.type == 1 ? 'single' : 'multi'}}">{{item.type == 1 ? '单选题' : '多选题'}}</text>
+        </view>
+
+        <text class="question-text">{{item.questionText}}</text>
+
+        <view class="options-list" wx:if="{{item.options && item.options.length > 0}}">
+          <view class="option-item {{item.answer === ['A','B','C','D'][optIndex] ? 'correct' : ''}}"
+                wx:for="{{item.options}}" wx:for-item="opt" wx:for-index="optIndex" wx:key="optIndex">
+            <text class="option-label">{{['A','B','C','D'][optIndex]}}</text>
+            <text class="option-text">{{opt}}</text>
+            <text class="correct-mark" wx:if="{{item.answer === ['A','B','C','D'][optIndex]}}">✓ 正确答案</text>
+          </view>
+        </view>
+
+        <view class="analysis-box" wx:if="{{item.analysis}}">
+          <text class="analysis-label">解析：</text>
+          <text class="analysis-text">{{item.analysis}}</text>
+        </view>
+
+        <!-- 驳回意见显示 -->
+        <view class="reject-comment" wx:if="{{questionReviews[item.id] && questionReviews[item.id].status === 'rejected' && questionReviews[item.id].comment}}">
+          <text class="reject-label">驳回理由：</text>
+          <text class="reject-text">{{questionReviews[item.id].comment}}</text>
+        </view>
+
+        <!-- 逐题操作按钮 -->
+        <view class="question-actions">
+          <button class="q-btn approve"
+                  bindtap="approveQuestion"
+                  data-qid="{{item.id}}"
+                  disabled="{{questionReviews[item.id] && questionReviews[item.id].status === 'approved'}}">
+            {{questionReviews[item.id] && questionReviews[item.id].status === 'approved' ? '✓ 已通过' : '通过'}}
+          </button>
+          <button class="q-btn reject"
+                  bindtap="showRejectPanel"
+                  data-qid="{{item.id}}"
+                  disabled="{{questionReviews[item.id] && questionReviews[item.id].status === 'rejected'}}">
+            {{questionReviews[item.id] && questionReviews[item.id].status === 'rejected' ? '✗ 已驳回' : '驳回'}}
+          </button>
+          <button class="q-btn reset"
+                  bindtap="resetQuestion"
+                  data-qid="{{item.id}}"
+                  wx:if="{{questionReviews[item.id]}}">
+            重置
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 整体审核意见 -->
+    <view class="review-form">
+      <text class="section-title">整体审核意见（选填）</text>
+      <textarea class="comment-input" placeholder="可填写整体审核意见..."
+                value="{{overallComment}}" bindinput="onOverallCommentInput" />
+    </view>
+
+    <!-- 提交审核按钮 -->
+    <view class="review-actions">
+      <button class="submit-review-btn" bindtap="submitReview">
+        提交审核结果（通过{{approvedCount}} / 驳回{{rejectedCount}}）
+      </button>
+    </view>
+  </view>
+
+  <!-- 驳回理由弹窗 -->
+  <view class="comment-overlay" wx:if="{{showCommentPanel}}" bindtap="cancelReject">
+    <view class="comment-panel" catchtap="">
+      <text class="comment-title">填写驳回理由</text>
+      <textarea class="comment-textarea" placeholder="请填写该题的驳回理由，管理员将看到此意见..."
+                value="{{currentComment}}" bindinput="onCommentInput" maxlength="500" />
+      <view class="comment-actions">
+        <button class="comment-btn cancel" bindtap="cancelReject">取消</button>
+        <button class="comment-btn confirm" bindtap="confirmReject">确认驳回</button>
+      </view>
+    </view>
+  </view>
+</view>

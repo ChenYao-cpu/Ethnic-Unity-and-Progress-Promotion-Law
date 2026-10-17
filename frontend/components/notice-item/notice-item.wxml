@@ -1,0 +1,18 @@
+<!-- D:\idea_code\law-study-system\frontend\components\notice-item\notice-item.wxml -->
+<view class="notice-item" bindtap="handleClick">
+  <view class="notice-header">
+    <view class="notice-tag {{notice.priority === 'high' ? 'urgent' : 'normal'}}">
+      {{notice.priority === 'high' ? '重要' : '公告'}}
+    </view>
+    <text class="notice-date">{{notice.createTime}}</text>
+  </view>
+
+  <text class="notice-title">{{notice.title}}</text>
+  <text class="notice-content">{{notice.content}}</text>
+
+  <view class="notice-footer" wx:if="{{notice.isRead !== undefined}}">
+    <view class="read-status {{notice.isRead ? 'read' : 'unread'}}">
+      {{notice.isRead ? '已读' : '未读'}}
+    </view>
+  </view>
+</view>

@@ -1,0 +1,184 @@
+<view class="page">
+  <!-- 背景图 -->
+  <image class="page-bg" src="/images/backgrounds/user-bg.jpg" mode="aspectFill"></image>
+
+  <!-- 导航栏 -->
+  <view class="nav-header">
+    <view class="nav-left">
+      <view class="nav-back" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+    </view>
+    <view class="nav-title">
+      <text class="title-main">提交</text>
+      <text class="title-sub">详情</text>
+    </view>
+    <view class="nav-right">
+      <view class="logo-flip-container">
+        <view class="logo-card flip-animation">
+          <view class="logo-front">
+            <image class="logo-image" src="/images/brand/app-icon-192.png" mode="aspectFit"></image>
+          </view>
+          <view class="logo-back">
+            <text class="school-name">西南民族</text>
+            <text class="school-name-university">大学</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="container">
+    <!-- 顶部标签切换 -->
+    <view class="tabs">
+        <view
+                class="tab-item {{currentTab === 'detail' ? 'active' : ''}}"
+                bindtap="switchTab"
+                data-tab="detail"
+        >
+            提交情况
+        </view>
+        <view
+                class="tab-item {{currentTab === 'students' ? 'active' : ''}}"
+                bindtap="switchTab"
+                data-tab="students"
+        >
+            学生明细
+        </view>
+    </view>
+
+    <!-- 提交情况标签 -->
+    <view wx:if="{{currentTab === 'detail'}}" class="tab-content">
+        <!-- 基础统计 -->
+        <view class="stats-row" wx:if="{{statistics}}">
+            <view class="stat-box">
+                <text class="stat-value">{{statistics.submitRate}}%</text>
+                <text class="stat-label">提交率</text>
+            </view>
+            <view class="stat-box">
+                <text class="stat-value">{{statistics.onTimeSubmitRate}}%</text>
+                <text class="stat-label">按时提交率</text>
+            </view>
+            <view class="stat-box">
+                <text class="stat-value">{{statistics.avgScore}}</text>
+                <text class="stat-label">平均分</text>
+            </view>
+            <view class="stat-box">
+                <text class="stat-value">{{statistics.passRate}}%</text>
+                <text class="stat-label">及格率</text>
+            </view>
+        </view>
+
+        <!-- 分数分布统计 -->
+        <view class="distribution-section" wx:if="{{statistics}}">
+            <view class="section-title">分数分布</view>
+
+            <!-- 统计指标 -->
+            <view class="metrics-row">
+                <view class="metric-box">
+                    <text class="metric-label">中位数</text>
+                    <text class="metric-value">{{statistics.median}}</text>
+                </view>
+                <view class="metric-box">
+                    <text class="metric-label">众数</text>
+                    <text class="metric-value">{{statistics.mode}}</text>
+                </view>
+                <view class="metric-box">
+                    <text class="metric-label">标准差</text>
+                    <text class="metric-value">{{statistics.stdDev}}</text>
+                </view>
+                <view class="metric-box">
+                    <text class="metric-label">偏度</text>
+                    <text class="metric-value">{{statistics.skewness}}</text>
+                </view>
+            </view>
+
+            <!-- 详细分布表格 -->
+            <view class="detail-table">
+                <view class="table-header-row">
+                    <view class="th-cell">分数段</view>
+                    <view class="th-cell">等级</view>
+                    <view class="th-cell">人数</view>
+                    <view class="th-cell">占比</view>
+                    <view class="th-cell">分布可视化</view>
+                    <view class="th-cell">建议</view>
+                </view>
+
+                <view class="table-body">
+                    <view class="table-row" wx:for="{{statistics.scoreDistribution}}" wx:key="range">
+                        <view class="td-cell">
+                            <view class="range-indicator" style="background: {{item.levelColor}}"></view>
+                            <text>{{item.range}}</text>
+                        </view>
+                        <view class="td-cell">
+                            <view class="level-badge" style="background: {{item.levelColor}}">{{item.level}}</view>
+                        </view>
+                        <view class="td-cell">{{item.count}}人</view>
+                        <view class="td-cell">{{item.percentage}}%</view>
+                        <view class="td-cell">
+                            <view class="progress-bar">
+                                <view class="progress-fill" style="width: {{item.percentage}}%; background: {{item.levelColor}}"></view>
+                            </view>
+                            <text class="progress-text">{{item.percentage}}%</text>
+                        </view>
+                        <view class="td-cell suggestion">{{item.suggestion}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 学生明细标签 -->
+    <view wx:if="{{currentTab === 'students'}}" class="tab-content">
+        <!-- 搜索框 -->
+        <view class="search-box">
+            <input
+                    class="search-input"
+                    placeholder="搜索学生姓名或学号"
+                    bindinput="onSearch"
+                    value="{{searchKeyword}}"
+            />
+        </view>
+
+        <!-- 成绩表格 -->
+        <scroll-view scroll-y class="table-container">
+            <view class="table-header">
+                <view class="th">学号</view>
+                <view class="th">姓名</view>
+                <view class="th">得分</view>
+                <view class="th">排名</view>
+                <view class="th">提交时间</view>
+                <view class="th">状态</view>
+                <view class="th">操作</view>
+            </view>
+
+            <view class="table-row" wx:for="{{filteredSubmissions}}" wx:key="id">
+                <view class="td">{{item.studentId}}</view>
+                <view class="td">
+                    <view class="student-info">
+                        <view class="avatar-circle">{{item.studentName ? item.studentName[0] : '学'}}</view>
+                        <text>{{item.studentName}}</text>
+                    </view>
+                </view>
+                <view class="td score {{item.score >= 90 ? 'excellent' : item.score >= 60 ? 'pass' : 'fail'}}">
+                    {{item.score}}
+                </view>
+                <view class="td">{{index + 1}}</view>
+                <view class="td">{{item.submitTime}}</view>
+                <view class="td">
+                    <view class="status-badge">已批改</view>
+                </view>
+                <view class="td">
+                    <view class="action-btns">
+                        <text class="icon-btn" bindtap="viewDetail" data-studentid="{{item.studentId}}"></text>
+                    </view>
+                </view>
+            </view>
+
+            <view wx:if="{{filteredSubmissions.length === 0}}" class="empty-state">
+                <text>暂无数据</text>
+            </view>
+        </scroll-view>
+    </view>
+  </view>
+</view>
